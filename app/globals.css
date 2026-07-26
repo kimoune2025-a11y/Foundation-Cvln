@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cvln-bg: #07090a;
+  --cvln-fg: #ece7dd;
+  --cvln-gold: #d8a24a;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--cvln-bg);
+  color: var(--cvln-fg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+::selection {
+  background: rgba(216, 162, 74, 0.25);
+  color: #fff;
+}
+
+/* Minimalist scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(216,162,74,0.25); border-radius: 8px; }
+
+@layer base {
+  :root {
+    --background: 20 14% 4%;
+    --foreground: 40 25% 90%;
+    --card: 20 14% 6%;
+    --card-foreground: 40 25% 90%;
+    --popover: 20 14% 5%;
+    --popover-foreground: 40 25% 90%;
+    --primary: 38 62% 57%;
+    --primary-foreground: 20 14% 6%;
+    --secondary: 20 10% 14%;
+    --secondary-foreground: 40 25% 90%;
+    --muted: 20 10% 12%;
+    --muted-foreground: 40 10% 62%;
+    --accent: 38 62% 57%;
+    --accent-foreground: 20 14% 6%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 40 25% 90%;
+    --border: 40 15% 18%;
+    --input: 40 15% 18%;
+    --ring: 38 62% 57%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
