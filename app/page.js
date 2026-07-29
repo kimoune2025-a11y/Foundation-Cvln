@@ -37,17 +37,38 @@ vec3 skyColor(float y){
   return c;
 }
 
-// top edge of a grass layer -> triangular swaying blades
-float grassTop(vec2 p, float baseH, float bladeLen, float density, float speed, float sway, float seed){
+// top edge of a grass layer -> triangular blades bending with wind
+float grassTop(vec2 p, float baseH, float bladeLen, float density, float speed, float sway, float seed, float wind, float lean){
   float x = p.x * density;
   float i = floor(x);
   float f = fract(x);
   float rnd = hash(vec2(i, seed));
-  float bend = sin(u_time*speed + i*1.7 + seed*3.0) * sway;
+  float bend = sin(u_time*speed + i*1.7 + seed*3.0) * sway * wind + lean;
   float spike = 1.0 - abs((f - 0.5) - bend*3.0) * 2.0;
   spike = max(spike, 0.0);
   float tip = baseH + bladeLen*(0.35 + 0.65*rnd);
-  return baseH + (tip - baseH)*spike + bend*0.4;
+  return baseH + (tip - baseH)*spike + bend*0.35;
+}
+
+// a single swaying acacia silhouette at ground position pos, size s
+float acacia(vec2 p, vec2 pos, float s){
+  vec2 q = (p - pos) / vec2(s, s);          // q.y up from ground
+  float sway = (sin(u_time*0.7 + pos.x*12.0) + 0.4*sin(u_time*1.6 + pos.x*3.0)) * 0.06;
+  q.x -= sway * smoothstep(0.0, 0.85, q.y); // top sways more than base
+  // trunk (tapering)
+  float trunkW = mix(0.035, 0.010, clamp(q.y/0.62, 0.0, 1.0));
+  float trunk = step(abs(q.x), trunkW) * step(0.0, q.y) * step(q.y, 0.66);
+  // two branches fanning up
+  float b1 = step(abs(q.x - (q.y-0.48)*0.85), 0.011) * step(0.46, q.y) * step(q.y, 0.78);
+  float b2 = step(abs(q.x + (q.y-0.48)*0.85), 0.011) * step(0.46, q.y) * step(q.y, 0.78);
+  // flat-bottomed umbrella canopy with irregular foliage edge
+  vec2 c = q - vec2(0.0, 0.82);
+  float r = length(c / vec2(0.62, 0.20));
+  float ang = atan(c.y, c.x);
+  float ne = 0.10 * fbm(vec2(ang*2.5 + pos.x*7.0, u_time*0.04));
+  float canopy = 1.0 - smoothstep(0.92 + ne, 1.06 + ne, r);
+  canopy *= smoothstep(-0.14, 0.02, c.y);   // keep flat underside
+  return clamp(max(max(trunk, canopy), max(b1, b2)), 0.0, 1.0);
 }
 
 void main(){
@@ -57,9 +78,10 @@ void main(){
   vec2 p = uv + cam;
 
   vec3 col = skyColor(p.y);
-
-  // sun near horizon + halo, slow breathing
   vec2 sunPos = vec2(0.30, 0.315);
+  float sunGlow = exp(-length((p - sunPos)*vec2(aspect,1.0))*1.2);
+
+  // sun + halo, gentle breathing
   float sd = length((p - sunPos) * vec2(aspect, 1.0));
   float pulse = 0.9 + 0.1*sin(u_time*0.15);
   col += vec3(1.0, 0.76, 0.44) * exp(-sd*4.2) * 1.3 * pulse;
@@ -69,40 +91,60 @@ void main(){
   float cl = fbm(vec2(p.x*3.0 + u_time*0.01, p.y*6.0));
   col = mix(col, vec3(0.82,0.62,0.52), smoothstep(0.55,0.92,cl)*smoothstep(0.30,0.72,p.y)*0.10);
 
-  // acacia-like trees on the horizon (silhouettes)
-  {
-    vec2 c1 = vec2(0.80, 0.345);
-    float can = smoothstep(1.0, 0.68, length((p - c1)/vec2(0.115, 0.036)));
-    float trunk = step(abs(p.x-0.80), 0.004) * step(p.y, 0.345) * step(0.298, p.y);
-    col = mix(col, vec3(0.05,0.06,0.07), max(can, trunk)*0.92);
-  }
-  {
-    vec2 c2 = vec2(0.135, 0.335);
-    float can = smoothstep(1.0, 0.70, length((p - c2)/vec2(0.07, 0.028)));
-    float trunk = step(abs(p.x-0.135), 0.003) * step(p.y, 0.335) * step(0.305, p.y);
-    col = mix(col, vec3(0.05,0.06,0.07), max(can, trunk)*0.85);
-  }
-
   // distant hill line
   float hill = 0.322 + 0.02*fbm(vec2(p.x*2.2, 0.0));
   col = mix(col, vec3(0.08,0.10,0.10), (1.0 - smoothstep(hill-0.003, hill+0.003, p.y))*0.6);
 
-  // GRASS — far -> near (near drawn last, darker, taller)
-  float t1 = grassTop(p, 0.300, 0.05, 230.0, 0.6, 0.010, 1.0);
-  float m1 = 1.0 - smoothstep(t1-0.0030, t1+0.0030, p.y);
-  col = mix(col, mix(vec3(0.19,0.23,0.16), vec3(0.11,0.16,0.11), 0.5), m1*0.92);
+  // ACACIAS (behind grass) — real swaying trees
+  float tree = 0.0;
+  tree = max(tree, acacia(p, vec2(0.80, 0.300), 0.22));
+  tree = max(tree, acacia(p, vec2(0.155, 0.305), 0.16));
+  tree = max(tree, acacia(p, vec2(0.52, 0.312), 0.115));
+  col = mix(col, vec3(0.03,0.05,0.045), tree*0.95);
+  col += vec3(1.0,0.62,0.32) * tree * sunGlow * 0.35;   // rim light from sun
 
-  float t2 = grassTop(p, 0.235, 0.10, 130.0, 0.8, 0.016, 2.0);
-  float m2 = 1.0 - smoothstep(t2-0.0028, t2+0.0028, p.y);
-  vec3 g2 = vec3(0.09,0.14,0.09);
-  g2 += vec3(1.0,0.72,0.42) * smoothstep(t2-0.03, t2, p.y) * m2 * 0.26;
-  col = mix(col, g2, m2);
+  // wind gust shared across the whole field
+  float gust = fbm(vec2(u_time*0.12, 3.0));
+  float wind = 0.5 + 0.9*gust;
+  float lean = (gust - 0.5) * 0.9;
 
-  float t3 = grassTop(p, 0.160, 0.20, 70.0, 1.0, 0.024, 3.0);
-  float m3 = 1.0 - smoothstep(t3-0.0020, t3+0.0020, p.y);
-  vec3 g3 = vec3(0.035,0.06,0.04);
-  g3 += vec3(1.0,0.66,0.36) * smoothstep(t3-0.04, t3, p.y) * m3 * 0.22;
-  col = mix(col, g3, m3);
+  // GRASS — 4 layers far -> near
+  // L1 far (hazy, light)
+  {
+    float baseH = 0.300, top = grassTop(p, baseH, 0.05, 300.0, 0.6, 0.008, 1.0, wind, lean*0.5);
+    float m = 1.0 - smoothstep(top-0.0026, top+0.0026, p.y);
+    float shade = clamp((p.y-baseH)/(top-baseH+0.001), 0.0, 1.0);
+    vec3 g = mix(vec3(0.16,0.20,0.13), vec3(0.34,0.30,0.17), shade*shade);
+    g += vec3(1.0,0.72,0.42)*shade*shade*sunGlow*0.35;
+    col = mix(col, g, m*0.92);
+  }
+  // L2
+  {
+    float baseH = 0.255, top = grassTop(p, baseH, 0.085, 200.0, 0.8, 0.013, 2.0, wind, lean*0.7);
+    float m = 1.0 - smoothstep(top-0.0024, top+0.0024, p.y);
+    float shade = clamp((p.y-baseH)/(top-baseH+0.001), 0.0, 1.0);
+    vec3 g = mix(vec3(0.10,0.15,0.09), vec3(0.30,0.26,0.14), shade*shade);
+    g += vec3(1.0,0.70,0.40)*shade*shade*sunGlow*0.45;
+    col = mix(col, g, m);
+  }
+  // L3
+  {
+    float baseH = 0.200, top = grassTop(p, baseH, 0.135, 130.0, 1.0, 0.018, 3.0, wind, lean*0.85);
+    float m = 1.0 - smoothstep(top-0.0022, top+0.0022, p.y);
+    float shade = clamp((p.y-baseH)/(top-baseH+0.001), 0.0, 1.0);
+    vec3 g = mix(vec3(0.06,0.10,0.06), vec3(0.24,0.20,0.11), shade*shade);
+    g += vec3(1.0,0.66,0.36)*shade*shade*sunGlow*0.45;
+    col = mix(col, g, m);
+  }
+  // L4 near (dark, tall)
+  {
+    float baseH = 0.150, top = grassTop(p, baseH, 0.205, 82.0, 1.2, 0.026, 4.0, wind, lean);
+    float m = 1.0 - smoothstep(top-0.0020, top+0.0020, p.y);
+    float shade = clamp((p.y-baseH)/(top-baseH+0.001), 0.0, 1.0);
+    vec3 g = mix(vec3(0.025,0.05,0.035), vec3(0.18,0.15,0.08), shade*shade);
+    g += vec3(1.0,0.62,0.34)*shade*shade*sunGlow*0.40;
+    col = mix(col, g, m);
+  }
 
   // atmospheric haze at horizon
   col = mix(col, vec3(0.55,0.42,0.32), exp(-abs(p.y-0.30)*7.0)*0.14);
@@ -148,7 +190,7 @@ function SavaneCanvas() {
     try {
       gl = canvas.getContext('webgl', { antialias: true, alpha: true }) || canvas.getContext('experimental-webgl')
     } catch (e) { gl = null }
-    if (!gl) return // CSS gradient fallback stays visible
+    if (!gl) return
 
     const vs = compile(gl, gl.VERTEX_SHADER, VERT)
     const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG)
@@ -282,15 +324,6 @@ const POLES = [
     desc: 'La colonne vertébrale de l’écosystème : direction, cohérence et vision long terme.',
     platforms: [
       { name: 'CVLN Holding', desc: 'La structure mère qui porte la vision et coordonne l’ensemble de l’écosystème.' },
-      { name: 'CVLN Command Center', desc: 'Le centre de pilotage : une vue d’ensemble pour décider avec clarté et sérénité.' },
-    ],
-  },
-  {
-    name: 'Tech & Data',
-    desc: 'La fabrique du futur, où les idées deviennent des outils au service de l’humain.',
-    platforms: [
-      { name: 'CVLN Agent Factory', desc: 'La fabrique d’agents intelligents au service des projets et des personnes.' },
-      { name: 'Factory Maker Studio', desc: 'L’atelier où les idées deviennent produits, outils et prototypes.' },
     ],
   },
   {
@@ -301,10 +334,10 @@ const POLES = [
     ],
   },
   {
-    name: 'Events',
-    desc: 'L’énergie de la rencontre : rassembler, célébrer, créer du lien.',
+    name: 'Tech & Data',
+    desc: 'La fabrique du futur, où les idées deviennent des outils au service de l’humain.',
     platforms: [
-      { name: 'Good Mood', desc: 'Des expériences qui rassemblent et célèbrent la culture et le vivant.' },
+      { name: 'Factory Maker Studio', desc: 'L’atelier où les idées deviennent produits, outils et prototypes.' },
     ],
   },
   {
@@ -313,6 +346,7 @@ const POLES = [
     platforms: [
       { name: 'FREKCORE', desc: 'La voix créative — sons, images et récits qui font vibrer la culture.' },
       { name: 'KORA', desc: 'Le fil qui relie les histoires. Un média au service de la mémoire vivante.' },
+      { name: 'LabelOS', desc: 'Le système qui orchestre les identités créatives et fait rayonner les talents.' },
     ],
   },
   {
@@ -323,10 +357,18 @@ const POLES = [
     ],
   },
   {
-    name: 'Impact & Normes',
-    desc: 'Mesurer, garantir, respecter : une croissance responsable et durable.',
+    name: 'Events & Art de vivre',
+    desc: 'L’énergie de la rencontre et le goût du beau : rassembler, célébrer, savourer.',
     platforms: [
-      { name: 'Impact & Normes', desc: 'Mesurer notre empreinte, garantir nos engagements, respecter le vivant.' },
+      { name: 'Good Mood', desc: 'Des expériences qui rassemblent et célèbrent la culture et le vivant.' },
+      { name: 'Gala Cook & Food', desc: 'La table comme lieu de partage. Une gastronomie qui célèbre la culture et le terroir.' },
+    ],
+  },
+  {
+    name: 'Agriculture & Terroir',
+    desc: 'Revenir à la terre : le sol nourricier d’où tout part et où tout revient.',
+    platforms: [
+      { name: 'Laurentia', desc: 'La terre au cœur du projet. Cultiver, préserver et transmettre un patrimoine vivant.' },
     ],
   },
 ]
@@ -399,8 +441,8 @@ function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const scrollToQuestions = useCallback(() => {
-    document.getElementById('questions')?.scrollIntoView({ behavior: 'smooth' })
+  const scrollTo = useCallback((id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
   async function submitContact(e) {
@@ -431,7 +473,6 @@ function App() {
 
       {/* Background layers */}
       <div ref={savaneRef} className="fixed inset-0 z-0" style={{ opacity: 1 }}>
-        {/* CSS gradient fallback — savane at dawn (visible even if WebGL fails) */}
         <div
           className="absolute inset-0"
           style={{
@@ -457,6 +498,14 @@ function App() {
 
       {/* ---------------- HERO ---------------- */}
       <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
+        <motion.p
+          className="mb-7 text-[0.7rem] uppercase tracking-[0.55em] text-[#d8a24a]/75"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 0.3 }}
+          style={{ textShadow: '0 2px 20px rgba(0,0,0,0.7)' }}
+        >
+          Fondation
+        </motion.p>
+
         <motion.h1
           className="font-display text-6xl font-light tracking-[0.35em] sm:text-7xl md:text-8xl"
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
@@ -475,7 +524,7 @@ function App() {
         </motion.p>
 
         <motion.button
-          onClick={scrollToQuestions}
+          onClick={() => scrollTo('questions')}
           className="group mt-14 rounded-full border border-[#d8a24a]/50 bg-black/10 px-10 py-3 text-sm font-light uppercase tracking-[0.3em] text-[#ece7dd] backdrop-blur-sm transition-all duration-700 hover:border-[#d8a24a] hover:bg-[#d8a24a]/15"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.8 }}
         >
@@ -492,12 +541,15 @@ function App() {
 
       {/* ---------------- QUESTIONS ---------------- */}
       <section id="questions" className="relative z-10 mx-auto max-w-5xl px-6 py-40">
-        <motion.p
-          className="mb-24 text-center font-display text-3xl font-light italic text-[#ece7dd]/75 md:text-4xl"
+        <motion.div
+          className="mb-24 text-center"
           variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.6 }}
         >
-          Une histoire se découvre lentement.
-        </motion.p>
+          <p className="mb-4 text-xs uppercase tracking-[0.4em] text-[#d8a24a]/80">Le manifeste</p>
+          <p className="font-display text-3xl font-light italic text-[#ece7dd]/80 md:text-4xl">
+            Une histoire se découvre lentement.
+          </p>
+        </motion.div>
 
         <div className="grid gap-5 sm:grid-cols-2">
           {QUESTIONS.map((item, i) => (
@@ -515,17 +567,17 @@ function App() {
         </div>
       </section>
 
-      {/* ---------------- ECOSYSTEM ---------------- */}
+      {/* ---------------- ECOSYSTEM / MUSEUM WINGS ---------------- */}
       <section id="ecosysteme" className="relative z-10 mx-auto max-w-6xl px-6 py-40">
         <motion.div
           className="mb-24 text-center"
           variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }}
         >
-          <p className="mb-4 text-xs uppercase tracking-[0.4em] text-[#d8a24a]/80">L’écosystème</p>
+          <p className="mb-4 text-xs uppercase tracking-[0.4em] text-[#d8a24a]/80">Les salles de la fondation</p>
           <h2 className="font-display text-4xl font-light md:text-5xl">La technologie naît de nos racines.</h2>
           <p className="mx-auto mt-6 max-w-xl font-light leading-relaxed text-[#ece7dd]/65">
-            Des particules deviennent des connexions. Chaque pôle relie des plateformes,
-            et chaque plateforme sert la même vision.
+            Comme les salles d’une même maison, chaque pôle abrite des créations vivantes.
+            Des particules deviennent des connexions ; chaque œuvre sert la même vision.
           </p>
         </motion.div>
 
@@ -627,7 +679,7 @@ function App() {
             <div className="my-6 h-px w-16 bg-[#d8a24a]/40" />
             <p className="font-light leading-relaxed text-[#ece7dd]/80">{activePlatform.desc}</p>
             <button
-              onClick={() => toast('Bientôt disponible', { description: 'Cette plateforme se dévoilera prochainement.' })}
+              onClick={() => toast('Bientôt disponible', { description: 'Cette création se dévoilera prochainement.' })}
               className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#d8a24a]/50 px-8 py-3 text-sm font-light uppercase tracking-[0.25em] transition hover:bg-[#d8a24a]/15"
             >
               Découvrir <ArrowUpRight size={16} />
