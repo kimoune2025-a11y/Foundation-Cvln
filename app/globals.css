@@ -171,3 +171,22 @@ html, body {
   box-shadow: 0 0 40px rgba(216, 162, 74, 0.12);
 }
 .cvln-node--lg .n { font-size: 1.35rem; letter-spacing: 0.12em; }
+
+/* Touch: allow horizontal panning of the map */
+.cvln-tree-wrap { cursor: grab; }
+.cvln-tree-wrap:active { cursor: grabbing; }
+
+/* Expert responsive — compact map on small screens */
+@media (max-width: 640px) {
+  .cvln-tree { padding: 0 16px; }
+  .cvln-tree ul { padding-top: 22px; }
+  .cvln-tree li { padding: 22px 6px 0; }
+  .cvln-tree li::before,
+  .cvln-tree li::after { height: 22px; }
+  .cvln-tree li:only-child { padding-top: 22px; }
+  .cvln-tree ul ul::before { height: 22px; }
+  .cvln-node { padding: 8px 13px; border-radius: 14px; }
+  .cvln-node .n { font-size: 0.8rem; letter-spacing: 0.03em; }
+  .cvln-node .t { font-size: 0.48rem; letter-spacing: 0.1em; }
+  .cvln-node--lg .n { font-size: 0.98rem; letter-spacing: 0.05em; }
+}

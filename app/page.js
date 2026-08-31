@@ -440,7 +440,7 @@ function Modal({ open, onClose, children }) {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }} onClick={onClose}
         >
@@ -453,10 +453,14 @@ function Modal({ open, onClose, children }) {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button onClick={onClose} className="absolute -top-10 right-0 text-[#ece7dd]/60 transition hover:text-[#d8a24a]" aria-label="Fermer">
+            <button
+              onClick={onClose}
+              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-[#ece7dd]/70 backdrop-blur-sm transition hover:text-[#d8a24a] sm:-top-10 sm:right-0 sm:h-auto sm:w-auto sm:bg-transparent"
+              aria-label="Fermer"
+            >
               <X size={22} />
             </button>
-            <div className="rounded-2xl border border-[#d8a24a]/20 bg-[#0b0d0e]/90 p-10 shadow-[0_0_80px_rgba(216,162,74,0.08)]">
+            <div className="max-h-[85vh] overflow-y-auto rounded-2xl border border-[#d8a24a]/20 bg-[#0b0d0e]/95 p-7 shadow-[0_0_80px_rgba(216,162,74,0.08)] sm:p-10">
               {children}
             </div>
           </motion.div>
@@ -491,6 +495,10 @@ function Reveal3D({ children, className, delay = 0, amount = 0.3 }) {
 function TiltStage({ children, className, max = 8 }) {
   const rx = useSpring(useMotionValue(0), { stiffness: 55, damping: 16 })
   const ry = useSpring(useMotionValue(0), { stiffness: 55, damping: 16 })
+  const [fine, setFine] = useState(false)
+  useEffect(() => {
+    try { setFine(window.matchMedia('(pointer: fine)').matches) } catch (e) {}
+  }, [])
   function onMove(e) {
     const r = e.currentTarget.getBoundingClientRect()
     const px = (e.clientX - r.left) / r.width - 0.5
@@ -499,6 +507,10 @@ function TiltStage({ children, className, max = 8 }) {
     rx.set(-py * max)
   }
   function onLeave() { rx.set(0); ry.set(0) }
+
+  // Touch devices: no tilt, native horizontal scroll stays perfectly smooth
+  if (!fine) return <div className={className}>{children}</div>
+
   return (
     <div className={className} onMouseMove={onMove} onMouseLeave={onLeave} style={{ perspective: 1600 }}>
       <motion.div style={{ rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' }}>
@@ -590,7 +602,7 @@ function App() {
       {/* Sound toggle — silent until field recordings are provided */}
       <button
         onClick={() => setSoundOn((s) => !s)}
-        className="fixed right-6 top-6 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-[#ece7dd]/15 bg-black/20 text-[#ece7dd]/70 backdrop-blur-sm transition hover:border-[#d8a24a]/40 hover:text-[#d8a24a]"
+        className="fixed right-4 top-4 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-[#ece7dd]/15 bg-black/20 text-[#ece7dd]/70 backdrop-blur-sm transition hover:border-[#d8a24a]/40 hover:text-[#d8a24a] sm:right-6 sm:top-6 sm:h-11 sm:w-11"
         aria-label={soundOn ? 'Couper le son' : 'Activer le son'}
         title={soundOn ? 'Ambiance activée' : 'Ambiance sonore'}
       >
@@ -604,7 +616,7 @@ function App() {
           style={{ transformPerspective: 1000, z: heroZ, rotateX: heroRotate, opacity: heroOpacity }}
         >
         <motion.p
-          className="mb-7 text-[0.7rem] uppercase tracking-[0.55em] text-[#d8a24a]/75"
+          className="mb-5 text-[0.6rem] uppercase tracking-[0.4em] text-[#d8a24a]/75 sm:mb-7 sm:text-[0.7rem] sm:tracking-[0.55em]"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 0.3 }}
           style={{ textShadow: '0 2px 20px rgba(0,0,0,0.7)' }}
         >
@@ -612,7 +624,7 @@ function App() {
         </motion.p>
 
         <motion.h1
-          className="font-display text-6xl font-light tracking-[0.35em] sm:text-7xl md:text-8xl"
+          className="font-display text-[2.6rem] font-light leading-none tracking-[0.15em] sm:text-6xl sm:tracking-[0.3em] md:text-8xl md:tracking-[0.35em]"
           initial={{ opacity: 0, y: 40, z: -200, rotateX: -30 }} animate={{ opacity: 1, y: 0, z: 0, rotateX: 0 }}
           transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
           style={{ transformPerspective: 1000, textShadow: '0 4px 50px rgba(0,0,0,0.7)' }}
@@ -621,7 +633,7 @@ function App() {
         </motion.h1>
 
         <motion.p
-          className="mt-8 max-w-md text-lg font-light leading-relaxed text-[#ece7dd]/85 md:text-xl"
+          className="mt-6 max-w-xs px-2 text-base font-light leading-relaxed text-[#ece7dd]/85 sm:mt-8 sm:max-w-md sm:text-lg md:text-xl"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 1 }}
           style={{ textShadow: '0 2px 30px rgba(0,0,0,0.7)' }}
         >
@@ -630,7 +642,7 @@ function App() {
 
         <motion.button
           onClick={() => scrollTo('questions')}
-          className="group mt-14 rounded-full border border-[#d8a24a]/50 bg-black/10 px-10 py-3 text-sm font-light uppercase tracking-[0.3em] text-[#ece7dd] backdrop-blur-sm transition-all duration-700 hover:border-[#d8a24a] hover:bg-[#d8a24a]/15"
+          className="group mt-10 rounded-full border border-[#d8a24a]/50 bg-black/10 px-8 py-3 text-xs font-light uppercase tracking-[0.25em] text-[#ece7dd] backdrop-blur-sm transition-all duration-700 hover:border-[#d8a24a] hover:bg-[#d8a24a]/15 sm:mt-14 sm:px-10 sm:text-sm sm:tracking-[0.3em]"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.8 }}
         >
           Commencer
@@ -646,9 +658,9 @@ function App() {
       </section>
 
       {/* ---------------- QUESTIONS ---------------- */}
-      <section id="questions" className="relative z-10 mx-auto max-w-5xl px-6 py-40">
+      <section id="questions" className="relative z-10 mx-auto max-w-5xl px-5 py-24 sm:px-6 sm:py-32 md:py-40">
         <motion.div
-          className="mb-24 text-center"
+          className="mb-16 text-center sm:mb-24"
           style={{ transformPerspective: 1200 }}
           variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.6 }}
         >
@@ -677,9 +689,9 @@ function App() {
       </section>
 
       {/* ---------------- ECOSYSTEM / MUSEUM WINGS ---------------- */}
-      <section id="ecosysteme" className="relative z-10 mx-auto max-w-6xl px-6 py-40">
+      <section id="ecosysteme" className="relative z-10 mx-auto max-w-6xl px-5 py-24 sm:px-6 sm:py-32 md:py-40">
         <motion.div
-          className="mb-24 text-center"
+          className="mb-16 text-center sm:mb-24"
           style={{ transformPerspective: 1200 }}
           variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }}
         >
@@ -710,7 +722,7 @@ function App() {
       </section>
 
       {/* ---------------- CLOSING + CONTACT ---------------- */}
-      <section id="contact" className="relative z-10 mx-auto max-w-2xl px-6 py-40 text-center">
+      <section id="contact" className="relative z-10 mx-auto max-w-2xl px-5 py-24 sm:px-6 sm:py-32 md:py-40 text-center">
         <motion.div style={{ transformPerspective: 1200 }} variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}>
           <h2 className="font-display text-4xl font-light leading-snug md:text-5xl">
             Une vision qui prend racine dans une histoire,<br className="hidden md:block" /> et s’étend vers un avenir collectif.
