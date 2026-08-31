@@ -318,60 +318,111 @@ const QUESTIONS = [
   { q: 'Pourquoi créer cet écosystème ?', a: 'Aucune vision ne tient seule. Un écosystème relie les idées, les outils et les personnes. Ensemble, ils forment un tout plus grand que la somme de ses parts.' },
 ]
 
-const POLES = [
-  {
-    name: 'Gouvernance',
-    desc: 'La colonne vertébrale de l’écosystème : direction, cohérence et vision long terme.',
-    platforms: [
-      { name: 'CVLN Holding', desc: 'La structure mère qui porte la vision et coordonne l’ensemble de l’écosystème.' },
+// Full architecture of the CVLN Foundation, rendered as an interactive tree
+const TREE = {
+  name: 'CVLN Foundation', tag: 'Gouvernance · vision · racine',
+  desc: 'La racine de tout : la gouvernance, la vision et la raison d’être de l’écosystème.',
+  children: [{
+    name: 'CVLN Group', tag: 'Écosystème global · portefeuille',
+    desc: 'L’écosystème dans son ensemble : le portefeuille vivant des entités du groupe.',
+    children: [
+      {
+        name: 'Meta CVLN', tag: 'Gouvernance groupe · portefeuille',
+        desc: 'La gouvernance du groupe et la coordination de son portefeuille d’activités.',
+        children: [
+          {
+            name: 'Infrastructures CVLN', tag: 'Fondations techniques',
+            desc: 'Les fondations techniques sur lesquelles tout l’écosystème s’appuie.',
+            children: [
+              {
+                name: 'FREKCORE', tag: 'Identité · provenance · preuve',
+                desc: 'Le socle d’identité, de provenance et de preuve. La confiance par la traçabilité.',
+                children: [
+                  { name: 'FREK-ID', tag: 'Identité', desc: 'L’identité vérifiable des personnes et des œuvres.' },
+                  { name: 'FREK-CHAIN', tag: 'Provenance', desc: 'La chaîne qui atteste l’origine et le parcours de chaque création.' },
+                  { name: '.FK · FREKANSLA · FREKRAW · Verified', tag: 'Formats · preuve', desc: 'Les formats et labels de preuve : du fichier brut à l’œuvre vérifiée.' },
+                ],
+              },
+              { name: 'Proof Layer', tag: 'Evidence · notarial', desc: 'La couche de preuve : une valeur notariale au service de la confiance.' },
+              { name: 'CVLN Wallet', tag: 'Économie · JCC · paiements', desc: 'L’économie de l’écosystème : la monnaie JCC et les paiements.' },
+            ],
+          },
+          {
+            name: 'Entités Métier CVLN', tag: 'Activités opérationnelles',
+            desc: 'Les activités qui font vivre la culture au quotidien.',
+            children: [
+              {
+                name: 'KORA', tag: 'Streaming · média',
+                desc: 'La plateforme de streaming et de média. Le fil des histoires.',
+                children: [
+                  { name: 'LabelOS', tag: 'Label · droits', desc: 'Le système qui gère les labels, les droits et les identités créatives.' },
+                  { name: 'Factory Maker Studio', tag: 'Création · studio', desc: 'Le studio où naissent les créations, les produits et les prototypes.' },
+                ],
+              },
+              { name: 'Kiltikonet', tag: 'Réseau culturel', desc: 'Le réseau culturel qui relie les communautés et les talents.' },
+              { name: 'CVLN Academy', tag: 'Formation · skills', desc: 'La formation et la transmission des savoir-faire.' },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'CVLN Intelligence OS', tag: 'Système commun d’intelligence',
+        desc: 'Le système d’intelligence partagé par tout l’écosystème.',
+        children: [
+          {
+            name: 'CVLN Brain', tag: 'Intelligence · LLM',
+            desc: 'Le cerveau : les modèles de langage et l’intelligence au service de l’humain.',
+            children: [
+              {
+                name: 'CVLN Agent Factory', tag: 'Système nerveux · agents',
+                desc: 'Le système nerveux : la fabrique d’agents qui exécutent et automatisent.',
+                children: [
+                  { name: 'Laurentia', tag: 'Agent · interface métier', desc: 'L’agent et l’interface métier au contact des usages concrets.' },
+                ],
+              },
+            ],
+          },
+          { name: 'CVLN Command Center', tag: 'Supervision · pilotage', desc: 'La tour de contrôle : supervision et pilotage de l’ensemble.' },
+        ],
+      },
+      {
+        name: 'Structures & Entités', tag: 'Opérationnelles · programmes',
+        desc: 'Les structures opérationnelles, marques et programmes du groupe.',
+        children: [
+          { name: 'Culture Connect', tag: 'Programme', desc: 'Un programme de rencontres et de liens culturels.' },
+          { name: 'Good Mood', tag: 'Programme', desc: 'Des expériences qui rassemblent et célèbrent le vivant.' },
+          { name: 'Good Mood Fest', tag: 'Événement', desc: 'Le festival : l’énergie de la fête et de la communauté.' },
+          { name: 'Gala Cook & Food', tag: 'Gastronomie', desc: 'La table comme lieu de partage : une gastronomie de terroir.' },
+          { name: 'Factory Maker Academy', tag: 'Formation', desc: 'La formation des créateurs et des makers.' },
+          { name: 'KORA Academy', tag: 'Formation', desc: 'La formation aux métiers du média et du streaming.' },
+          { name: 'FREK Academy', tag: 'Formation', desc: 'La formation à l’identité, la preuve et la provenance.' },
+        ],
+      },
     ],
-  },
-  {
-    name: 'Fintech',
-    desc: 'Faire circuler la valeur au sein de la communauté, avec confiance.',
-    platforms: [
-      { name: 'CVLN Wallet', desc: 'Un portefeuille pensé pour faire circuler la valeur au sein de la communauté.' },
-    ],
-  },
-  {
-    name: 'Tech & Data',
-    desc: 'La fabrique du futur, où les idées deviennent des outils au service de l’humain.',
-    platforms: [
-      { name: 'Factory Maker Studio', desc: 'L’atelier où les idées deviennent produits, outils et prototypes.' },
-    ],
-  },
-  {
-    name: 'Média & Content',
-    desc: 'La voix de l’écosystème : récits, sons et images qui font vibrer la culture.',
-    platforms: [
-      { name: 'FREKCORE', desc: 'La voix créative — sons, images et récits qui font vibrer la culture.' },
-      { name: 'KORA', desc: 'Le fil qui relie les histoires. Un média au service de la mémoire vivante.' },
-      { name: 'LabelOS', desc: 'Le système qui orchestre les identités créatives et fait rayonner les talents.' },
-    ],
-  },
-  {
-    name: 'Éducation',
-    desc: 'La connaissance comme héritage partagé, transmis de génération en génération.',
-    platforms: [
-      { name: 'CVLN Academy', desc: 'Apprendre, transmettre, grandir. La connaissance comme héritage partagé.' },
-    ],
-  },
-  {
-    name: 'Events & Art de vivre',
-    desc: 'L’énergie de la rencontre et le goût du beau : rassembler, célébrer, savourer.',
-    platforms: [
-      { name: 'Good Mood', desc: 'Des expériences qui rassemblent et célèbrent la culture et le vivant.' },
-      { name: 'Gala Cook & Food', desc: 'La table comme lieu de partage. Une gastronomie qui célèbre la culture et le terroir.' },
-    ],
-  },
-  {
-    name: 'Agriculture & Terroir',
-    desc: 'Revenir à la terre : le sol nourricier d’où tout part et où tout revient.',
-    platforms: [
-      { name: 'Laurentia', desc: 'La terre au cœur du projet. Cultiver, préserver et transmettre un patrimoine vivant.' },
-    ],
-  },
-]
+  }],
+}
+
+function TreeNode({ node, depth, onSelect }) {
+  const lg = depth <= 1
+  return (
+    <li>
+      <button
+        onClick={() => onSelect(node)}
+        className={`cvln-node${lg ? ' cvln-node--lg' : ''}`}
+      >
+        <span className="n">{node.name}</span>
+        <span className="t">{node.tag}</span>
+      </button>
+      {node.children && node.children.length > 0 && (
+        <ul>
+          {node.children.map((c) => (
+            <TreeNode key={c.name} node={c} depth={depth + 1} onSelect={onSelect} />
+          ))}
+        </ul>
+      )}
+    </li>
+  )
+}
 
 /* ------------------------------------------------------------------ */
 /*  Elegant modal                                                      */
@@ -422,7 +473,7 @@ function App() {
   const networkRef = useRef(null)
   const [soundOn, setSoundOn] = useState(false)
   const [activeQuestion, setActiveQuestion] = useState(null)
-  const [activePlatform, setActivePlatform] = useState(null)
+  const [activeNode, setActiveNode] = useState(null)
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
@@ -573,44 +624,27 @@ function App() {
           className="mb-24 text-center"
           variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }}
         >
-          <p className="mb-4 text-xs uppercase tracking-[0.4em] text-[#d8a24a]/80">Les salles de la fondation</p>
-          <h2 className="font-display text-4xl font-light md:text-5xl">La technologie naît de nos racines.</h2>
+          <p className="mb-4 text-xs uppercase tracking-[0.4em] text-[#d8a24a]/80">L’architecture de la fondation</p>
+          <h2 className="font-display text-4xl font-light md:text-5xl">Une même racine, de multiples branches.</h2>
           <p className="mx-auto mt-6 max-w-xl font-light leading-relaxed text-[#ece7dd]/65">
-            Comme les salles d’une même maison, chaque pôle abrite des créations vivantes.
-            Des particules deviennent des connexions ; chaque œuvre sert la même vision.
+            De COEURVOLAN aux entités les plus fines, tout descend d’une seule vision.
+            Explorez la carte — chaque nœud révèle une entité de l’écosystème.
+          </p>
+          <p className="mt-4 text-[0.7rem] uppercase tracking-[0.25em] text-[#ece7dd]/35">
+            Glissez horizontalement pour parcourir la carte
           </p>
         </motion.div>
 
-        <div className="space-y-16">
-          {POLES.map((pole, pi) => (
-            <motion.div
-              key={pole.name}
-              variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
-            >
-              <div className="mb-6 flex items-baseline gap-4">
-                <span className="text-xs font-light tabular-nums text-[#d8a24a]/60">{String(pi + 1).padStart(2, '0')}</span>
-                <h3 className="font-display text-2xl font-light tracking-wide md:text-3xl">{pole.name}</h3>
-                <span className="hidden flex-1 border-t border-[#ece7dd]/10 sm:block" />
-              </div>
-              <p className="mb-8 max-w-2xl pl-10 font-light leading-relaxed text-[#ece7dd]/60">{pole.desc}</p>
-              <div className="flex flex-wrap gap-4 pl-10">
-                {pole.platforms.map((pf) => (
-                  <button
-                    key={pf.name}
-                    onClick={() => setActivePlatform({ ...pf, pole: pole.name })}
-                    className="group relative flex items-center gap-3 rounded-full border border-[#ece7dd]/12 bg-[#0b0d0e]/50 px-6 py-3 backdrop-blur-md transition-all duration-500 hover:border-[#d8a24a]/50 hover:bg-[#0b0d0e]/70"
-                  >
-                    <span className="relative flex h-2.5 w-2.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#d8a24a]/40" />
-                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#d8a24a]" />
-                    </span>
-                    <span className="text-sm font-light tracking-wide">{pf.name}</span>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          className="cvln-tree-wrap"
+          variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
+        >
+          <div className="cvln-tree">
+            <ul>
+              <TreeNode node={TREE} depth={0} onSelect={setActiveNode} />
+            </ul>
+          </div>
+        </motion.div>
       </section>
 
       {/* ---------------- CLOSING + CONTACT ---------------- */}
@@ -671,15 +705,15 @@ function App() {
         )}
       </Modal>
 
-      <Modal open={!!activePlatform} onClose={() => setActivePlatform(null)}>
-        {activePlatform && (
+      <Modal open={!!activeNode} onClose={() => setActiveNode(null)}>
+        {activeNode && (
           <>
-            <p className="mb-3 text-xs uppercase tracking-[0.35em] text-[#d8a24a]/80">{activePlatform.pole}</p>
-            <h3 className="font-display text-3xl font-light">{activePlatform.name}</h3>
+            <p className="mb-3 text-xs uppercase tracking-[0.35em] text-[#d8a24a]/80">{activeNode.tag}</p>
+            <h3 className="font-display text-3xl font-light">{activeNode.name}</h3>
             <div className="my-6 h-px w-16 bg-[#d8a24a]/40" />
-            <p className="font-light leading-relaxed text-[#ece7dd]/80">{activePlatform.desc}</p>
+            <p className="font-light leading-relaxed text-[#ece7dd]/80">{activeNode.desc}</p>
             <button
-              onClick={() => toast('Bientôt disponible', { description: 'Cette création se dévoilera prochainement.' })}
+              onClick={() => toast('Bientôt disponible', { description: 'Cette entité se dévoilera prochainement.' })}
               className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#d8a24a]/50 px-8 py-3 text-sm font-light uppercase tracking-[0.25em] transition hover:bg-[#d8a24a]/15"
             >
               Découvrir <ArrowUpRight size={16} />

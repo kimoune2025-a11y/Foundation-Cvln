@@ -65,3 +65,109 @@ html, body {
   * { @apply border-border; }
   body { @apply bg-background text-foreground; }
 }
+
+/* ---------------- Ecosystem architecture tree ---------------- */
+.cvln-tree-wrap {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 0 30px;
+  -webkit-overflow-scrolling: touch;
+}
+.cvln-tree {
+  --line: rgba(216, 162, 74, 0.28);
+  display: inline-block;
+  min-width: 100%;
+  text-align: center;
+  padding: 0 40px;
+}
+.cvln-tree ul {
+  position: relative;
+  padding: 30px 0 0;
+  margin: 0;
+  white-space: nowrap;
+  text-align: center;
+}
+.cvln-tree li {
+  display: inline-block;
+  vertical-align: top;
+  list-style-type: none;
+  position: relative;
+  padding: 30px 14px 0;
+}
+.cvln-tree li::before,
+.cvln-tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  width: 50%;
+  height: 30px;
+  border-top: 1px solid var(--line);
+}
+.cvln-tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 1px solid var(--line);
+}
+.cvln-tree li:only-child::before,
+.cvln-tree li:only-child::after { display: none; }
+.cvln-tree li:only-child { padding-top: 30px; }
+.cvln-tree li:first-child::before,
+.cvln-tree li:last-child::after { border: 0 none; }
+.cvln-tree li:last-child::before {
+  border-right: 1px solid var(--line);
+  border-radius: 0 6px 0 0;
+}
+.cvln-tree li:first-child::after { border-radius: 6px 0 0 0; }
+.cvln-tree ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 30px;
+  border-left: 1px solid var(--line);
+}
+.cvln-tree > ul { padding-top: 0; }
+
+.cvln-node {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid rgba(236, 231, 221, 0.14);
+  background: rgba(11, 13, 14, 0.55);
+  backdrop-filter: blur(8px);
+  color: #ece7dd;
+  padding: 11px 20px;
+  border-radius: 9999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform .4s ease, border-color .4s ease, background .4s ease, box-shadow .4s ease;
+}
+.cvln-node:hover {
+  transform: translateY(-2px);
+  border-color: rgba(216, 162, 74, 0.6);
+  background: rgba(11, 13, 14, 0.82);
+  box-shadow: 0 0 34px rgba(216, 162, 74, 0.16);
+}
+.cvln-node .n {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+.cvln-node .t {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(216, 162, 74, 0.72);
+}
+.cvln-node--lg {
+  border-color: rgba(216, 162, 74, 0.45);
+  background: rgba(11, 13, 14, 0.7);
+  box-shadow: 0 0 40px rgba(216, 162, 74, 0.12);
+}
+.cvln-node--lg .n { font-size: 1.35rem; letter-spacing: 0.12em; }
