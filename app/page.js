@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
 import { Volume2, VolumeX, ArrowDown, X, ArrowUpRight } from 'lucide-react'
 import { toast } from 'sonner'
+import { getUiTree } from '@/lib/registry/cvlnRegistry'
 
 /* ------------------------------------------------------------------ */
 /*  WebGL Savane — fullscreen generative shader                        */
@@ -318,89 +319,10 @@ const QUESTIONS = [
   { q: 'Pourquoi créer cet écosystème ?', a: 'Aucune vision ne tient seule. Un écosystème relie les idées, les outils et les personnes. Ensemble, ils forment un tout plus grand que la somme de ses parts.' },
 ]
 
-// Full architecture of the CVLN Foundation, rendered as an interactive tree
-const TREE = {
-  name: 'CVLN Foundation', tag: 'Gouvernance · vision · racine',
-  desc: 'La racine de tout : la gouvernance, la vision et la raison d’être de l’écosystème.',
-  children: [{
-    name: 'CVLN Group', tag: 'Écosystème global · portefeuille',
-    desc: 'L’écosystème dans son ensemble : le portefeuille vivant des entités du groupe.',
-    children: [
-      {
-        name: 'Meta CVLN', tag: 'Gouvernance groupe · portefeuille',
-        desc: 'La gouvernance du groupe et la coordination de son portefeuille d’activités.',
-        children: [
-          {
-            name: 'Infrastructures CVLN', tag: 'Fondations techniques',
-            desc: 'Les fondations techniques sur lesquelles tout l’écosystème s’appuie.',
-            children: [
-              {
-                name: 'FREKCORE', tag: 'Identité · provenance · preuve',
-                desc: 'Le socle d’identité, de provenance et de preuve. La confiance par la traçabilité.',
-                children: [
-                  { name: 'FREK-ID', tag: 'Identité', desc: 'L’identité vérifiable des personnes et des œuvres.' },
-                  { name: 'FREK-CHAIN', tag: 'Provenance', desc: 'La chaîne qui atteste l’origine et le parcours de chaque création.' },
-                  { name: '.FK · FREKANSLA · FREKRAW · Verified', tag: 'Formats · preuve', desc: 'Les formats et labels de preuve : du fichier brut à l’œuvre vérifiée.' },
-                ],
-              },
-              { name: 'Proof Layer', tag: 'Evidence · notarial', desc: 'La couche de preuve : une valeur notariale au service de la confiance.' },
-              { name: 'CVLN Wallet', tag: 'Économie · JCC · paiements', desc: 'L’économie de l’écosystème : la monnaie JCC et les paiements.' },
-            ],
-          },
-          {
-            name: 'Entités Métier CVLN', tag: 'Activités opérationnelles',
-            desc: 'Les activités qui font vivre la culture au quotidien.',
-            children: [
-              {
-                name: 'KORA', tag: 'Streaming · média',
-                desc: 'La plateforme de streaming et de média. Le fil des histoires.',
-                children: [
-                  { name: 'LabelOS', tag: 'Label · droits', desc: 'Le système qui gère les labels, les droits et les identités créatives.' },
-                  { name: 'Factory Maker Studio', tag: 'Création · studio', desc: 'Le studio où naissent les créations, les produits et les prototypes.' },
-                ],
-              },
-              { name: 'Kiltikonet', tag: 'Réseau culturel', desc: 'Le réseau culturel qui relie les communautés et les talents.' },
-              { name: 'CVLN Academy', tag: 'Formation · skills', desc: 'La formation et la transmission des savoir-faire.' },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'CVLN Intelligence OS', tag: 'Système commun d’intelligence',
-        desc: 'Le système d’intelligence partagé par tout l’écosystème.',
-        children: [
-          {
-            name: 'CVLN Brain', tag: 'Intelligence · LLM',
-            desc: 'Le cerveau : les modèles de langage et l’intelligence au service de l’humain.',
-            children: [
-              {
-                name: 'CVLN Agent Factory', tag: 'Système nerveux · agents',
-                desc: 'Le système nerveux : la fabrique d’agents qui exécutent et automatisent.',
-                children: [
-                  { name: 'Laurentia', tag: 'Agent · interface métier', desc: 'L’agent et l’interface métier au contact des usages concrets.' },
-                ],
-              },
-            ],
-          },
-          { name: 'CVLN Command Center', tag: 'Supervision · pilotage', desc: 'La tour de contrôle : supervision et pilotage de l’ensemble.' },
-        ],
-      },
-      {
-        name: 'Structures & Entités', tag: 'Opérationnelles · programmes',
-        desc: 'Les structures opérationnelles, marques et programmes du groupe.',
-        children: [
-          { name: 'Culture Connect', tag: 'Programme', desc: 'Un programme de rencontres et de liens culturels.' },
-          { name: 'Good Mood', tag: 'Programme', desc: 'Des expériences qui rassemblent et célèbrent le vivant.' },
-          { name: 'Good Mood Fest', tag: 'Événement', desc: 'Le festival : l’énergie de la fête et de la communauté.' },
-          { name: 'Gala Cook & Food', tag: 'Gastronomie', desc: 'La table comme lieu de partage : une gastronomie de terroir.' },
-          { name: 'Factory Maker Academy', tag: 'Formation', desc: 'La formation des créateurs et des makers.' },
-          { name: 'KORA Academy', tag: 'Formation', desc: 'La formation aux métiers du média et du streaming.' },
-          { name: 'FREK Academy', tag: 'Formation', desc: 'La formation à l’identité, la preuve et la provenance.' },
-        ],
-      },
-    ],
-  }],
-}
+// The founding architecture is now stored in the canonical CVLN Group Entity
+// Registry (/app/lib/registry/cvlnRegistry.js). The UI no longer keeps its own
+// copy of the TREE: it DERIVES it from that single canonical source.
+const TREE = getUiTree()
 
 function TreeNode({ node, depth, index = 0, onSelect }) {
   const lg = depth <= 1

@@ -105,6 +105,24 @@
 user_problem_statement: "Landing page contemplative Fondation COEURVOLAN. Backend: capture email via formulaire de contact stockée en MongoDB."
 
 backend:
+  - task: "CVLN Group Entity Registry API (entities, relations, export, validate, baseline, tree)"
+    implemented: true
+    working: true
+    file: "app/api/[[...path]]/route.js + lib/registry/cvlnRegistry.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: "NA"
+        -agent: "main"
+        -comment: "Extracted the founding TREE from app/page.js into a canonical registry module lib/registry/cvlnRegistry.js (29 entities with stable entity_id + type + metadata: status/provenance/evidence_source/confidence/as_of/architectural_status/verified_reality; 35 relations = 28 PART_OF mirroring the TREE exactly + 7 inferred flagged). Exposed read-only GET endpoints: /api/entities (?type,?status,?q), /api/entities/{id} (with incoming/outgoing relations), /api/relations (?from,?to,?type), /api/registry/export (versioned JSON snapshot), /api/registry/validate (integrity report), /api/registry/baseline (Baseline v1 + JCC doctrine), /api/registry/tree (UI tree derived from registry). Local sanity check: validate ok=true, 0 errors, 29 entities/35 relations."
+        -working: true
+        -agent: "testing"
+        -comment: "All 11 registry tests passed. validate ok=true errors=[] (29 entities, 35 relations, 28 PART_OF, 7 inferred). /api/entities returns 29 unique entities with metadata (architectural_status=DECIDED, verified_reality=UNVERIFIED, evidence_source=null); type filter PLATFORM=7. /api/entities/ENT-KORA relations correct; unknown id 404. /api/relations 35 no dangling; PART_OF=28; from FOUNDATION includes GOVERNS. export has baseline v1 frozen + doctrine.JCC (INTERNAL_CURRENCY). tree root 'CVLN Foundation' 29 nodes. Contact re-tested OK."
+        -working: true
+        -agent: "testing"
+        -comment: "All 11 registry tests passed successfully. (1) /api/registry/validate returns ok=true, errors=[], stats={entities:29, relations:35, part_of:28, inferred:7}. (2) /api/entities returns 29 entities, all with correct structure (entity_id starting with ENT-, name, type, declared_role, status, provenance, evidence_source=null, confidence, as_of, architectural_status=DECIDED, verified_reality=UNVERIFIED), all entity_ids unique. (3) /api/entities?type=PLATFORM returns 7 entities. (4) /api/entities/ENT-KORA returns entity with correct relations (outgoing PART_OF to ENT-ENTITES-METIER-CVLN, incoming PART_OF from ENT-LABELOS and ENT-FACTORY-MAKER-STUDIO). (5) /api/entities/ENT-DOES-NOT-EXIST returns 404. (6) /api/relations returns 35 relations with correct structure (relation_id starting with REL-, from, to, type, provenance, confidence, verified_reality), no dangling references. (7) /api/relations?type=PART_OF returns 28 relations. (8) /api/relations?from=ENT-CVLN-FOUNDATION includes GOVERNS to ENT-CVLN-GROUP (provenance=inferred_from_declared_role, confidence=INFERRED). (9) /api/registry/export returns versioned JSON with baseline (version=v1, frozen=true, changelog array), doctrine.JCC (declared_classification=INTERNAL_CURRENCY, verified_reality=UNVERIFIED, do_not_requalify_as includes legal_tender and crypto_asset), counts, validation.ok=true, 29 entities, 35 relations. (10) /api/registry/baseline returns baseline v1 + doctrine. (11) /api/registry/tree returns single root 'CVLN Foundation' with 29 total nodes. All integrity assertions verified: no duplicate entity_ids, no dangling relations, exactly one root, tree node count matches entity count."
+
   - task: "Contact form email capture (POST /api/contact, GET /api/contact)"
     implemented: true
     working: true
@@ -118,7 +136,13 @@ backend:
         -comment: "Added POST /api/contact (validates email regex, stores {id(uuid), email, name, message, created_at} in 'contacts' collection) and GET /api/contact (returns list sorted desc, _id stripped). Existing /api/root and /api/status kept."
         -working: true
         -agent: "testing"
-        -comment: "All 5 tests passed successfully. POST /api/contact correctly validates email (returns 400 with French error 'Une adresse e-mail valide est requise.' for invalid/missing email), accepts optional name/message fields, returns UUID id (no _id field), and stores contacts in MongoDB. GET /api/contact returns array sorted by created_at desc with all _id fields stripped and UUID ids present. Test results: test@example.com and a@b.co successfully inserted and retrieved."
+        -comment: "All 5 tests passed successfully. POST /api/contact correctly validates email (returns 400 with French error 'Une adresse e-mail valide est requise.' for invalid/missing email), accepts optional name/message fields, returns UUID id (no _id field), and stores contacts in MongoDB. GET /api/contact returns array sorted by created_at desc with all _id fields stripped and UUID ids present."
+        -working: "NA"
+        -agent: "main"
+        -comment: "route.js was rewritten to add registry endpoints; contact/status logic preserved. Please re-verify contact endpoints still work after refactor."
+        -working: true
+        -agent: "testing"
+        -comment: "Re-verified after route.js refactor. All 4 contact tests passed successfully. (12) POST /api/contact with valid data returns 200 {success:true, contact:{id (UUID), email, name, message, created_at}}, no _id field. (13) POST /api/contact with invalid email returns 400 with French error 'Une adresse e-mail valide est requise.'. (14) POST /api/contact with missing email returns 400 with error. (15) GET /api/contact returns 200 array with UUID ids, no _id fields. Contact endpoints working correctly after refactor."
 
 frontend:
   - task: "Contemplative landing experience (WebGL savane, network overlay, questions, ecosystem, contact form)"
@@ -131,16 +155,17 @@ frontend:
     status_history:
         -working: "NA"
         -agent: "main"
-        -comment: "Not yet tested via automation. Awaiting user permission for frontend testing."
+        -comment: "UI now consumes the canonical registry: TREE = getUiTree() derived from lib/registry/cvlnRegistry.js (no independent copy). Awaiting user permission for frontend testing."
 
 metadata:
   created_by: "main_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "1.1"
+  test_sequence: 3
   run_ui: false
 
 test_plan:
   current_focus:
+    - "CVLN Group Entity Registry API (entities, relations, export, validate, baseline, tree)"
     - "Contact form email capture (POST /api/contact, GET /api/contact)"
   stuck_tasks: []
   test_all: false
@@ -148,6 +173,6 @@ test_plan:
 
 agent_communication:
     -agent: "main"
-    -message: "Please test the contact endpoints only. POST /api/contact with valid email should return {success:true, contact:{...}}. POST with invalid/missing email should return 400 with French error. GET /api/contact should return an array including inserted records (no _id). Do not test frontend."
+    -message: "Test the new CVLN Group Entity Registry endpoints AND re-verify contact endpoints. Registry expectations: (1) GET /api/registry/validate -> {ok:true, errors:[], stats:{entities:29, relations:35, part_of:28, inferred:7}}. (2) GET /api/entities -> {count:29, entities:[...]} each with entity_id, type, declared_role, status, provenance, evidence_source(null), confidence, as_of, architectural_status='DECIDED', verified_reality='UNVERIFIED'. (3) GET /api/entities/ENT-KORA -> entity + relations{incoming,outgoing}; GET /api/entities/ENT-DOES-NOT-EXIST -> 404. (4) GET /api/relations -> {count:35}; ?type=PART_OF -> 28; ?from=ENT-CVLN-FOUNDATION should include a GOVERNS relation; each relation has relation_id, from, to, type, provenance, confidence, verified_reality. (5) GET /api/registry/export -> versioned JSON with baseline(version 'v1', frozen:true), doctrine.JCC (declared_classification 'INTERNAL_CURRENCY', do_not_requalify_as list), entities, relations, validation.ok=true. (6) GET /api/registry/baseline -> baseline + doctrine. (7) GET /api/registry/tree -> single root 'CVLN Foundation'. Integrity: no duplicate ids, no dangling relations, exactly one root, all types valid. Then re-run contact tests (POST valid/invalid/missing email, GET list). Registry is READ-ONLY (no writes expected)."
     -agent: "testing"
-    -message: "Backend testing complete. All contact endpoints working perfectly. 5/5 tests passed: POST /api/contact validates email correctly (French error messages), accepts optional fields, returns UUID ids without _id fields. GET /api/contact returns sorted array with proper data structure. No issues found. Backend is production-ready."
+    -message: "Backend testing complete. All 15 tests passed (11 registry + 4 contact). Registry API is fully functional with all integrity checks passing. Contact endpoints working correctly after route.js refactor. No critical issues found. Backend is ready for production."
