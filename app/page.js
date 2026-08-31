@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
 import { Volume2, VolumeX, ArrowDown, X, ArrowUpRight } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -402,21 +402,28 @@ const TREE = {
   }],
 }
 
-function TreeNode({ node, depth, onSelect }) {
+function TreeNode({ node, depth, index = 0, onSelect }) {
   const lg = depth <= 1
+  const delay = Math.min(depth * 0.12 + index * 0.05, 0.9)
   return (
     <li>
-      <button
+      <motion.button
         onClick={() => onSelect(node)}
         className={`cvln-node${lg ? ' cvln-node--lg' : ''}`}
+        style={{ transformPerspective: 900 }}
+        initial={{ opacity: 0, y: 60, z: -220, rotateX: -35, scale: 0.8 }}
+        whileInView={{ opacity: 1, y: 0, z: 0, rotateX: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay }}
+        whileHover={{ scale: 1.08, z: 50, rotateX: 6, rotateY: -6 }}
       >
         <span className="n">{node.name}</span>
         <span className="t">{node.tag}</span>
-      </button>
+      </motion.button>
       {node.children && node.children.length > 0 && (
         <ul>
-          {node.children.map((c) => (
-            <TreeNode key={c.name} node={c} depth={depth + 1} onSelect={onSelect} />
+          {node.children.map((c, i) => (
+            <TreeNode key={c.name} node={c} depth={depth + 1} index={i} onSelect={onSelect} />
           ))}
         </ul>
       )}
@@ -460,8 +467,45 @@ function Modal({ open, onClose, children }) {
 }
 
 const reveal = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 70, rotateX: -22, scale: 0.94 },
+  show: { opacity: 1, y: 0, rotateX: 0, scale: 1, transition: { duration: 1.15, ease: [0.22, 1, 0.36, 1] } },
+}
+
+// 3D reveal wrapper — content emerges from depth on scroll-in
+function Reveal3D({ children, className, delay = 0, amount = 0.3 }) {
+  return (
+    <motion.div
+      className={className}
+      style={{ transformPerspective: 1300 }}
+      initial={{ opacity: 0, y: 80, z: -260, rotateX: -26, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, z: 0, rotateX: 0, scale: 1 }}
+      viewport={{ once: true, amount }}
+      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+// Mouse-driven 3D tilt stage (used for the whole architecture map)
+function TiltStage({ children, className, max = 8 }) {
+  const rx = useSpring(useMotionValue(0), { stiffness: 55, damping: 16 })
+  const ry = useSpring(useMotionValue(0), { stiffness: 55, damping: 16 })
+  function onMove(e) {
+    const r = e.currentTarget.getBoundingClientRect()
+    const px = (e.clientX - r.left) / r.width - 0.5
+    const py = (e.clientY - r.top) / r.height - 0.5
+    ry.set(px * max * 1.8)
+    rx.set(-py * max)
+  }
+  function onLeave() { rx.set(0); ry.set(0) }
+  return (
+    <div className={className} onMouseMove={onMove} onMouseLeave={onLeave} style={{ perspective: 1600 }}>
+      <motion.div style={{ rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' }}>
+        {children}
+      </motion.div>
+    </div>
+  )
 }
 
 /* ------------------------------------------------------------------ */
@@ -479,6 +523,12 @@ function App() {
   const [message, setMessage] = useState('')
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
+
+  // Hero 3D parallax on scroll — content recedes into depth
+  const { scrollY } = useScroll()
+  const heroZ = useTransform(scrollY, [0, 700], [0, -380])
+  const heroRotate = useTransform(scrollY, [0, 700], [0, 16])
+  const heroOpacity = useTransform(scrollY, [0, 620], [1, 0])
 
   useEffect(() => {
     function onScroll() {
@@ -549,6 +599,10 @@ function App() {
 
       {/* ---------------- HERO ---------------- */}
       <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
+        <motion.div
+          className="flex flex-col items-center"
+          style={{ transformPerspective: 1000, z: heroZ, rotateX: heroRotate, opacity: heroOpacity }}
+        >
         <motion.p
           className="mb-7 text-[0.7rem] uppercase tracking-[0.55em] text-[#d8a24a]/75"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 0.3 }}
@@ -559,9 +613,9 @@ function App() {
 
         <motion.h1
           className="font-display text-6xl font-light tracking-[0.35em] sm:text-7xl md:text-8xl"
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 40, z: -200, rotateX: -30 }} animate={{ opacity: 1, y: 0, z: 0, rotateX: 0 }}
           transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-          style={{ textShadow: '0 4px 50px rgba(0,0,0,0.7)' }}
+          style={{ transformPerspective: 1000, textShadow: '0 4px 50px rgba(0,0,0,0.7)' }}
         >
           COEURVOLAN
         </motion.h1>
@@ -581,6 +635,7 @@ function App() {
         >
           Commencer
         </motion.button>
+        </motion.div>
 
         <motion.div
           className="absolute bottom-10 text-[#ece7dd]/50"
@@ -594,6 +649,7 @@ function App() {
       <section id="questions" className="relative z-10 mx-auto max-w-5xl px-6 py-40">
         <motion.div
           className="mb-24 text-center"
+          style={{ transformPerspective: 1200 }}
           variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.6 }}
         >
           <p className="mb-4 text-xs uppercase tracking-[0.4em] text-[#d8a24a]/80">Le manifeste</p>
@@ -602,14 +658,16 @@ function App() {
           </p>
         </motion.div>
 
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2" style={{ perspective: 1200 }}>
           {QUESTIONS.map((item, i) => (
             <motion.button
               key={item.q}
               onClick={() => setActiveQuestion(item)}
-              className="group flex items-center justify-between rounded-xl border border-[#ece7dd]/10 bg-[#0b0d0e]/40 px-8 py-7 text-left backdrop-blur-md transition-all duration-500 hover:border-[#d8a24a]/40 hover:bg-[#0b0d0e]/60"
+              className="group flex items-center justify-between rounded-xl border border-[#ece7dd]/10 bg-[#0b0d0e]/40 px-8 py-7 text-left backdrop-blur-md transition-colors duration-500 hover:border-[#d8a24a]/40 hover:bg-[#0b0d0e]/60"
+              style={{ transformPerspective: 1000 }}
               variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: (i % 2) * 0.1 }}
+              whileHover={{ rotateX: 5, rotateY: -5, scale: 1.03, z: 30 }}
             >
               <span className="font-display text-2xl font-light">{item.q}</span>
               <ArrowUpRight size={18} className="text-[#ece7dd]/30 transition group-hover:text-[#d8a24a]" />
@@ -622,6 +680,7 @@ function App() {
       <section id="ecosysteme" className="relative z-10 mx-auto max-w-6xl px-6 py-40">
         <motion.div
           className="mb-24 text-center"
+          style={{ transformPerspective: 1200 }}
           variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }}
         >
           <p className="mb-4 text-xs uppercase tracking-[0.4em] text-[#d8a24a]/80">L’architecture de la fondation</p>
@@ -635,21 +694,24 @@ function App() {
           </p>
         </motion.div>
 
-        <motion.div
-          className="cvln-tree-wrap"
-          variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
-        >
-          <div className="cvln-tree">
-            <ul>
-              <TreeNode node={TREE} depth={0} onSelect={setActiveNode} />
-            </ul>
-          </div>
-        </motion.div>
+        <TiltStage className="w-full">
+          <motion.div
+            className="cvln-tree-wrap"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 1 }}
+          >
+            <div className="cvln-tree">
+              <ul>
+                <TreeNode node={TREE} depth={0} onSelect={setActiveNode} />
+              </ul>
+            </div>
+          </motion.div>
+        </TiltStage>
       </section>
 
       {/* ---------------- CLOSING + CONTACT ---------------- */}
       <section id="contact" className="relative z-10 mx-auto max-w-2xl px-6 py-40 text-center">
-        <motion.div variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}>
+        <motion.div style={{ transformPerspective: 1200 }} variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }}>
           <h2 className="font-display text-4xl font-light leading-snug md:text-5xl">
             Une vision qui prend racine dans une histoire,<br className="hidden md:block" /> et s’étend vers un avenir collectif.
           </h2>
