@@ -4,6 +4,7 @@ CVLN Group Entity Registry API + Contact Endpoints Test Suite
 Tests all registry endpoints (read-only) and re-verifies contact endpoints.
 """
 
+import os
 import requests
 import json
 import sys
@@ -438,11 +439,17 @@ def test_contact_post_missing_email():
         return False
 
 def test_contact_get():
-    """Test 15: GET /api/contact"""
+    """Test 15: GET /api/contact is never public; with CONTACT_ADMIN_TOKEN it lists contacts"""
     log("TEST 15: GET /api/contact")
     try:
         resp = requests.get(f"{BASE_URL}/contact", timeout=10)
-        assert resp.status_code == 200, f"Expected 200, got {resp.status_code}"
+        assert resp.status_code in (401, 404), f"Expected 401/404 without token, got {resp.status_code}"
+        token = os.environ.get("CONTACT_ADMIN_TOKEN")
+        if not token:
+            log("✅ PASS: GET /api/contact is not publicly readable (set CONTACT_ADMIN_TOKEN to test the listing)")
+            return True
+        resp = requests.get(f"{BASE_URL}/contact", headers={"Authorization": f"Bearer {token}"}, timeout=10)
+        assert resp.status_code == 200, f"Expected 200 with token, got {resp.status_code}"
         data = resp.json()
         
         assert isinstance(data, list), f"Expected array response, got {type(data)}"

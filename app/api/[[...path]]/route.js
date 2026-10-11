@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto'
 import { MongoClient } from 'mongodb'
 import { v4 as uuidv4 } from 'uuid'
 import { NextResponse } from 'next/server'
@@ -33,6 +34,19 @@ function handleCORS(response) {
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
   response.headers.set('Access-Control-Allow-Credentials', 'true')
   return response
+}
+
+// Listing contacts exposes personal data (email, name, message). It is only
+// enabled when CONTACT_ADMIN_TOKEN is configured, and callers must present
+// that token as a Bearer credential.
+function isContactAdmin(request) {
+  const expected = process.env.CONTACT_ADMIN_TOKEN
+  if (!expected) return false
+  const header = request.headers.get('authorization') || ''
+  const provided = header.startsWith('Bearer ') ? header.slice(7) : ''
+  const a = Buffer.from(provided)
+  const b = Buffer.from(expected)
+  return a.length === b.length && timingSafeEqual(a, b)
 }
 
 export async function OPTIONS() {
@@ -135,6 +149,12 @@ async function handleRoute(request, { params }) {
     }
 
     if (route === '/contact' && method === 'GET') {
+      if (!process.env.CONTACT_ADMIN_TOKEN) {
+        return handleCORS(NextResponse.json({ error: `Route ${route} not found` }, { status: 404 }))
+      }
+      if (!isContactAdmin(request)) {
+        return handleCORS(NextResponse.json({ error: 'Unauthorized' }, { status: 401 }))
+      }
       const db = await connectToMongo()
       const contacts = await db.collection('contacts').find({}).sort({ created_at: -1 }).limit(1000).toArray()
       const cleaned = contacts.map(({ _id, ...rest }) => rest)
