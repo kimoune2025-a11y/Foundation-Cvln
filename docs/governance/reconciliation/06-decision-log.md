@@ -20,6 +20,7 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | DEC-0005 | 2026-10-12 | Autoriser l’écriture sur `command-center` : « Non code dessus fait la config ». Règle d’autorisation locale ajoutée (`.claude/settings.local.json`, non suivie) ; dépôt rattaché en écriture à la session | Laurent CŒURVOLAN | Conversation de session |
 | DEC-0006 | 2026-10-12 | Command Center est l’outil de pilotage **interne** du groupe : inscription publique fermée par défaut (réouvrable par `ALLOW_PUBLIC_REGISTRATION=true`) et documents servis uniquement à un utilisateur authentifié. Remplace l’interprétation « inscription libre en Viewer » de HIST-04 | Laurent CŒURVOLAN (« ok alors », après explication) | Conversation de session ; `command-center@132baa7` |
 | DEC-0007 | 2026-10-12 | Le schéma ASCII fourni à Emergent est **obsolète**. La référence d’architecture est le mandat directeur (§3, §5) et l’état réel des dépôts. Les questions dont la réponse se déduit de ces sources ne sont plus posées : elles sont tranchées par défaut (§5), contestables à tout moment | Laurent CŒURVOLAN (« ce schéma est obsolète […] tu n’as qu’à lire les repos ») | Conversation de session |
+| DEC-0008 | 2026-10-12 | Les 7 entités absentes du schéma original (Culture Connect, Good Mood, Good Mood Fest, Gala Cook & Food, Factory Maker Academy, KORA Academy, FREK Academy sous Structures & Entités) sont des **mises à jour valides** de l’architecture. Priorité : pouvoir travailler depuis Command Center ; le système doit être autonome | Laurent CŒURVOLAN (« ce qui est absent [est] mis à jour, je dois commencer à pouvoir bosser depuis Command Center ») | Conversation de session |
 
 ## 2. Décisions historiques retrouvées
 
@@ -82,7 +83,7 @@ Statut `DEFAULT` : tranché à partir du mandat et des dépôts, applicable tant
 
 | Réf. | Question | Arbitrage par défaut | Fondement |
 |---|---|---|---|
-| C-01 | Valeur des 28 `PART_OF` du registre v1 | Le registre v1 reste la trace historique. En v2 : les 20 rattachements confirmés par le schéma original (EV-P4-01) sont repris ; `REL-0006` reste sous Meta CVLN ; les 7 enfants de Structures & Entités sont repris avec la provenance « source non tracée » ; le rôle d’Agent Factory reçoit « exécution » | DEC-0007 ; SRC-31 ; mandat §3, §5 |
+| C-01 | Valeur des 28 `PART_OF` du registre v1 | Le registre v1 reste la trace historique. En v2 : les 20 rattachements confirmés par le schéma original (EV-P4-01) sont repris ; `REL-0006` reste sous Meta CVLN ; les 7 enfants de Structures & Entités sont repris comme mises à jour validées (DEC-0008) ; le rôle d’Agent Factory reçoit « exécution » | DEC-0007 ; SRC-31 ; mandat §3, §5 |
 | C-02 | FREKCORE | **Couche d’identité, de provenance et de preuve**, indépendante de Laurentia, KORA et Agent Factory. « La voix créative » est une définition historique abandonnée | Mandat §3 et règles de séparation |
 | C-03 | Laurentia | **Opérateur IA et interface de travail personnelle et métier**. La définition « terroir » est historique ; l’agriculture relève de CVL Agro (CAND-09) | Mandat §3 ; SRC-29 |
 | C-05 | Rattachement de Command Center | **Couche gouvernance et pilotage** (supervision opérationnelle privée), consommateur d’Intelligence OS, et non sous-composant de celui-ci | Mandat §3 (« ne pas confondre … le centre de supervision ») ; DEC-0006 |
