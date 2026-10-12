@@ -2,7 +2,7 @@
 
 - **Mission :** CVLN-GOV-RECON-001
 - **Phase :** 5 — Architecture cible et plan d’intégration
-- **Date :** 2026-10-11
+- **Date :** 2026-10-11 (mise à jour 2026-10-12)
 - **Statut :** **PROPOSITION** — aucune décision d’architecture n’est prise ici (mandat §11, règle 7)
 
 Ce document ne remplace pas l’architecture fondatrice. Il propose comment passer de l’état observé (deux applications générées par Emergent, un registre gelé non validé, aucune intégration) à un **système de groupe** : souverain, traçable et capable de passer à l’échelle.
@@ -40,7 +40,7 @@ flowchart TB
   end
   subgraph L2["Couche 2 — Gouvernance et pilotage"]
     META["Meta CVLN (portefeuille)"]
-    CC["Command Center (pilotage)"]
+    CC["Command Center (pilotage — rattachement à arbitrer : C-05)"]
     DEC["Journal des décisions + registre des preuves"]
   end
   subgraph L3["Couche 3 — Plateforme partagée (services internes)"]
@@ -57,7 +57,7 @@ flowchart TB
   end
   HOLD -->|OWNS, étayé| IP
   HOLD -->|GOVERNS| META
-  META --> CC
+  META -.->|proposé, C-05| CC
   CC -->|lit| REG
   IOS -->|lit| REG
   L4 -->|consomme| L3
@@ -68,7 +68,7 @@ flowchart TB
 
 | Composant | Responsabilité | Contrat initial proposé | Prérequis |
 |---|---|---|---|
-| CVLN Registry | Référentiel unique des entités, relations, statuts et preuves | `GET /api/registry/export` (existant, versionné par `schema_version` et baseline) ; ajout additif des champs du mandat §9 (PROP-03) | C-01 (validation), CI d’intégrité (fait sur branche) |
+| CVLN Registry | Référentiel unique des entités, relations, statuts et preuves | `GET /api/registry/export` (existant, versionné par `schema_version` et baseline) ; ajout additif de 9 des champs du mandat §9 absents du registre (PROP-03) ; `actual_role`, `source_documents`, `dependencies`, `known_contradictions` et `next_action` restent à arbitrer | C-01 (validation), CI d’intégrité (fait sur branche) |
 | Command Center | Pilotage opérationnel et financier | Lecture du registre ; ses projets référencent des `entity_id` canoniques (PROP-07) | C-06, sécurité (C-07 corrigé sur branche, R-13) |
 | Intelligence OS / Brain / Agent Factory / Laurentia | Couche IA partagée | À spécifier ; première entrée : lecture du registre (HIST-01 : ne pas brancher sans décision) | Décision explicite de branchement ; C-03 |
 | FREKCORE / FREK-ID / Proof Layer | Identité, provenance, preuve | À spécifier ; aucune réalisation trouvée | C-02 ; analyse juridique de la « valeur notariale » |

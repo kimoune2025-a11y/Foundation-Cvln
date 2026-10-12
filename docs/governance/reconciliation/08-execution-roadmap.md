@@ -1,7 +1,7 @@
 # 08 — Execution Roadmap
 
 - **Mission :** CVLN-GOV-RECON-001
-- **Date :** 2026-10-11
+- **Date :** 2026-10-11 (mise à jour 2026-10-12)
 - **Statut :** vivant — ordonné par prérequis et par risque (mandat §10), pas par effet de présentation
 
 Légende : **[Propriétaire]** = action que seul Laurent CŒURVOLAN (ou un détenteur d’accès) peut faire · **[Claude]** = action exécutable par une session Claude Code · **[Arbitrage]** = décision requise.
@@ -12,7 +12,7 @@ Légende : **[Propriétaire]** = action que seul Laurent CŒURVOLAN (ou un déte
 |---|---|---|---|---|---|
 | PROP-11 | Foundation-Cvln | `claude/p6-registry-integrity-ci` | `caa58ff` | `scripts/registry-integrity.mjs` + workflow `Registry integrity` | Local : OK sur le registre réel ; échec (code 1) sur 4 altérations simulées. **GitHub Actions : run 38182686798 = success** |
 | PROP-10 | Foundation-Cvln | `claude/p6-contact-admin-auth` | `9710ded` | `GET /api/contact` désactivé sans `CONTACT_ADMIN_TOKEN`, sinon jeton Bearer obligatoire | `next build` OK ; serveur local : 404 sans variable, 401 sans jeton ou avec un mauvais jeton, passage du contrôle avec le bon jeton ; `POST` inchangé |
-| PROP-08 | command-center | `claude/p6-registration-viewer-only` | `3e8d79c` | Inscription publique limitée au rôle Viewer ; option Manager retirée de l’UI ; fixture de test adaptée | FastAPI TestClient + MongoDB simulée : avant, « manager » obtenu et création de projet = 200 ; après, « viewer » et 403 ; promotion par un admin = 200 |
+| PROP-08 | command-center | `claude/p6-registration-viewer-only` | `3e8d79c` | Inscription publique limitée au rôle Viewer ; option Manager retirée de l’UI ; fixture de test adaptée | FastAPI TestClient + MongoDB simulée : avant correctif, l’inscription publique accordait des droits supérieurs à l’exigence HIST-04 ; après correctif, elle n’accorde que le rôle Viewer, et un compte promu par un administrateur conserve ses droits (détails hors dépôt ; harnais non versionné) |
 | PROP-09 (partiel) | command-center | `claude/p6-registration-viewer-only` | `324b56d` | Identifiants retirés des fichiers suivis (tests via variables d’environnement, PRD, rapports) ; fichier d’identifiants non suivi | Aucun fichier suivi ne contient plus les valeurs (contrôle automatisé). **L’historique Git les contient toujours** |
 
 Liens de comparaison (création de PR en un clic) :
@@ -22,7 +22,7 @@ Liens de comparaison (création de PR en un clic) :
 - https://github.com/kimoune2025-a11y/Foundation-Cvln/compare/main...claude/p6-contact-admin-auth
 - https://github.com/kimoune2025-a11y/command-center/compare/main...claude/p6-registration-viewer-only
 
-## 2. P0 — Immédiat (sécurité, aucune dépendance)
+## 2. P0 — Immédiat (sécurité)
 
 | # | Action | Qui | Comment |
 |---|---|---|---|
@@ -30,21 +30,22 @@ Liens de comparaison (création de PR en un clic) :
 | P0-2 | Remplacer le secret de signature des sessions (`JWT_SECRET`) de Command Center | [Propriétaire] | Variables d’environnement du backend dans Emergent ; invalide toutes les sessions existantes |
 | P0-3 | Passer `command-center` en **privé** | [Propriétaire] | GitHub → `command-center` → Settings → General → Danger Zone → Change visibility → Private |
 | P0-4 | Passer en revue les comptes de Command Center | [Propriétaire] | Page Admin de l’application ; rétrograder ou supprimer tout compte inconnu |
-| P0-5 | Protéger `main` sur les deux dépôts | [Propriétaire] | GitHub → Settings → Rules → Rulesets → New branch ruleset → cible `main` : *Restrict deletions*, *Block force pushes*, *Require a pull request before merging*, *Require status checks to pass* (`registry-integrity` pour Foundation-Cvln) |
+| P0-5 | Protéger `main` sur les deux dépôts | [Propriétaire] | GitHub → Settings → Rules → Rulesets → New branch ruleset → cible `main` : *Restrict deletions*, *Block force pushes*, *Require a pull request before merging*. Pour Foundation-Cvln, ne pas encore cocher *Require status checks to pass* : le workflow `registry-integrity` n’existe que sur `claude/p6-registry-integrity-ci` ; il sera exigé après sa fusion (P1-6) |
 
 ## 3. P1 — Intégration des correctifs
 
 | # | Action | Qui | Prérequis |
 |---|---|---|---|
 | P1-1 | Décider qui fait foi entre GitHub et l’espace Emergent (proposé : GitHub — PROP-12) | [Arbitrage] | — |
-| P1-2 | Ouvrir les PR, relire et fusionner les 4 branches | [Propriétaire] / [Claude] sur demande | P1-1 (sinon risque d’écrasement par une synchronisation Emergent, R-15) |
+| P1-2 | Ouvrir les PR, relire et fusionner les 4 branches ; ordre : `claude/p6-registry-integrity-ci` d’abord, puis les autres après mise à jour sur `main` | [Propriétaire] / [Claude] sur demande | P1-1 (sinon risque d’écrasement par une synchronisation Emergent, R-15) |
 | P1-3 | Récupérer `main` à jour dans les espaces Emergent avant toute nouvelle génération | [Propriétaire] | P1-2 |
 | P1-4 | Définir `CONTACT_ADMIN_TOKEN` (Foundation) si la liste des contacts doit rester consultable | [Propriétaire] | P1-2 |
 | P1-5 | Définir `CC_ADMIN_EMAIL` / `CC_ADMIN_PASSWORD` pour les tests de Command Center | [Propriétaire] | P0-1 |
+| P1-6 | Exiger `registry-integrity` (*Require status checks to pass*) dans la règle de `main` de Foundation-Cvln | [Propriétaire] | P1-2 (CI fusionnée en premier) |
 
 ## 4. P2 — Arbitrages d’architecture (bloquants pour la réconciliation)
 
-Questions détaillées dans [06-decision-log.md](06-decision-log.md) §4 : C-01 (schéma ASCII), C-02 (FREKCORE), C-03 (Laurentia), C-04 (CVLN Holding), C-09 (dénomination légale), C-10, C-13, C-14, C-17, C-18.
+Questions détaillées dans [06-decision-log.md](06-decision-log.md) §4 (14 questions) : C-01 (schéma ASCII), C-02 (FREKCORE), C-03 (Laurentia), C-04 (CVLN Holding), C-05 (rattachement de Command Center), C-06 (registre unique, PROP-07), C-09 (dénomination légale), C-10, C-13, C-14 (relations inférées), C-17, C-18, D-02, et les entités historiques de SRC-29.
 
 ## 5. P3 — Extension du périmètre
 

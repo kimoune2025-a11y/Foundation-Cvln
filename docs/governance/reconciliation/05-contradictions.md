@@ -4,15 +4,16 @@
 - **Phase :** 3 — Réconciliation et détection des contradictions
 - **Date :** 2026-10-11
 - **Statut :** DRAFT — aucune contradiction n’est résolue sans arbitrage
+- **Révision :** 2026-10-12 — contre-vérification adversariale (C-01, C-04, C-06, C-07, C-08, C-12, C-17, R-13, R-19)
 
 Chaque contradiction est accompagnée de ses preuves, de ses conséquences, d’une résolution **proposée** et, si nécessaire, d’une demande d’arbitrage.
 Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Moyenne**, **Faible**.
 
 ## 1. Contradictions
 
-### C-01 — Le registre « décidé » repose sur une interprétation non validée · Critique
+### C-01 — Le registre « décidé » repose sur une interprétation dont la validation n’est pas tracée · Critique
 
-- **Constat :** le registre qualifie les 29 entités de `DECIDED` et les 28 `PART_OF` de `founding_architecture_tree`. Or l’auteur du TREE écrit en `362a81d` : « l’arborescence reflète mon interprétation de votre schéma ASCII (liens parent/enfant). À valider — ajustable facilement ». Il redemande la validation en `561ddf8`. Aucune validation n’est tracée avant le gel de la baseline (`886ac8c`).
+- **Constat :** le registre qualifie les 29 entités de `DECIDED` et les 28 `PART_OF` de `founding_architecture_tree`. Or l’auteur du TREE écrit en `362a81d` : « l’arborescence reflète mon interprétation de votre schéma ASCII (liens parent/enfant). À valider — ajustable facilement ». Il redemande la validation en `561ddf8`. Aucune validation n’est tracée avant le gel de la baseline (`886ac8c`). Le commit `886ac8c` et l’en-tête du registre (`lib/registry/cvlnRegistry.js:6–11`, « RÈGLE ABSOLUE (mission CVLN Foundation v1) »), tous deux rédigés par l’agent Emergent, présentent la préservation du TREE comme une règle de la mission commandée : c’est un indice indirect que le TREE a été accepté, pas une validation explicite des 28 rattachements `PART_OF`.
 - **Preuves :** EV-P1-09, EV-P0-06, SRC-01, SRC-03.
 - **Conséquence :** la source canonique peut figer des rattachements que Laurent n’a jamais confirmés. Toute construction en aval (Intelligence OS, Command Center, gouvernance) hériterait de l’erreur.
 - **Résolution proposée :** conserver le registre tel quel (PRESERVE). Obtenir le schéma ASCII original (SRC-X1) ou une validation écrite des 28 `PART_OF`. Tant que ce n’est pas fait, lire `DECIDED` comme « présent dans l’interprétation gelée », sans plus.
@@ -36,8 +37,8 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 
 ### C-04 — CVLN Holding existe dans l’historique et dans Command Center, mais pas dans le registre · Haute
 
-- **Constat :** « CVLN Holding — la structure mère qui porte la vision et coordonne l’ensemble de l’écosystème » (`POLES`). Elle disparaît du TREE et du registre, mais elle est **pré-chargée comme entité de type `holding`** dans la base de Command Center.
-- **Preuves :** SRC-04, SRC-05, SRC-23, EV-P1-07.
+- **Constat :** « CVLN Holding — la structure mère qui porte la vision et coordonne l’ensemble de l’écosystème » (`POLES`). Elle disparaît du TREE et du registre. Côté Command Center, l’utilisateur avait demandé un module Entités incluant CVLN Holding (`.emergent/summary.txt:43`) ; l’agent de test Emergent la déclare pré-chargée dans la base de prévisualisation lors du run du 2026-06-26 (`test_reports/iteration_3.json`, non reproduit) ; elle figurait aussi, avec le type `holding`, dans la liste codée en dur de l’API v1.2 retirée le 2026-02-06 (SRC-29). Le dépôt ne contient aucun code de pré-chargement et l’état actuel de la base est inconnu (SRC-X5). Les entités « CIP » (`investment`) et « Umbrella Trust » (`trust`) de cette même liste sont à rapprocher de la question de la structure de tête.
+- **Preuves :** SRC-04, SRC-05, SRC-23, SRC-29, EV-P1-07, EV-P1-13.
 - **Conséquence :** la structure juridique de tête du groupe est ambiguë (Foundation ? Group ? Meta CVLN ? Holding distincte ?). C’est le point le plus structurant pour un groupe : il conditionne la détention des participations, de la propriété intellectuelle et la consolidation.
 - **Résolution proposée :** ADD de `CVLN Holding` au registre **si** elle existe ou est décidée, avec une relation `OWNS` étayée par des pièces. Sinon, la documenter comme alias historique.
 - **Arbitrage requis :** oui, avec pièces juridiques.
@@ -52,7 +53,7 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 
 ### C-06 — Deux registres d’entités indépendants · Haute
 
-- **Constat :** Foundation porte le registre canonique (29 entités, identifiants `ENT-*`, en code). Command Center possède son propre modèle d’entités (base de données, identifiants UUID, types `holding/studio/label/agency/other`). Aucun identifiant n’est partagé, aucune synchronisation n’existe.
+- **Constat :** Foundation porte le registre canonique (29 entités, identifiants `ENT-*`, en code). Command Center possède son propre modèle d’entités : collection MongoDB `entities`, identifiants UUID (`backend/server.py:695`), champ `type` en chaîne libre côté API, sans validation, défaut `other` (`backend/server.py:213`) ; l’interface propose `holding/studio/label/agency/other` (`EntitiesPage.jsx:14–20`, `memory/PRD.md:128`). Une troisième liste, codée en dur, a existé brièvement (SRC-29). Aucun identifiant n’est partagé, aucune synchronisation n’existe.
 - **Preuves :** SRC-01, EV-P1-07, OBS-07.
 - **Conséquence :** dérive garantie entre les deux référentiels ; les finances et projets de Command Center sont rattachés à des entités hors du référentiel canonique.
 - **Résolution proposée :** RESTRUCTURE (proposée) : Command Center référence les `entity_id` du registre canonique (lecture de `/api/registry/export`) au lieu de gérer ses propres entités. Migration douce, sans suppression.
@@ -60,18 +61,18 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 
 ### C-07 — Inscription de Command Center plus permissive que l’exigence · Critique (sécurité)
 
-- **Constat :** le PRD exige une inscription limitée au rôle Viewer. Le code accorde des droits supérieurs à l’inscription publique.
-- **Preuves :** EV-P1-04.
+- **Constat :** le résumé de session Emergent (SRC-23, `.emergent/summary.txt:55` et `:184`) rapporte une demande de l’utilisateur, marquée « Completed », de limiter l’inscription au rôle Viewer ; le PRD (SRC-22) ne formule pas cette exigence. Le code accorde des droits supérieurs à l’inscription publique.
+- **Preuves :** SRC-23, EV-P1-04, EV-P6-05.
 - **Conséquence :** des tiers peuvent créer ou modifier des données internes (finances, contacts, projets), sous réserve que l’application soit déployée et joignable.
-- **Résolution proposée :** CORRECT — aligner le code sur l’exigence (Phase 6, dépôt Command-center).
-- **Arbitrage requis :** non (l’exigence est déjà décidée). Le blocage est l’accès en écriture au dépôt.
+- **Résolution proposée :** CORRECT — aligner le code sur l’exigence. Réalisé sur une branche isolée (`command-center`, `claude/p6-registration-viewer-only`, `3e8d79c`), non fusionné ; voir 08 §1 et PROP-08.
+- **Arbitrage requis :** non (l’exigence est déjà décidée). Écriture accordée le 2026-10-12 (DEC-0005) ; reste la fusion sur `main`, qui dépend de P1-1 / P1-2 (R-15).
 
 ### C-08 — Résumé de session Emergent obsolète · Faible
 
 - **Constat :** `.emergent/summary.txt` (Command Center) indique « retour à la v1.0 non commencé » et « module Entités à faire ». Le PRD et le code montrent ces travaux réalisés.
 - **Preuves :** EV-P1-11.
 - **Conséquence :** un agent qui reprendrait le projet depuis ce résumé pourrait refaire ou casser des travaux terminés.
-- **Résolution proposée :** CORRECT — marquer `summary.txt` comme historique ; le PRD et le code font foi.
+- **Résolution proposée :** CORRECT — marquer `summary.txt` comme historique ; le PRD et le code font foi. SRC-23, obsolète sur l’avancement, reste néanmoins la seule trace écrite de la demande d’inscription limitée au rôle Viewer (C-07).
 - **Arbitrage requis :** non.
 
 ### C-09 — « CVLN Foundation », « Fondation COEURVOLAN », « Cœurvolan » · Moyenne
@@ -97,9 +98,9 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 - **Résolution proposée :** ADD d’un contrôle d’intégrité exécutable localement et en CI (Phase 6, réalisé pour le registre ; voir 08).
 - **Arbitrage requis :** non.
 
-### C-12 — Interface Intelligence OS annoncée, inexistante · Moyenne
+### C-12 — Branchement d’Intelligence OS suggéré, non réalisé · Faible
 
-- **Constat :** l’agent a écrit « Prêt au branchement : connectez CVLN Intelligence OS … sur `/api/registry/export` ». Aucun Intelligence OS n’existe dans le périmètre accessible. Le non-branchement était demandé.
+- **Constat :** dans les actions suivantes proposées par `886ac8c`, l’agent suggère : « **Prêt au branchement** : Quand vous le déciderez, connectez CVLN Intelligence OS en lecture sur /api/registry/export pour consommer la source canonique ». Le même commit déclare « ✅ CVLN Intelligence OS NON branché (comme demandé) ». Il s’agit d’une suggestion conditionnelle, non de l’annonce d’une interface existante. CVLN Intelligence OS ne figure que comme entité déclarée du registre ; aucun système Intelligence OS n’existe dans le périmètre accessible.
 - **Preuves :** EV-P1-10, OBS-09.
 - **Résolution proposée :** KEEP (décision respectée) ; documenter `/api/registry/export` comme **contrat candidat**, pas comme intégration.
 - **Arbitrage requis :** non.
@@ -119,7 +120,7 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 
 ### C-17 — Factory Maker Studio : sous KORA (média) ou Tech & Data · Faible
 
-- **Constat :** registre : `PART_OF KORA` ; historique : pôle Tech & Data ; Command Center : entité autonome pré-chargée.
+- **Constat :** registre : `PART_OF KORA` ; historique : pôle Tech & Data ; Command Center : entité autonome, type `studio` dans la liste v1.2 (SRC-29), déclarée pré-chargée par l’agent de test (`iteration_3.json`, base de prévisualisation, 2026-06-26 ; non vérifiable, SRC-X5).
 - **Arbitrage requis :** oui.
 
 ### C-18 — Académies réparties sur deux branches · Faible
@@ -136,10 +137,10 @@ Les risques R-01 à R-12 sont décrits dans [00-scope-and-access.md](00-scope-an
 
 | ID | Risque | Preuve | Gravité | Traitement |
 |---|---|---|---|---|
-| R-13 | Informations d’authentification et secrets applicatifs exposés dans le dépôt **public** Command-center (version courante et historique) | EV-P1-05, EV-P1-06 | **Critique** | Actions immédiates du propriétaire (voir 08, P0) ; détails transmis hors dépôt |
+| R-13 | Informations d’authentification d’un compte à privilèges en clair dans des fichiers suivis du dépôt **public** Command-center (version courante de `main`), et secrets de signature des sessions présents dans l’historique public | EV-P1-05, EV-P1-06, EV-P6-08 | **Critique** | Actions immédiates du propriétaire (voir 08, P0) ; détails transmis hors dépôt |
 | R-14 | Inscription publique trop permissive dans Command Center | EV-P1-04 (C-07) | **Critique si déployé** | Correctif de code (P0/P1) |
 | R-15 | Deux sources de vérité possibles : l’espace de travail Emergent et GitHub. Un commit poussé sur GitHub peut être écrasé ou entrer en conflit lors d’une prochaine synchronisation depuis Emergent | EV-P0-13, EV-P1-02 | Haute | Décider qui fait foi (proposé : GitHub) avant toute fusion sur `main` |
 | R-16 | Données internes sensibles (finances, CRM, documents) gérées par une application dont le dépôt est public, sans CI ni revue | SRC-R2 | Haute | Dépôt privé, CI, revue |
 | R-17 | Wallet / JCC / paiements : une activité de paiement ou de monnaie interne peut relever d’une réglementation (monnaie électronique, services de paiement, actifs numériques) quelle que soit la doctrine interne | SRC-01 (doctrine JCC) | Haute (avant toute mise en œuvre) | Analyse juridique préalable ; la doctrine reste inchangée |
 | R-18 | Propriété intellectuelle non tracée (marques, noms, logiciels générés par un tiers, conditions d’Emergent sur la propriété du code) | SRC-X6, EXT-01 | Haute | Registre de PI ; revue des conditions Emergent |
-| R-19 | Compte GitHub personnel unique pour tous les actifs logiciels, pas d’organisation | EV-P0-03 | Moyenne | Organisation GitHub du groupe |
+| R-19 | Les deux seuls dépôts connus sont hébergés sur un compte GitHub personnel (`kimoune2025-a11y`, créé le 2026-08-31) et non dans une organisation ; aucune organisation du groupe n’a été identifiée dans le périmètre accessible, sans que leur absence ait été vérifiée ; l’emplacement des autres actifs logiciels reste inconnu (D-02) | EV-P0-03 | Moyenne | Organisation GitHub du groupe |

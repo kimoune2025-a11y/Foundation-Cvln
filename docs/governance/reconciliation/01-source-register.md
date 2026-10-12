@@ -4,6 +4,7 @@
 - **Phase :** 1 — Inventaire exhaustif
 - **Date :** 2026-10-11
 - **Statut :** DRAFT — périmètre accessible couvert, écosystème partiellement couvert
+- **Révision :** 2026-10-12 — contre-vérification adversariale (SRC-R2, SRC-21, SRC-23 à SRC-25, ajout de SRC-29 et SRC-30, §3)
 
 Chaque source est identifiée par un identifiant `SRC-xx` stable, réutilisé dans les autres documents.
 Une source n’est **jamais** une preuve de réalité opérationnelle par elle-même : elle prouve seulement ce qu’elle contient.
@@ -13,9 +14,9 @@ Une source n’est **jamais** une preuve de réalité opérationnelle par elle-m
 | ID | Dépôt | URL | Visibilité / accès | Branche par défaut | HEAD audité | Commits | Couverture |
 |---|---|---|---|---|---|---|---|
 | SRC-R1 | kimoune2025-a11y/Foundation-Cvln | https://github.com/kimoune2025-a11y/Foundation-Cvln | Public ; lecture + écriture (session) | `main` (non protégée) | `main@886ac8c` + `claude/elegant-pascal-b0qe12` | 8 sur `main` (+ commits de mission) | **Complète** (code, historique, configuration) |
-| SRC-R2 | kimoune2025-a11y/command-center | https://github.com/kimoune2025-a11y/Command-center | Public ; **lecture seule** (clone anonyme, non rattaché en écriture) | `main` | `main@f9a61cc` | 36 (2026-02-05 → 2026-08-31) | **Complète en lecture** (code, historique, rapports de test) ; protection de branche non inspectée |
+| SRC-R2 | kimoune2025-a11y/command-center | https://github.com/kimoune2025-a11y/Command-center | Public ; lecture seule au 2026-10-11 (EV-P1-01) ; écriture autorisée le 2026-10-12 (DEC-0005, EV-P6-01), utilisée uniquement sur la branche isolée `claude/p6-registration-viewer-only`, sans fusion sur `main` | `main` | `main@f9a61cc` | 36 (2026-02-05 → 2026-08-31) | **Complète en lecture** (code, historique, rapports de test), y compris le code v1.2 retiré (`31036ce`, SRC-29) ; protection de branche non inspectée |
 
-Aucun autre dépôt n’est accessible au compte GitHub `kimoune2025-a11y` (2 dépôts publics au total). Voir [00-scope-and-access.md](00-scope-and-access.md) §6.
+Aucun autre dépôt n’est visible depuis la session (`list_repos` : 2 dépôts ; `get_me` : `public_repos: 2`). Cela n’exclut pas des dépôts privés non autorisés pour l’application Claude, ni des dépôts situés sur d’autres comptes ou organisations. Voir [00-scope-and-access.md](00-scope-and-access.md) §6.
 
 ## 2. Sources documentaires et techniques
 
@@ -41,14 +42,16 @@ Aucun autre dépôt n’est accessible au compte GitHub `kimoune2025-a11y` (2 d�
 | ID | Source | Référence | Nature | Fiabilité |
 |---|---|---|---|---|
 | SRC-20 | Backend | `backend/server.py@f9a61cc` (875 lignes, FastAPI) | Code | Lu (modèles, routes, authentification) |
-| SRC-21 | Frontend | `frontend/src/**@f9a61cc` (React, 13 pages) | Code | Lu partiellement (API, inscription) |
+| SRC-21 | Frontend | `frontend/src/**@f9a61cc` (React 19, 14 pages : 2 publiques — connexion, inscription — et 12 protégées) | Code | Lu partiellement (API, inscription) |
 | SRC-22 | PRD | `memory/PRD.md@abe77c2` | Document produit (agent Emergent) | Déclaratif ; **contient des identifiants en clair** (voir R-13) |
-| SRC-23 | Résumé de session Emergent | `.emergent/summary.txt@f9a61cc` | Journal d’agent | Déclaratif ; partiellement obsolète (C-08) |
-| SRC-24 | Rapports de test Emergent | `test_reports/iteration_{1,2,3}.json`, `test_reports/pytest/*.xml` | Déclaratif (agent de test) | Non reproduits |
-| SRC-25 | Tests | `backend/tests/test_cvln_api.py`, `backend/tests/test_entities_api.py`, `backend_test.py` | Code de test (cible distante) | Non exécutés |
+| SRC-23 | Résumé de session Emergent | `.emergent/summary.txt@f9a61cc` | Journal d’agent | Déclaratif ; partiellement obsolète (C-08) ; seule source écrite de l’exigence d’inscription limitée au rôle Viewer (HIST-04) ; contient des informations d’authentification (R-13) |
+| SRC-24 | Rapports de test Emergent | `test_reports/iteration_{1,2,3}.json`, `test_reports/pytest/*.xml` | Déclaratif (agent de test) | Non reproduits ; contiennent des informations d’authentification (R-13) |
+| SRC-25 | Tests | `backend/tests/test_cvln_api.py`, `backend/tests/test_entities_api.py`, `backend_test.py` | Code de test (cible distante) | Non exécutés ; contiennent des informations d’authentification (R-13) |
 | SRC-26 | Lignes directrices de design | `design_guidelines.json` | Document | Lu |
 | SRC-27 | Configuration Emergent | `.emergent/emergent.yml` (image `fastapi_react_mongo_shadcn_base_image_cloud_arm:release-05022026-1`), `.gitconfig` | Configuration plateforme | Lu |
 | SRC-28 | Historique `.env` | `backend/.env`, `frontend/.env` suivis de `a7957ee` à `f9a61cc^` | Configuration | **Secrets historiques exposés** (voir R-13) — valeurs non reproduites |
+| SRC-29 | Liste d’entités codée en dur (Command Center API v1.2 « Conglomerate Mode ») | `backend/server.py@31036ce` l. 42, 46–60 (constante `ENTITIES`, servie par `GET /api/entities`) ; retirée en `7014ae7` (retour à la v1.0), absente de `main` | Code historique | Lu ; 12 entités typées : CVLN Holding (`holding`), Factory Maker Studio (`studio`), Culture Connect (`agency`), CVL Events, CVL Agro, CVL Culinary, CVL Academy, FREK (`brand`), CIP (`investment`), Hospitality, Tokenomics (`blockchain`), Umbrella Trust (`trust`) ; en ligne quelques minutes le 2026-02-06 ; statut décisionnel inconnu |
+| SRC-30 | Fichier d’identifiants de test | `memory/test_credentials.md@f9a61cc` (retiré du suivi en `324b56d`, branche non fusionnée) | Configuration de test | Contient des informations d’authentification (R-13) — détails hors dépôt |
 
 ### 2.3 Sources externes citées mais non consultables
 
@@ -67,7 +70,7 @@ Aucun autre dépôt n’est accessible au compte GitHub `kimoune2025-a11y` (2 d�
 | Périmètre | État |
 |---|---|
 | Dépôts accessibles | 2/2 examinés |
-| Composants nommés au mandat §5 ayant un dépôt identifié | 2/19 : Foundation (vitrine + registre), Command Center |
+| Entrées du mandat §5 ayant un dépôt identifié | 2/19 : Foundation-Cvln (vitrine + registre), Command Center ; les 17 autres entrées regroupent 22 composants nommés, sans dépôt accessible |
 | Sources historiques Git | 44 commits d’origine examinés (8 + 36) |
 | Sources juridiques | 0 |
 | Environnements d’exécution | 0 vérifiés |

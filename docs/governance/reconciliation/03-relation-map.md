@@ -11,11 +11,11 @@ Trois familles de relations sont tenues **séparées** :
 2. **Inférées** : relations du registre déduites des rôles par l’agent Emergent.
 3. **Observées** : dépendances techniques constatées dans le code (`OBS-*`).
 
-Une relation `PART_OF` n’implique ni propriété, ni contrôle juridique, ni dépendance technique (mandat §3).
+Une relation `PART_OF` n’implique pas automatiquement une propriété juridique (mandat §3). Par extension retenue par l’audit (cf. mandat §3 : « ne pas assimiler une dépendance technique à une relation de gouvernance »), elle n’est pas non plus lue comme un contrôle juridique ni comme une dépendance technique.
 
 ## 1. Graphe
 
-Lecture : flèche pleine = `PART_OF` déclaré (enfant → parent) ; flèche pointillée = relation inférée ; flèche épaisse = dépendance technique observée.
+Lecture : flèche pleine = `PART_OF` déclaré (enfant → parent) ; flèche pointillée étiquetée `GOVERNS` / `SUPERVISES` / `DEPENDS_ON` / `PROVIDES` = relation inférée du registre ; flèche pointillée étiquetée « présente » / « réalise » = correspondance établie par l’audit entre un composant technique et une entité (02 §3), hors registre ; flèche épaisse = dépendance technique observée.
 
 ```mermaid
 flowchart BT
@@ -122,7 +122,7 @@ Tous les `verified_reality` valent `UNVERIFIED` et tous les `evidence_source` va
 | OBS-03 | TECH-01 | PROVIDES (API lecture) | Consommateurs éventuels du registre (`/api/registry/export`) | `route.js` | Observé dans le code ; **aucun consommateur trouvé** |
 | OBS-04 | TECH-02 | DEPENDS_ON (persistance) | EXT-02 MongoDB | `backend/server.py` (motor) | Observé dans le code |
 | OBS-05 | TECH-02 | DEPENDS_ON (génération, environnement, prévisualisation, tests) | EXT-01 Emergent | `.emergent/**`, auteurs Git, `test_reports/**` | Observé |
-| OBS-06 | TECH-02 | OPERATES | TECH-03 (registre d’entités interne) | `server.py:693–731` | Observé dans le code |
+| OBS-06 | TECH-02 | OPERATES | TECH-03 (registre d’entités interne) | `server.py:693–729` | Observé dans le code |
 | OBS-07 | TECH-02 ↔ TECH-01 | — | — | Recherche dans les deux dépôts | **Aucune intégration** : Command Center ne lit pas le registre canonique ; Foundation ne lit pas Command Center |
 | OBS-08 | TECH-02 ↔ CVLN Intelligence OS / Brain / Agent Factory | — | — | Recherche dans SRC-R2 | **Aucune intégration** : aucun appel LLM, aucun agent. Le paquet Emergent `emergentintegrations==0.1.0` est déclaré dans `backend/requirements.txt` mais n’est importé nulle part |
 | OBS-09 | Intelligence OS → `/api/registry/export` | PROPOSED (suggestion de l’agent) | TECH-01 | `886ac8c` (« Prêt au branchement … ») ; même commit : « CVLN Intelligence OS NON branché (comme demandé) » | Interface **non implémentée**, conformément à une demande tracée |

@@ -7,6 +7,7 @@
 - **Exécutant :** Claude Code (session cloud)
 - **Autorité de validation :** Laurent CŒURVOLAN
 - **Statut du rapport :** DRAFT — EN ATTENTE D’ARBITRAGE
+- **Révision :** 2026-10-12 — corrections issues de la contre-vérification adversariale (R-02, R-10, §5.1.6, §5.2.4, §6, §7.2, §8) ; voir 04, EV-P6-07
 
 > Convention de ce rapport : chaque fait renvoie à une preuve `EV-P0-xx` (section 4).
 > « Établi » = observé directement dans cette session. « Hypothèse » = interprétation non prouvée.
@@ -98,14 +99,14 @@ Tous les scripts de contrôle ont été exécutés depuis un répertoire tempora
 3. Avant `44db6fb`, le dépôt ne contenait **aucun** dossier `docs/` ni document de gouvernance ; le seul fichier Markdown était `test_result.md` (protocole de test Emergent). La structure `docs/governance/` est donc une convention nouvelle introduite par cette mission.
 4. Aucun test exécutable localement : `tests/` ne contient que `__init__.py` ; `test_reports/` ne contient que des `.gitkeep` ; `backend_test.py` teste uniquement un déploiement distant via HTTP. *(EV-P0-11)*
 5. Aucune CI : 0 workflow GitHub Actions. *(EV-P0-02)*
-6. Les 8 commits antérieurs au mandat sont signés `emergent-agent-e1 <github@emergent.sh>` (du 2026-07-25 au 2026-08-31). Le commit initial (2026-07-25) est antérieur à la création du compte GitHub `kimoune2025-a11y` (2026-08-31). *(EV-P0-01, EV-P0-03)*
+6. Les 8 commits antérieurs au mandat ont pour auteur et committer `emergent-agent-e1 <github@emergent.sh>` (du 2026-07-25 au 2026-08-31) ; aucun ne porte de signature cryptographique (absence d’en-tête `gpgsig`, contrairement aux commits de la mission, signés SSH). Le commit initial (2026-07-25) est antérieur à la création du compte GitHub `kimoune2025-a11y` (2026-08-31). *(EV-P0-01, EV-P0-03)*
 
 ### 5.2 Faits établis — registre canonique
 
 1. **Fidélité** : la structure dérivée du registre (`buildTree()`) est strictement identique au `TREE` codé en dur dans `app/page.js` avant l’extraction (`4b31821`) : 29 nœuds, mêmes noms, tags, descriptions, ordre et hiérarchie. L’affirmation « aucune entité renommée, supprimée, simplifiée ou réinterprétée » est **vérifiée** par rapport à ce TREE. *(EV-P0-06)*
 2. **Intégrité** : `validateRegistry()` retourne `ok: true`, aucune erreur ; contrôles couverts : identifiants dupliqués (entités, relations), relations pendantes, racine unique, absence de cycle `PART_OF`, types valides, correspondance registre ↔ arbre UI. *(EV-P0-07)*
 3. **Snapshot** : le JSON de baseline est identique au registre pour entités, relations, baseline et doctrine. *(EV-P0-05)*
-4. **Statuts** : les 29 entités sont `architectural_status: DECIDED`, `verified_reality: UNVERIFIED`, `evidence_source: null`, `confidence: DECLARED`. Les 35 relations sont `verified_reality: UNVERIFIED`. Le registre ne revendique aucune réalité vérifiée. *(EV-P0-04)*
+4. **Statuts** : les 29 entités sont `architectural_status: DECIDED`, `verified_reality: UNVERIFIED`, `evidence_source: null`, `confidence: DECLARED`. Les 35 relations sont `verified_reality: UNVERIFIED`. Le registre ne revendique aucune réalité vérifiée. Le statut `DECIDED` n’est toutefois adossé à aucune validation tracée du TREE (voir 05, C-01). *(EV-P0-04)*
 5. **Relations inférées** : 7 relations sont marquées `confidence: INFERRED`, `provenance: inferred_from_declared_role` (conforme à la règle du mandat §6 « les relations inférées restent identifiées comme telles »). *(EV-P0-04)*
 6. **Doctrine JCC** : « JCC est la monnaie interne de CVLN Group », avec interdiction de requalification (`legal_tender`, `regulated_electronic_money`, `crypto_asset`, `financial_security`, `bank_deposit`) sans preuve ou décision explicite. JCC n’est pas une entité du registre ; elle est rattachée à `ENT-CVLN-WALLET`. *(EV-P0-04)*
 7. Le type de relation `OWNS` est défini mais **inutilisé** ; aucune relation de propriété n’est déclarée. *(EV-P0-04)*
@@ -182,7 +183,7 @@ Ces états sont conservés comme **sources historiques**. Les éléments disponi
 | Déploiement de prévisualisation `roots-ecosystem-1.preview.emergentagent.com` | Bloqué par le proxy réseau de l’environnement (403) | Non vérifié |
 | API Emergent `ea.int.apis.emergentagent.com` | Non sollicitée (interne Emergent) | Non vérifié |
 | Base MongoDB | Aucune information d’accès | Non vérifié |
-| Dépôts pour : Meta CVLN, Intelligence OS, Brain, Laurentia, Agent Factory, FREKCORE/FREK-ID, Kiltikonet, Culture Connect, Observatory, KORA, LabelOS, Wallet/JCC, Academy, Factory Maker Studio, Good Mood, Gala Cook & Food, CVLN Hospitality, CVL Culinary Innovations | **Non recensés** : aucun dépôt correspondant parmi les 2 dépôts accessibles au compte | Non examinés |
+| Dépôts pour : CVLN Group, Meta CVLN, CVLN Intelligence OS, CVLN Brain, Laurentia, CVLN Agent Factory, FREKCORE, FREK-ID, Kiltikonet, Culture Connect, Observatory, KORA, LabelOS, CVLN Wallet, JCC, CVLN Academy, Factory Maker Studio, Good Mood, Good Mood Fest, Gala Cook & Food, CVLN Hospitality, CVL Culinary Innovations (22 composants, 17 entrées du mandat §5) | **Non recensés** : aucun dépôt correspondant parmi les 2 dépôts accessibles au compte | Non examinés |
 
 Le compte GitHub accessible n’expose que **2 dépôts publics**. Cela ne prouve pas que les autres composants n’ont pas de dépôt. Ils peuvent se trouver sur d’autres comptes ou organisations, dans des dépôts privés non autorisés pour l’application Claude, uniquement chez Emergent ou ailleurs, ou ne pas encore exister sous forme de code.
 
@@ -195,7 +196,7 @@ Le compte GitHub accessible n’expose que **2 dépôts publics**. Cela ne prouv
 | ID | Risque | Preuve | Gravité estimée |
 |---|---|---|---|
 | R-01 | `main` n’est pas protégée : un push direct ou une réécriture d’historique reste possible | EV-P0-02 | Élevée (préservation) |
-| R-02 | Dépendance forte à Emergent (identité Git, image, cron, tests, prévisualisation) ; le code ne peut pas être testé hors d’Emergent | EV-P0-11, EV-P0-13 | Élevée (souveraineté) |
+| R-02 | Dépendance forte à Emergent (identité Git, image, cron, tests, prévisualisation) : la seule suite de tests existante (`backend_test.py:13`) cible une prévisualisation Emergent et aucun test n’est outillé pour s’exécuter localement. Le code lui-même (registre, build Next.js) reste exécutable hors d’Emergent (EV-P0-07) | EV-P0-07, EV-P0-11, EV-P0-13 | Élevée (souveraineté) |
 | R-03 | Aucun test local, aucune CI : la validation du registre n’est garantie par aucun contrôle automatique à chaque changement | EV-P0-02, §5.1 | Élevée (intégrité) |
 | R-04 | `GET /api/contact` renvoie jusqu’à 1 000 contacts (e-mail, nom, message) **sans authentification** dans le code, avec `Access-Control-Allow-Origin: *` par défaut. Exposition effective inconnue (déploiement non vérifié) | `route.js` (handler `/contact` GET), EV-P0-15 | Élevée **si déployé** (données personnelles) |
 | R-05 | `X-Frame-Options: ALLOWALL` et `frame-ancestors *` : la page peut être intégrée dans n’importe quel site | `next.config.js` | Moyenne |
@@ -203,14 +204,14 @@ Le compte GitHub accessible n’expose que **2 dépôts publics**. Cela ne prouv
 | R-07 | Homonymies et redéfinitions historiques (FREKCORE, Laurentia, CVLN Holding, Command Center) : risque de confusion de sources pendant l’inventaire | EV-P0-12 | Moyenne |
 | R-08 | `BASELINE_DATE` non sourcée : risque d’antidatage involontaire de la baseline | U-01 | Faible à moyenne |
 | R-09 | Typage `LEGAL_ENTITY` de la Fondation sans pièce : le type peut être lu comme une affirmation juridique | U-02 | Moyenne |
-| R-10 | Le validateur n’interdit pas plusieurs parents `PART_OF` pour une même entité (le dernier écrase silencieusement) ; aucun cas actuellement | `cvlnRegistry.js:295–296` | Faible (latent) |
+| R-10 | `validateRegistry()` n’a pas de contrôle explicite « un seul parent `PART_OF` » : `cvlnRegistry.js:295–296` écrase le parent dans `parentOf`. Un second parent fait néanmoins échouer la validation, mais de façon indirecte et avec un diagnostic trompeur (`UI_TREE_MISMATCH`, l’entité apparaissant deux fois dans l’arbre dérivé par `buildTree()`) ; aucun cas actuellement | `cvlnRegistry.js:249–253, 295–296, 321–329` | Faible (latent) |
 | R-11 | 4 relations inférées portent sur la même paire d’entités qu’une relation `PART_OF` : 3 en sens inverse (`REL-0029` Foundation `GOVERNS` Group alors que Group `PART_OF` Foundation ; `REL-0030`, `REL-0031` Meta CVLN `GOVERNS` ses deux enfants) et 1 dans le même sens (`REL-0033` Agent Factory `DEPENDS_ON` Brain alors qu’Agent Factory `PART_OF` Brain). La structure, la gouvernance et la dépendance pourraient être confondues | EV-P0-07 (contrôle complémentaire) | Faible (à qualifier en Phase 2) |
 | R-12 | Le dépôt est **public** : tout document de gouvernance ajouté ici, y compris ce rapport, est visible publiquement | EV-P0-03 | À arbitrer (D-05) |
 
 ### 7.2 Limites de la Phase 0
 
 - La recherche de secrets repose sur des motifs ; elle n’est pas un audit de sécurité exhaustif.
-- Aucun test applicatif n’a été exécuté contre un environnement réel ; les résultats « working: true » de `test_result.md` sont **déclaratifs** (produits par un agent Emergent le 2026-08-31) et n’ont pas été reproduits.
+- Aucun test applicatif n’a été exécuté contre un environnement réel ; les résultats « working: true » de `test_result.md` sont **déclaratifs** (produits par un agent de test Emergent ; le fichier n’est pas daté : le résultat « contact » (5 tests) figure déjà dans le commit `124ec63` du 2026-07-26, tandis que les 11 tests du registre et la re-vérification des 4 tests « contact » ont été ajoutés dans `886ac8c` le 2026-08-31) et n’ont pas été reproduits.
 - Le §5 du mandat n’a pu être confronté qu’à un seul dépôt.
 
 ### 7.3 Décisions nécessaires (arbitrage Laurent CŒURVOLAN)
@@ -248,7 +249,7 @@ Règles de protection appliquées et proposées pour la suite :
 
 **Statut de la Phase 0 : terminé avec preuves pour le dépôt d’ancrage ; périmètre de l’écosystème partiellement établi. Clôture soumise à validation.**
 
-Constat sur le premier jalon du mandat (§13) : pour la **structure fondatrice qu’il formalise**, Foundation-Cvln est un point d’ancrage techniquement fiable (fidélité au TREE prouvée, validation sans erreur, statuts honnêtes). Il **ne peut pas encore** servir de source de vérité de l’écosystème : il ne couvre pas tous les composants cités par le mandat, ne relie aucune entité à un dépôt ou à une preuve, ignore les représentations historiques et ne dispose d’aucun test local ni d’aucune CI. La décision appartient à Laurent CŒURVOLAN.
+Constat sur le premier jalon du mandat (§13) : pour la **structure fondatrice qu’il formalise**, Foundation-Cvln est un point d’ancrage techniquement fiable (fidélité au TREE prouvée, validation sans erreur, statuts prudents sur la réalité : `verified_reality: UNVERIFIED`). En revanche, le statut `DECIDED` des 29 entités et la provenance `founding_architecture_tree` des 28 `PART_OF` reposent sur un TREE que son auteur qualifiait d’« interprétation […] à valider » (`362a81d`, `561ddf8`) ; aucune validation n’est tracée dans Git (voir 05, C-01). Il **ne peut pas encore** servir de source de vérité de l’écosystème : il ne couvre pas tous les composants cités par le mandat, ne relie aucune entité à un dépôt ou à une preuve, ignore les représentations historiques et ne dispose d’aucun test local ni d’aucune CI. La décision appartient à Laurent CŒURVOLAN.
 
 ## 9. Prochaine action recommandée (Phase 1 — non commencée)
 
