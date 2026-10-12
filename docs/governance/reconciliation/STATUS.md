@@ -16,7 +16,11 @@
 | 5 — Architecture cible | **Proposé** (non validé) | [07](07-target-architecture.md), [08](08-execution-roadmap.md) | Dépend de la Phase 4 |
 | 6 — Exécution contrôlée | **En cours** — 6 correctifs réalisés sur 3 branches isolées (dont 2 issus de l’audit adversarial) (PROP-08 et PROP-09 partagent `claude/p6-registration-viewer-only`), non fusionnés | [08](08-execution-roadmap.md) §1 | Fusion soumise à P1-1 / P1-2 |
 
-## 2. Branches ouvertes (aucune fusionnée sur `main`)
+## 2. Branches
+
+**Fusionné :** command-center `main` = `34fbbcc` (DEC-0009) — hub de pilotage et correctifs de sécurité en production dès le prochain déploiement Emergent.
+
+Ouvertes :
 
 | Dépôt | Branche | HEAD | Objet |
 |---|---|---|---|
@@ -39,7 +43,7 @@
 
 ## 4. Prochaine action autorisée
 
-0. Mettre Command Center en service : fusionner `claude/cc-group-hub` (contient aussi la branche de sécurité) dans `main` de command-center, déployer, puis en admin : « Synchroniser le registre du groupe » (Entités) et « Importer la gouvernance de la mission » (Décisions).
+0. Mettre Command Center en service : `main` fusionné (DEC-0009) ; récupérer `main` dans Emergent et déployer, puis en admin : « Synchroniser le registre du groupe » (Entités) et « Importer la gouvernance de la mission » (Décisions).
 
 1. Sur réponse aux questions de [06](06-decision-log.md) §4 : consigner les décisions (`VALIDATED`) ; puis, une fois C-01 tranché et la CI d’intégrité (`claude/p6-registry-integrity-ci`, `caa58ff`) fusionnée sur `main` (P1-2), préparer la baseline v2 et le schéma v1.1 (P4-1) sur une branche isolée.
 2. Sur demande : ouvrir les 4 pull requests ; relancer la partie de l’audit de code interrompue (secrets de l’historique, relecture des correctifs). Balayage de l’historique des 2 dépôts : fait le 2026-10-12 (HIST-07 à HIST-10, TECH-04, C-19) (liens dans [08](08-execution-roadmap.md) §1).
