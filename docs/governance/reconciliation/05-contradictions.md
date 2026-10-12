@@ -17,7 +17,8 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 - **Preuves :** EV-P1-09, EV-P0-06, SRC-01, SRC-03.
 - **Conséquence :** la source canonique peut figer des rattachements que Laurent n’a jamais confirmés. Toute construction en aval (Intelligence OS, Command Center, gouvernance) hériterait de l’erreur.
 - **Résolution proposée :** conserver le registre tel quel (PRESERVE). Obtenir le schéma ASCII original (SRC-X1) ou une validation écrite des 28 `PART_OF`. Tant que ce n’est pas fait, lire `DECIDED` comme « présent dans l’interprétation gelée », sans plus.
-- **Arbitrage requis :** oui — Laurent CŒURVOLAN.
+- **Mise à jour 2026-10-12 :** le schéma original a été fourni (SRC-31). L’interprétation de l’agent est **fidèle pour 20 rattachements sur 28** ; `REL-0006` est ambigu ; les 7 enfants de Structures & Entités ne figurent pas dans le schéma et proviennent d’une autre source non tracée (EV-P4-01). Le schéma étant déclaré obsolète (DEC-0007), le mandat fait référence.
+- **Arbitrage requis :** tranché par défaut (06 §5).
 
 ### C-02 — Deux définitions de FREKCORE · Haute
 

@@ -82,7 +82,7 @@ Statut `DEFAULT` : tranché à partir du mandat et des dépôts, applicable tant
 
 | Réf. | Question | Arbitrage par défaut | Fondement |
 |---|---|---|---|
-| C-01 | Valeur des 28 `PART_OF` du registre v1 | Le registre v1 reste la **trace historique** de l’interprétation Emergent ; la baseline v2 sera construite sur le mandat | DEC-0007 ; mandat §3 |
+| C-01 | Valeur des 28 `PART_OF` du registre v1 | Le registre v1 reste la trace historique. En v2 : les 20 rattachements confirmés par le schéma original (EV-P4-01) sont repris ; `REL-0006` reste sous Meta CVLN ; les 7 enfants de Structures & Entités sont repris avec la provenance « source non tracée » ; le rôle d’Agent Factory reçoit « exécution » | DEC-0007 ; SRC-31 ; mandat §3, §5 |
 | C-02 | FREKCORE | **Couche d’identité, de provenance et de preuve**, indépendante de Laurentia, KORA et Agent Factory. « La voix créative » est une définition historique abandonnée | Mandat §3 et règles de séparation |
 | C-03 | Laurentia | **Opérateur IA et interface de travail personnelle et métier**. La définition « terroir » est historique ; l’agriculture relève de CVL Agro (CAND-09) | Mandat §3 ; SRC-29 |
 | C-05 | Rattachement de Command Center | **Couche gouvernance et pilotage** (supervision opérationnelle privée), consommateur d’Intelligence OS, et non sous-composant de celui-ci | Mandat §3 (« ne pas confondre … le centre de supervision ») ; DEC-0006 |

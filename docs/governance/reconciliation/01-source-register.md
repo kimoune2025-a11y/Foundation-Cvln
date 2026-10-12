@@ -36,6 +36,7 @@ Aucun autre dépôt n’est visible depuis la session (`list_repos` : 2 dépôts
 | SRC-10 | Textes de la vitrine | `app/page.js@886ac8c` (`QUESTIONS`), `app/layout.js` | Contenu éditorial | Déclaratif (vision) |
 | SRC-11 | Configuration Emergent | `.emergent/**`, `.gitconfig` | Configuration plateforme | Lu |
 | SRC-12 | Mandat directeur | `docs/governance/CVLN-ECOSYSTEM-RECONCILIATION-MASTER-PLAN.md@44db6fb` | Gouvernance (v0.1.0 DRAFT) | Fourni par Laurent CŒURVOLAN |
+| SRC-31 | Schéma ASCII de l’organigramme (SRC-X1) | Fourni par Laurent CŒURVOLAN dans la conversation de session, 2026-10-12 | Architecture déclarée (qualifiée d’obsolète par son auteur, DEC-0007) | Source originale du TREE ; comparée au registre (EV-P4-01) |
 
 ### 2.2 Command-center (SRC-R2)
 
