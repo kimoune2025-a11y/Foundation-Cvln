@@ -49,6 +49,15 @@ function isContactAdmin(request) {
   return a.length === b.length && timingSafeEqual(a, b)
 }
 
+// Bounds for the public contact form. Lengths are checked before the email
+// regex, whose backtracking is quadratic on long inputs.
+const CONTACT_MAX_BODY_BYTES = 16 * 1024
+const CONTACT_MAX_LENGTHS = { email: 254, name: 200, message: 5000 }
+
+function contactError(message, status = 400) {
+  return handleCORS(NextResponse.json({ error: message }, { status }))
+}
+
 export async function OPTIONS() {
   return handleCORS(new NextResponse(null, { status: 200 }))
 }
@@ -129,18 +138,39 @@ async function handleRoute(request, { params }) {
     //  Contact capture (existing)
     // -------------------------------------------------------------
     if (route === '/contact' && method === 'POST') {
-      const body = await request.json()
-      const email = (body.email || '').trim()
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      if (!emailOk) {
-        return handleCORS(NextResponse.json({ error: 'Une adresse e-mail valide est requise.' }, { status: 400 }))
+      if (Number(request.headers.get('content-length') || 0) > CONTACT_MAX_BODY_BYTES) {
+        return contactError('Requête trop volumineuse.', 413)
+      }
+      const raw = await request.text()
+      if (Buffer.byteLength(raw) > CONTACT_MAX_BODY_BYTES) {
+        return contactError('Requête trop volumineuse.', 413)
+      }
+      let body
+      try {
+        body = JSON.parse(raw)
+      } catch {
+        return contactError('Requête invalide.')
+      }
+      if (!body || typeof body !== 'object') {
+        return contactError('Requête invalide.')
+      }
+      const fields = {}
+      for (const [field, max] of Object.entries(CONTACT_MAX_LENGTHS)) {
+        const value = body[field] ?? ''
+        if (typeof value !== 'string') return contactError('Requête invalide.')
+        const trimmed = value.trim()
+        if (trimmed.length > max) return contactError('Un champ dépasse la longueur autorisée.')
+        fields[field] = trimmed
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
+        return contactError('Une adresse e-mail valide est requise.')
       }
       const db = await connectToMongo()
       const contactObj = {
         id: uuidv4(),
-        email,
-        name: (body.name || '').trim(),
-        message: (body.message || '').trim(),
+        email: fields.email,
+        name: fields.name,
+        message: fields.message,
         created_at: new Date(),
       }
       await db.collection('contacts').insertOne(contactObj)
