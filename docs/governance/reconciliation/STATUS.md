@@ -10,8 +10,8 @@
 |---|---|---|---|
 | 0 — Protection et cadrage | **Terminé avec preuves** (dépôt d’ancrage) | [00](00-scope-and-access.md) | Périmètre de l’écosystème partiel |
 | 1 — Inventaire | **Partiellement vérifié** | [01](01-source-register.md), [02](02-entity-inventory.md) | 2 dépôts sur l’ensemble ; 22 composants nommés (17 entrées du mandat §5) sans dépôt connu ; 12 entités historiques ajoutées (SRC-29) |
-| 2 — Relations | **Partiellement vérifié** | [03](03-relation-map.md) | Relations déclarées non validées (C-01) |
-| 3 — Contradictions | **En cours** (17 contradictions, 19 risques) | [05](05-contradictions.md), [04](04-evidence-ledger.md) | Résolution = arbitrage |
+| 2 — Relations | **Vérifié** contre le schéma original (EV-P4-01) ; baseline v2 | [03](03-relation-map.md) | — |
+| 3 — Contradictions | **Résolues sauf C-04** (16/17, DEC-0010 ; 19 risques suivis dans Command Center) | [05](05-contradictions.md), [04](04-evidence-ledger.md) | Résolution = arbitrage |
 | 4 — Arbitrage | **Tranché par défaut** (DEC-0007) — 13 arbitrages sur la base du mandat | [06](06-decision-log.md) §5 | Restent C-04 et le statut juridique (pièces nécessaires) |
 | 5 — Architecture cible | **Proposé** (non validé) | [07](07-target-architecture.md), [08](08-execution-roadmap.md) | Dépend de la Phase 4 |
 | 6 — Exécution contrôlée | **En cours** — 6 correctifs réalisés sur 3 branches isolées (dont 2 issus de l’audit adversarial) (PROP-08 et PROP-09 partagent `claude/p6-registration-viewer-only`), non fusionnés | [08](08-execution-roadmap.md) §1 | Fusion soumise à P1-1 / P1-2 |
@@ -21,6 +21,8 @@
 **Fusionné :** command-center `main` = `34fbbcc` (DEC-0009) — hub de pilotage et correctifs de sécurité en production dès le prochain déploiement Emergent.
 
 Ouvertes :
+
+- Foundation-Cvln `claude/registry-v2` (`ba02a44`, sur la CI d’intégrité) : **baseline v2** du registre — 32 entités, 41 relations, validation de chaque rattachement.
 
 - command-center `claude/cc-sovereign` (`05a4ce1`) : **autonomie vis-à-vis d’Emergent** — suppression des scripts Emergent et du traceur PostHog, déploiement Docker auto-hébergé, premier admin, CI (EV-P6-12).
 

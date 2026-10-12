@@ -40,7 +40,7 @@ flowchart TB
   end
   subgraph L2["Couche 2 — Gouvernance et pilotage"]
     META["Meta CVLN (portefeuille)"]
-    CC["Command Center (pilotage — rattachement à arbitrer : C-05)"]
+    CC["Command Center (pilotage, sous Intelligence OS — C-05)"]
     DEC["Journal des décisions + registre des preuves"]
   end
   subgraph L3["Couche 3 — Plateforme partagée (services internes)"]
@@ -57,7 +57,9 @@ flowchart TB
   end
   HOLD -->|OWNS, étayé| IP
   HOLD -->|GOVERNS| META
-  META -.->|proposé, C-05| CC
+  META --> DEC
+  CC -->|PART_OF| IOS
+  CC -->|exploite| DEC
   CC -->|lit| REG
   IOS -->|lit| REG
   L4 -->|consomme| L3

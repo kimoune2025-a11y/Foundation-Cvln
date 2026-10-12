@@ -9,6 +9,28 @@
 Chaque contradiction est accompagnée de ses preuves, de ses conséquences, d’une résolution **proposée** et, si nécessaire, d’une demande d’arbitrage.
 Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Moyenne**, **Faible**.
 
+## 0. Statut de résolution (2026-10-12, DEC-0010)
+
+| ID | Statut | Résolution appliquée |
+|---|---|---|
+| C-01 | **Résolue** | Schéma original fourni (SRC-31) : 20 rattachements confirmés, 7 mises à jour validées (DEC-0008), 1 ambigu conservé ; champ `validation` dans la baseline v2 |
+| C-02 | **Résolue** | FREKCORE = identité, provenance, preuve ; alias « FREK » (baseline v2) |
+| C-03 | **Résolue** | Laurentia = « Opérateur IA · interface de travail personnelle et métier » (baseline v2) ; l’agriculture relève de CVL Agro (candidate) |
+| C-04 | **Ouverte** | Existence juridique de CVLN Holding et détention des actifs : pièces nécessaires |
+| C-05 | **Résolue** | Command Center reste sous Intelligence OS (schéma original) |
+| C-06 | **Résolue** | Command Center synchronise le registre canonique (`registry_id`) ; une seule liste d’entités du groupe |
+| C-07 | **Résolue** | Inscription fermée, fusionnée sur `main` de command-center (DEC-0006, DEC-0009) |
+| C-08 | **Résolue** | `.emergent/summary.txt` traité comme historique ; le code et les registres font foi |
+| C-09 | **Résolue** | Une entité, alias « Cœurvolan » et « Fondation COEURVOLAN » (baseline v2) ; statut juridique `UNKNOWN` |
+| C-10 | **Résolue** | Date v1 conservée et qualifiée « non sourcée » ; baseline v2 datée du 2026-10-12 |
+| C-11 | **Résolue** | CI d’intégrité du registre (Foundation) et CI de Command Center (branche `claude/cc-sovereign`) |
+| C-12 | **Résolue** | Pas d’interface fictive : le branchement d’Intelligence OS reste une suggestion (HIST-01) |
+| C-13 | **Résolue** | Observatory ajouté (baseline v2), avec Kiltikonet et Culture Connect comme écosystème culturel |
+| C-14 | **Résolue** | Relations inférées conservées et marquées `INFERRED` |
+| C-17 | **Résolue** | Factory Maker Studio reste sous KORA (registre) |
+| C-18 | **Résolue** | CVLN Academy coordonne les trois académies (relations `GOVERNS` inférées, baseline v2) |
+| C-19 | **Résolue** | Command Center porte le journal des décisions et le registre des risques, importés des documents de la mission |
+
 ## 1. Contradictions
 
 ### C-01 — Le registre « décidé » repose sur une interprétation dont la validation n’est pas tracée · Critique
