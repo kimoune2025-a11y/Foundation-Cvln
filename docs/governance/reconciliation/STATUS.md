@@ -23,6 +23,7 @@
 | Foundation-Cvln | `claude/elegant-pascal-b0qe12` | voir `git log` | Mandat + documents de réconciliation + `CLAUDE.md` |
 | Foundation-Cvln | `claude/p6-registry-integrity-ci` | `caa58ff` | Contrôle d’intégrité + CI (verte) |
 | Foundation-Cvln | `claude/p6-contact-admin-auth` | `6d45f28` | `GET /api/contact` protégé + saisie du formulaire bornée |
+| command-center | `claude/cc-group-hub` | `34fbbcc` | **Hub de pilotage** (DEC-0008) : registre du groupe synchronisé, journal des décisions, registre des risques, import de la gouvernance, `CLAUDE.md` — construit sur la branche ci-dessous |
 | command-center | `claude/p6-registration-viewer-only` | `132baa7` | Outil privé par défaut (inscription fermée, documents authentifiés) + identifiants retirés des fichiers suivis |
 
 ## 3. Bloquants
@@ -37,6 +38,8 @@
 | Accès réseau aux prévisualisations Emergent | Laurent CŒURVOLAN (paramètres de l’environnement) | Preuves opérationnelles |
 
 ## 4. Prochaine action autorisée
+
+0. Mettre Command Center en service : fusionner `claude/cc-group-hub` (contient aussi la branche de sécurité) dans `main` de command-center, déployer, puis en admin : « Synchroniser le registre du groupe » (Entités) et « Importer la gouvernance de la mission » (Décisions).
 
 1. Sur réponse aux questions de [06](06-decision-log.md) §4 : consigner les décisions (`VALIDATED`) ; puis, une fois C-01 tranché et la CI d’intégrité (`claude/p6-registry-integrity-ci`, `caa58ff`) fusionnée sur `main` (P1-2), préparer la baseline v2 et le schéma v1.1 (P4-1) sur une branche isolée.
 2. Sur demande : ouvrir les 4 pull requests ; relancer la partie de l’audit de code interrompue (secrets de l’historique, relecture des correctifs). Balayage de l’historique des 2 dépôts : fait le 2026-10-12 (HIST-07 à HIST-10, TECH-04, C-19) (liens dans [08](08-execution-roadmap.md) §1).
