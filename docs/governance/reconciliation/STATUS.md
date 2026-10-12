@@ -14,7 +14,7 @@
 | 3 — Contradictions | **Résolues sauf C-04** (16/17, DEC-0010 ; 19 risques suivis dans Command Center) | [05](05-contradictions.md), [04](04-evidence-ledger.md) | Résolution = arbitrage |
 | 4 — Arbitrage | **Tranché par défaut** (DEC-0007) — 13 arbitrages sur la base du mandat | [06](06-decision-log.md) §5 | Restent C-04 et le statut juridique (pièces nécessaires) |
 | 5 — Architecture cible | **Proposé** (non validé) | [07](07-target-architecture.md), [08](08-execution-roadmap.md) | Dépend de la Phase 4 |
-| 6 — Exécution contrôlée | **En cours** — correctifs et hub de pilotage fusionnés ; liaisons Command Center ↔ Foundation (X-01 à X-06) fusionnées et testées de bout en bout (EV-P6-14) | [08](08-execution-roadmap.md), [09](09-integration-matrix.md) | Déploiement non réalisé ; composants IA sans code |
+| 6 — Exécution contrôlée | **En cours** — correctifs et hub de pilotage fusionnés ; liaisons Command Center ↔ Foundation (X-01 à X-08, dont synchronisation automatique et vue Architecture) fusionnées et testées de bout en bout (EV-P6-14, EV-P6-16) | [08](08-execution-roadmap.md), [09](09-integration-matrix.md) | Déploiement non réalisé ; composants IA sans code |
 
 ## 2. Branches
 
@@ -23,11 +23,11 @@
 | Dépôt | `main` | Contenu intégré | CI sur `main` |
 |---|---|---|---|
 | Foundation-Cvln | `9c832bc` | CI d’intégrité (`caa58ff`), baseline v2 (`ba02a44`), `GET /api/contact` protégé (`732e6f9`), documents de mission (`559a459`), retrait de `/api/status` (`9c832bc`, EV-P6-15) | `Registry integrity` : success |
-| command-center | `77295c4` | Hub de pilotage (DEC-0009), outil privé (DEC-0006), pile autonome (EV-P6-12), baseline v2 (`e570fec`), CI réparée (`db5c814`, EV-P6-13), liaisons Foundation (`28db5c9`), modèle `.env` (`77295c4`) | `CI` (backend, frontend, docker, foundation-integration) : success, run 38273302763 |
+| command-center | `5923b20` | Hub de pilotage (DEC-0009), outil privé (DEC-0006), pile autonome (EV-P6-12), baseline v2 (`e570fec`), CI réparée (`db5c814`, EV-P6-13), liaisons Foundation (`28db5c9`), modèle `.env` (`77295c4`), vue Architecture et synchronisation automatique (`098300f`, `5923b20`, EV-P6-16) | `CI` (backend, frontend, docker, foundation-integration) : success, run 38274711640 |
 
 Fusionner sur `main` ne vaut pas autorisation de déploiement en production.
 
-Branches restantes, toutes contenues dans `main` (aucun travail non intégré) : Foundation `claude/p6-registry-integrity-ci`, `claude/registry-v2`, `claude/p6-contact-admin-auth`, `claude/foundation-drop-template-status`, `claude/elegant-pascal-b0qe12` (documents) ; command-center `claude/cc-group-hub`, `claude/cc-sovereign`, `claude/p6-registration-viewer-only`, `claude/cc-integration`.
+Branches restantes, toutes contenues dans `main` (aucun travail non intégré) : Foundation `claude/p6-registry-integrity-ci`, `claude/registry-v2`, `claude/p6-contact-admin-auth`, `claude/foundation-drop-template-status`, `claude/elegant-pascal-b0qe12` (documents) ; command-center `claude/cc-group-hub`, `claude/cc-sovereign`, `claude/p6-registration-viewer-only`, `claude/cc-integration`, `claude/cc-ecosystem-map`.
 
 ## 3. Bloquants
 
@@ -42,7 +42,7 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 
 ## 4. Prochaine action autorisée
 
-1. **[Propriétaire]** Déployer Foundation puis Command Center selon [09](09-integration-matrix.md) §5 ; dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions », puis synchroniser le registre, importer la gouvernance et les prospects.
+1. **[Propriétaire]** Déployer Foundation puis Command Center selon [09](09-integration-matrix.md) §5 ; dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions » ; registre et prospects se synchronisent ensuite seuls (toutes les heures) ; importer une fois la gouvernance de la mission.
 2. **[Claude]** À chaque changement des documents 00, 05 ou 06 : régénérer `backend/data/` de Command Center (`python scripts/build_data.py`), sinon la CI `foundation-integration` échoue (contrôle voulu).
 3. **[Claude]** Dès qu’un nouveau dépôt est accessible (Intelligence OS, Agent Factory…) : l’ajouter à [01](01-source-register.md) et [02](02-entity-inventory.md), puis à la matrice [09](09-integration-matrix.md).
 4. **[Arbitrage]** Questions ouvertes de [06](06-decision-log.md) §4 et C-04.
