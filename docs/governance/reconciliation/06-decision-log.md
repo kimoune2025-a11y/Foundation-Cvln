@@ -18,6 +18,7 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | DEC-0003 | 2026-10-11 | Autorisation générale : « Tu as toutes les autorisations […] le système doit être autonome et pouvoir travailler seul ». Interprétation appliquée : (a) poursuite des Phases 1 à 5 sans arrêt intermédiaire ; (b) Phase 6 limitée aux correctifs **indépendants des arbitrages d’architecture** (sécurité, intégrité, reproductibilité), chacun sur une branche isolée, **sans fusion sur `main`** (R-15) ; (c) les arbitrages d’architecture restent des propositions | Laurent CŒURVOLAN | Conversation de session |
 | DEC-0004 | 2026-10-11 | Réponses implicites à D-01 (lecture de Command-center : accordée), D-03 (pôles historiques traités comme sources : appliqué), D-05 (documents dans ce dépôt public : accepté, sans détail exploitable des vulnérabilités) | Laurent CŒURVOLAN (via DEC-0003) | Ce registre |
 | DEC-0005 | 2026-10-12 | Autoriser l’écriture sur `command-center` : « Non code dessus fait la config ». Règle d’autorisation locale ajoutée (`.claude/settings.local.json`, non suivie) ; dépôt rattaché en écriture à la session | Laurent CŒURVOLAN | Conversation de session |
+| DEC-0006 | 2026-10-12 | Command Center est l’outil de pilotage **interne** du groupe : inscription publique fermée par défaut (réouvrable par `ALLOW_PUBLIC_REGISTRATION=true`) et documents servis uniquement à un utilisateur authentifié. Remplace l’interprétation « inscription libre en Viewer » de HIST-04 | Laurent CŒURVOLAN (« ok alors », après explication) | Conversation de session ; `command-center@132baa7` |
 
 ## 2. Décisions historiques retrouvées
 
@@ -26,7 +27,7 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | HIST-01 | 2026-08-31 | Ne pas brancher CVLN Intelligence OS sur le registre (« NON branché (comme demandé) ») | `886ac8c` | HISTORICAL — respectée |
 | HIST-02 | 2026-08-31 | Ne pas réinterpréter l’architecture fondatrice lors de la formalisation du registre | `886ac8c`, en-tête de SRC-01 | HISTORICAL — respectée (EV-P0-06) |
 | HIST-03 | 2026-08-31 | Doctrine JCC : monnaie interne, sans requalification juridique | SRC-01 `DOCTRINE.JCC` | HISTORICAL — respectée |
-| HIST-04 | ≤ 2026-06 (trace : `ca773f9`, 2026-06-26) | Command Center : inscription limitée au rôle Viewer ; administrateur non auto-attribuable | SRC-23 (`.emergent/summary.txt:55`, `:184`) ; formulation « admin cannot be self-assigned » : SRC-20 (`backend/server.py:286`). Le PRD (SRC-22) ne formule pas cette exigence | HISTORICAL — **non respectée dans le code** (C-07) |
+| HIST-04 | ≤ 2026-06 (trace : `ca773f9`, 2026-06-26) | Command Center : inscription limitée au rôle Viewer ; administrateur non auto-attribuable | SRC-23 (`.emergent/summary.txt:55`, `:184`) ; formulation « admin cannot be self-assigned » : SRC-20 (`backend/server.py:286`). Le PRD (SRC-22) ne formule pas cette exigence | HISTORICAL — **non respectée dans le code** (C-07) ; précisée par DEC-0006 |
 | HIST-05 | 2026-06 | Command Center : retour à la v1.0 stable, puis évolutions strictement incrémentales | SRC-22, SRC-23 | HISTORICAL — retour à la v1.0 réalisé |
 | HIST-06 | 2026-08-31 | Les rattachements parent/enfant du TREE sont « à valider » | `362a81d`, `561ddf8` | HISTORICAL — **validation non tracée** (C-01) |
 
