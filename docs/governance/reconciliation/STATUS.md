@@ -22,6 +22,9 @@
 
 Ouvertes :
 
+- command-center `claude/cc-sovereign` (`05a4ce1`) : **autonomie vis-à-vis d’Emergent** — suppression des scripts Emergent et du traceur PostHog, déploiement Docker auto-hébergé, premier admin, CI (EV-P6-12).
+
+
 | Dépôt | Branche | HEAD | Objet |
 |---|---|---|---|
 | Foundation-Cvln | `claude/elegant-pascal-b0qe12` | voir `git log` | Mandat + documents de réconciliation + `CLAUDE.md` |
@@ -43,7 +46,7 @@ Ouvertes :
 
 ## 4. Prochaine action autorisée
 
-0. Mettre Command Center en service : `main` fusionné (DEC-0009) ; récupérer `main` dans Emergent et déployer, puis en admin : « Synchroniser le registre du groupe » (Entités) et « Importer la gouvernance de la mission » (Décisions).
+0. Mettre Command Center en service : `main` fusionné (DEC-0009) ; déployer avec `docker compose up -d --build` sur l’infrastructure du groupe (branche `claude/cc-sovereign`), créer le premier admin (`deploy/create_admin.py`), puis en admin : « Synchroniser le registre du groupe » (Entités) et « Importer la gouvernance de la mission » (Décisions).
 
 1. Sur réponse aux questions de [06](06-decision-log.md) §4 : consigner les décisions (`VALIDATED`) ; puis, une fois C-01 tranché et la CI d’intégrité (`claude/p6-registry-integrity-ci`, `caa58ff`) fusionnée sur `main` (P1-2), préparer la baseline v2 et le schéma v1.1 (P4-1) sur une branche isolée.
 2. Sur demande : ouvrir les 4 pull requests ; relancer la partie de l’audit de code interrompue (secrets de l’historique, relecture des correctifs). Balayage de l’historique des 2 dépôts : fait le 2026-10-12 (HIST-07 à HIST-10, TECH-04, C-19) (liens dans [08](08-execution-roadmap.md) §1).
