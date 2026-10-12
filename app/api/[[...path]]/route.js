@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto'
 import { MongoClient } from 'mongodb'
 import { v4 as uuidv4 } from 'uuid'
 import { NextResponse } from 'next/server'
@@ -33,6 +34,28 @@ function handleCORS(response) {
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
   response.headers.set('Access-Control-Allow-Credentials', 'true')
   return response
+}
+
+// Listing contacts exposes personal data (email, name, message). It is only
+// enabled when CONTACT_ADMIN_TOKEN is configured, and callers must present
+// that token as a Bearer credential.
+function isContactAdmin(request) {
+  const expected = process.env.CONTACT_ADMIN_TOKEN
+  if (!expected) return false
+  const header = request.headers.get('authorization') || ''
+  const provided = header.startsWith('Bearer ') ? header.slice(7) : ''
+  const a = Buffer.from(provided)
+  const b = Buffer.from(expected)
+  return a.length === b.length && timingSafeEqual(a, b)
+}
+
+// Bounds for the public contact form. Lengths are checked before the email
+// regex, whose backtracking is quadratic on long inputs.
+const CONTACT_MAX_BODY_BYTES = 16 * 1024
+const CONTACT_MAX_LENGTHS = { email: 254, name: 200, message: 5000 }
+
+function contactError(message, status = 400) {
+  return handleCORS(NextResponse.json({ error: message }, { status }))
 }
 
 export async function OPTIONS() {
@@ -115,18 +138,39 @@ async function handleRoute(request, { params }) {
     //  Contact capture (existing)
     // -------------------------------------------------------------
     if (route === '/contact' && method === 'POST') {
-      const body = await request.json()
-      const email = (body.email || '').trim()
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      if (!emailOk) {
-        return handleCORS(NextResponse.json({ error: 'Une adresse e-mail valide est requise.' }, { status: 400 }))
+      if (Number(request.headers.get('content-length') || 0) > CONTACT_MAX_BODY_BYTES) {
+        return contactError('Requête trop volumineuse.', 413)
+      }
+      const raw = await request.text()
+      if (Buffer.byteLength(raw) > CONTACT_MAX_BODY_BYTES) {
+        return contactError('Requête trop volumineuse.', 413)
+      }
+      let body
+      try {
+        body = JSON.parse(raw)
+      } catch {
+        return contactError('Requête invalide.')
+      }
+      if (!body || typeof body !== 'object') {
+        return contactError('Requête invalide.')
+      }
+      const fields = {}
+      for (const [field, max] of Object.entries(CONTACT_MAX_LENGTHS)) {
+        const value = body[field] ?? ''
+        if (typeof value !== 'string') return contactError('Requête invalide.')
+        const trimmed = value.trim()
+        if (trimmed.length > max) return contactError('Un champ dépasse la longueur autorisée.')
+        fields[field] = trimmed
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
+        return contactError('Une adresse e-mail valide est requise.')
       }
       const db = await connectToMongo()
       const contactObj = {
         id: uuidv4(),
-        email,
-        name: (body.name || '').trim(),
-        message: (body.message || '').trim(),
+        email: fields.email,
+        name: fields.name,
+        message: fields.message,
         created_at: new Date(),
       }
       await db.collection('contacts').insertOne(contactObj)
@@ -135,6 +179,12 @@ async function handleRoute(request, { params }) {
     }
 
     if (route === '/contact' && method === 'GET') {
+      if (!process.env.CONTACT_ADMIN_TOKEN) {
+        return handleCORS(NextResponse.json({ error: `Route ${route} not found` }, { status: 404 }))
+      }
+      if (!isContactAdmin(request)) {
+        return handleCORS(NextResponse.json({ error: 'Unauthorized' }, { status: 401 }))
+      }
       const db = await connectToMongo()
       const contacts = await db.collection('contacts').find({}).sort({ created_at: -1 }).limit(1000).toArray()
       const cleaned = contacts.map(({ _id, ...rest }) => rest)
