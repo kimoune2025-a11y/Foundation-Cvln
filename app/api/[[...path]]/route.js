@@ -101,7 +101,7 @@ async function handleRoute(request, { params }) {
       return handleCORS(NextResponse.json(validateRegistry()))
     }
 
-    // GET /api/registry/baseline  (Foundation Baseline v1 + doctrine)
+    // GET /api/registry/baseline  (current Foundation Baseline + doctrine)
     if (route === '/registry/baseline' && method === 'GET') {
       return handleCORS(NextResponse.json({ baseline: BASELINE, doctrine: DOCTRINE }))
     }
