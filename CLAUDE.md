@@ -30,11 +30,13 @@ Toute session Claude Code qui travaille ici reprend cette mission là où elle s
 | Preuve collectée | `04-evidence-ledger.md` (`EV-*`, ajout uniquement) |
 | Contradiction ou risque | `05-contradictions.md` (`C-*`, `R-*`, numéros jamais réattribués) |
 | Décision ou proposition | `06-decision-log.md` |
+| Connexion technique entre composants | `09-integration-matrix.md` (niveaux présent / fusionné / testé / déployé / opérationnel) |
 | Avancement | `STATUS.md` (mis à jour à chaque session, sur preuves uniquement) |
 
 ## Contrôles
 
-- Intégrité du registre (une fois la branche `claude/p6-registry-integrity-ci` fusionnée) : `node scripts/registry-integrity.mjs`. Aucun `npm install` n’est nécessaire.
+- Intégrité du registre : `node scripts/registry-integrity.mjs` (aussi en CI, workflow `Registry integrity`). Aucun `npm install` n’est nécessaire.
+- Contrat consommé par Command Center : `GET /api/registry/export` et `GET /api/contact` (jeton). Tout changement de forme casse la CI `foundation-integration` de Command Center : la lancer avant de fusionner.
 - Compilation de l’application : `npx yarn@1.22.22 install && npx next build` (aucun fichier de verrouillage suivi, voir R-06).
 
 ## Fin de session obligatoire (mandat §12)
