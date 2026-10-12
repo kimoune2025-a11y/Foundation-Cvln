@@ -19,6 +19,7 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | DEC-0004 | 2026-10-11 | Réponses implicites à D-01 (lecture de Command-center : accordée), D-03 (pôles historiques traités comme sources : appliqué), D-05 (documents dans ce dépôt public : accepté, sans détail exploitable des vulnérabilités) | Laurent CŒURVOLAN (via DEC-0003) | Ce registre |
 | DEC-0005 | 2026-10-12 | Autoriser l’écriture sur `command-center` : « Non code dessus fait la config ». Règle d’autorisation locale ajoutée (`.claude/settings.local.json`, non suivie) ; dépôt rattaché en écriture à la session | Laurent CŒURVOLAN | Conversation de session |
 | DEC-0006 | 2026-10-12 | Command Center est l’outil de pilotage **interne** du groupe : inscription publique fermée par défaut (réouvrable par `ALLOW_PUBLIC_REGISTRATION=true`) et documents servis uniquement à un utilisateur authentifié. Remplace l’interprétation « inscription libre en Viewer » de HIST-04 | Laurent CŒURVOLAN (« ok alors », après explication) | Conversation de session ; `command-center@132baa7` |
+| DEC-0007 | 2026-10-12 | Le schéma ASCII fourni à Emergent est **obsolète**. La référence d’architecture est le mandat directeur (§3, §5) et l’état réel des dépôts. Les questions dont la réponse se déduit de ces sources ne sont plus posées : elles sont tranchées par défaut (§5), contestables à tout moment | Laurent CŒURVOLAN (« ce schéma est obsolète […] tu n’as qu’à lire les repos ») | Conversation de session |
 
 ## 2. Décisions historiques retrouvées
 
@@ -73,3 +74,27 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 13. CVLN Academy chapeaute-t-elle les trois autres académies ? (C-18)
 14. Que représentent les entités de la liste v1.2 de Command Center absentes du registre — CVL Events, CVL Agro, CVL Culinary, CIP, Hospitality, Tokenomics, Umbrella Trust (SRC-29, CAND-04, CAND-05, CAND-08 à CAND-12) ?
 15. Command Center doit-il devenir le lieu d’exploitation des décisions, risques et preuves du groupe (C-19, HIST-07) ?
+
+
+## 5. Arbitrages par défaut (DEC-0007)
+
+Statut `DEFAULT` : tranché à partir du mandat et des dépôts, applicable tant que Laurent CŒURVOLAN ne le conteste pas. Aucun ne modifie le registre gelé v1 ; ils s’appliqueront à la baseline v2.
+
+| Réf. | Question | Arbitrage par défaut | Fondement |
+|---|---|---|---|
+| C-01 | Valeur des 28 `PART_OF` du registre v1 | Le registre v1 reste la **trace historique** de l’interprétation Emergent ; la baseline v2 sera construite sur le mandat | DEC-0007 ; mandat §3 |
+| C-02 | FREKCORE | **Couche d’identité, de provenance et de preuve**, indépendante de Laurentia, KORA et Agent Factory. « La voix créative » est une définition historique abandonnée | Mandat §3 et règles de séparation |
+| C-03 | Laurentia | **Opérateur IA et interface de travail personnelle et métier**. La définition « terroir » est historique ; l’agriculture relève de CVL Agro (CAND-09) | Mandat §3 ; SRC-29 |
+| C-05 | Rattachement de Command Center | **Couche gouvernance et pilotage** (supervision opérationnelle privée), consommateur d’Intelligence OS, et non sous-composant de celui-ci | Mandat §3 (« ne pas confondre … le centre de supervision ») ; DEC-0006 |
+| C-06 | Registre unique | Command Center **référence les `entity_id` canoniques** ; un seul référentiel d’entités pour le groupe | Mandat §2, §9 ; 07 §2 |
+| C-09 | CVLN Foundation / Cœurvolan | **Une seule entité**, « Cœurvolan » / « Fondation COEURVOLAN » en alias ; statut juridique `UNKNOWN` | Mandat §3 |
+| C-10 | `BASELINE_DATE = 2025-06-15` | Conservée, qualifiée « non sourcée » en v2 | Absence de source |
+| C-13 | Kiltikonet / Culture Connect / Observatory | **Un même ensemble** : écosystème culturel (réseau, services, observation) ; Observatory ajouté en v2 | Mandat §3 |
+| C-14 | 7 relations inférées | Conservées `INFERRED` ; `REL-0032` (Command Center `SUPERVISES` Group) devient cohérente avec C-05 | Mandat §6 |
+| C-17 | Factory Maker Studio | Rattachement du registre conservé (sous KORA) faute d’autre source | Registre v1 |
+| C-18 | Académies | **CVLN Academy chapeaute** les académies associées | Mandat §5 (« CVLN Academy et les académies associées ») |
+| C-19 | Décisions, risques, preuves | **Command Center** (privé) en devient le lieu d’exploitation ; les documents de la mission en sont la source de gouvernance | HIST-07 ; DEC-0006 |
+| SRC-29 | Entités de la liste v1.2 | CVLN Hospitality et CVL Culinary Innovations : **activités du groupe** (citées par le mandat). CVL Events, CVL Agro, CIP, Tokenomics, Umbrella Trust : **candidates** jusqu’à source ou usage | Mandat §5 ; SRC-29 |
+| D-02 | Autres composants | Seuls 2 dépôts existent. Les autres composants sont **non encore réalisés en code** (`DOCUMENTED_ONLY`), pas « inaccessibles » | `list_repos` du 2026-10-12 (2 dépôts) |
+
+Restent ouverts, faute de source dans les dépôts : **C-04** (existence juridique de CVLN Holding, détention des actifs et de la PI) et le **statut juridique** de toutes les entités. Ils exigent des pièces, pas une déduction.

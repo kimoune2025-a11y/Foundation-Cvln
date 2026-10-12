@@ -2,7 +2,7 @@
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
 - **Dernière mise à jour :** 2026-10-12
-- **Statut global : en cours — bloqué sur arbitrages et accès** (voir §3)
+- **Statut global : en cours — Phase 5 (architecture cible v2) à partir des arbitrages par défaut** (voir §3)
 
 ## 1. Avancement par phase
 
@@ -12,7 +12,7 @@
 | 1 — Inventaire | **Partiellement vérifié** | [01](01-source-register.md), [02](02-entity-inventory.md) | 2 dépôts sur l’ensemble ; 22 composants nommés (17 entrées du mandat §5) sans dépôt connu ; 12 entités historiques ajoutées (SRC-29) |
 | 2 — Relations | **Partiellement vérifié** | [03](03-relation-map.md) | Relations déclarées non validées (C-01) |
 | 3 — Contradictions | **En cours** (17 contradictions, 19 risques) | [05](05-contradictions.md), [04](04-evidence-ledger.md) | Résolution = arbitrage |
-| 4 — Arbitrage | **Bloqué** — en attente de Laurent CŒURVOLAN | [06](06-decision-log.md) §4 (15 questions) | — |
+| 4 — Arbitrage | **Tranché par défaut** (DEC-0007) — 13 arbitrages sur la base du mandat | [06](06-decision-log.md) §5 | Restent C-04 et le statut juridique (pièces nécessaires) |
 | 5 — Architecture cible | **Proposé** (non validé) | [07](07-target-architecture.md), [08](08-execution-roadmap.md) | Dépend de la Phase 4 |
 | 6 — Exécution contrôlée | **En cours** — 6 correctifs réalisés sur 3 branches isolées (dont 2 issus de l’audit adversarial) (PROP-08 et PROP-09 partagent `claude/p6-registration-viewer-only`), non fusionnés | [08](08-execution-roadmap.md) §1 | Fusion soumise à P1-1 / P1-2 |
 
@@ -32,8 +32,8 @@
 | ~~Rotation des identifiants et du secret JWT ; dépôt privé~~ — dépôt privé vérifié, rotation déclarée faite (EV-P6-11) | Laurent CŒURVOLAN | R-13 (réduit) |
 | Protection de `main` (2 dépôts) | Laurent CŒURVOLAN | R-01 |
 | Choix de la source de vérité GitHub / Emergent | Laurent CŒURVOLAN | Fusion des branches (R-15) |
-| Schéma ASCII original / validation des 28 `PART_OF` | Laurent CŒURVOLAN | C-01, Phase 4 |
-| Accès aux autres dépôts | Laurent CŒURVOLAN | Phase 1 complète |
+| ~~Schéma ASCII~~ — obsolète (DEC-0007), référence = mandat | — | C-01 tranché par défaut |
+| Pièces juridiques (structure de tête, détention, PI) | Laurent CŒURVOLAN | C-04, statuts juridiques |
 | Accès réseau aux prévisualisations Emergent | Laurent CŒURVOLAN (paramètres de l’environnement) | Preuves opérationnelles |
 
 ## 4. Prochaine action autorisée
