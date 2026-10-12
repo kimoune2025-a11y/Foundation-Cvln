@@ -28,9 +28,9 @@ Liens de comparaison (création de PR en un clic) :
 
 | # | Action | Qui | Comment |
 |---|---|---|---|
-| P0-1 | Changer le mot de passe du compte administrateur de Command Center (rotation préventive, R-13) | [Propriétaire] | Dans l’environnement Emergent du Command Center, ou directement en base |
-| P0-2 | Remplacer le secret de signature des sessions (`JWT_SECRET`) de Command Center | [Propriétaire] | Variables d’environnement du backend dans Emergent ; invalide toutes les sessions existantes |
-| P0-3 | Passer `command-center` en **privé** | [Propriétaire] | GitHub → `command-center` → Settings → General → Danger Zone → Change visibility → Private |
+| P0-1 | Changer le mot de passe du compte administrateur de Command Center (rotation préventive, R-13) | [Propriétaire] | Dans l’environnement Emergent du Command Center, ou directement en base — déclaré fait le 2026-10-12 (non vérifiable) |
+| P0-2 | Remplacer le secret de signature des sessions (`JWT_SECRET`) de Command Center | [Propriétaire] | Variables d’environnement du backend dans Emergent ; invalide toutes les sessions existantes — déclaré fait le 2026-10-12 (non vérifiable) |
+| P0-3 | Passer `command-center` en **privé** | [Propriétaire] | GitHub → `command-center` → Settings → General → Danger Zone → Change visibility → Private — **fait** — vérifié le 2026-10-12 (EV-P6-11) |
 | P0-4 | Passer en revue les comptes de Command Center | [Propriétaire] | Page Admin de l’application ; rétrograder ou supprimer tout compte inconnu |
 | P0-5 | Protéger `main` sur les deux dépôts | [Propriétaire] | GitHub → Settings → Rules → Rulesets → New branch ruleset → cible `main` : *Restrict deletions*, *Block force pushes*, *Require a pull request before merging*. Pour Foundation-Cvln, ne pas encore cocher *Require status checks to pass* : le workflow `registry-integrity` n’existe que sur `claude/p6-registry-integrity-ci` ; il sera exigé après sa fusion (P1-6) |
 

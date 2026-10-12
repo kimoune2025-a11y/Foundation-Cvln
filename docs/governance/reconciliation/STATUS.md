@@ -29,7 +29,7 @@
 
 | Bloquant | Détenteur | Débloque |
 |---|---|---|
-| Rotation des identifiants et du secret JWT de Command Center ; dépôt privé | Laurent CŒURVOLAN | R-13 (critique) |
+| ~~Rotation des identifiants et du secret JWT ; dépôt privé~~ — dépôt privé vérifié, rotation déclarée faite (EV-P6-11) | Laurent CŒURVOLAN | R-13 (réduit) |
 | Protection de `main` (2 dépôts) | Laurent CŒURVOLAN | R-01 |
 | Choix de la source de vérité GitHub / Emergent | Laurent CŒURVOLAN | Fusion des branches (R-15) |
 | Schéma ASCII original / validation des 28 `PART_OF` | Laurent CŒURVOLAN | C-01, Phase 4 |
