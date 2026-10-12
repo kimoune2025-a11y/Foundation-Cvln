@@ -47,7 +47,7 @@ Liens de comparaison (création de PR en un clic) :
 
 ## 4. P2 — Arbitrages d’architecture (bloquants pour la réconciliation)
 
-Questions détaillées dans [06-decision-log.md](06-decision-log.md) §4 (14 questions) : C-01 (schéma ASCII), C-02 (FREKCORE), C-03 (Laurentia), C-04 (CVLN Holding), C-05 (rattachement de Command Center), C-06 (registre unique, PROP-07), C-09 (dénomination légale), C-10, C-13, C-14 (relations inférées), C-17, C-18, D-02, et les entités historiques de SRC-29.
+Questions détaillées dans [06-decision-log.md](06-decision-log.md) §4 (15 questions) : C-01 (schéma ASCII), C-02 (FREKCORE), C-03 (Laurentia), C-04 (CVLN Holding), C-05 (rattachement de Command Center), C-06 (registre unique, PROP-07), C-09 (dénomination légale), C-10, C-13, C-14 (relations inférées), C-17, C-18, D-02, et les entités historiques de SRC-29.
 
 ## 5. P3 — Extension du périmètre
 

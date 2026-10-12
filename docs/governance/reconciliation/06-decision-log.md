@@ -30,6 +30,10 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | HIST-04 | ≤ 2026-06 (trace : `ca773f9`, 2026-06-26) | Command Center : inscription limitée au rôle Viewer ; administrateur non auto-attribuable | SRC-23 (`.emergent/summary.txt:55`, `:184`) ; formulation « admin cannot be self-assigned » : SRC-20 (`backend/server.py:286`). Le PRD (SRC-22) ne formule pas cette exigence | HISTORICAL — **non respectée dans le code** (C-07) ; précisée par DEC-0006 |
 | HIST-05 | 2026-06 | Command Center : retour à la v1.0 stable, puis évolutions strictement incrémentales | SRC-22, SRC-23 | HISTORICAL — retour à la v1.0 réalisé |
 | HIST-06 | 2026-08-31 | Les rattachements parent/enfant du TREE sont « à valider » | `362a81d`, `561ddf8` | HISTORICAL — **validation non tracée** (C-01) |
+| HIST-07 | ≤ 2026-06-26 | Command Center « Conglomerate Mode » (v1.1) : module Entités, Board Pack, journal des décisions, registre des risques, Kanban, CRM enrichi | SRC-23 (`.emergent/summary.txt:181`, `:43–46`) | HISTORICAL — **partiellement réalisé** : Entités et Board Pack livrés (SRC-22) ; journal des décisions et registre des risques **non réalisés** |
+| HIST-08 | ≤ 2026-06-26 | Exigences d’automatisation (tâches, CRM, finance, événements, direction, sauvegardes, notifications) | SRC-23 (`:179`) | HISTORICAL — reportées, non réalisées |
+| HIST-09 | ≤ 2026-06-26 | Exigences de sécurité et de traçabilité (journal d’audit, chronologie, versionnement, couche sécurité, sauvegardes) | SRC-23 (`:180`) | HISTORICAL — reportées, non réalisées |
+| HIST-10 | ≤ 2026-06-26 | Arrêt de la refonte massive v1.2, retour à la v1.0, puis évolutions strictement incrémentales | SRC-23 (`:178`) | HISTORICAL — respectée (retour v1.0 réalisé, SRC-22) |
 
 ## 3. Décisions proposées (Phase 4)
 
@@ -67,4 +71,5 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 11. Les 7 relations inférées `REL-0029` à `REL-0035` sont-elles acceptées, corrigées ou rejetées ? (C-14, PROP-14)
 12. Factory Maker Studio relève-t-il de KORA ou de Tech & Data ? (C-17)
 13. CVLN Academy chapeaute-t-elle les trois autres académies ? (C-18)
+15. Command Center doit-il devenir le lieu d’exploitation des décisions, risques et preuves du groupe (C-19, HIST-07) ?
 14. Que représentent les entités de la liste v1.2 de Command Center absentes du registre — CVL Events, CVL Agro, CVL Culinary, CIP, Hospitality, Tokenomics, Umbrella Trust (SRC-29, CAND-04, CAND-05, CAND-08 à CAND-12) ?

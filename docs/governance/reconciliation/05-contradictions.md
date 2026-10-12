@@ -129,6 +129,13 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 - **Résolution proposée :** clarifier si CVLN Academy chapeaute les autres académies (relation à ajouter) ou non.
 - **Arbitrage requis :** oui.
 
+### C-19 — Deux journaux de décisions et deux registres de risques en préparation · Moyenne
+
+- **Constat :** tu as demandé à Command Center un journal des décisions et un registre des risques (HIST-07), non réalisés. La mission tient de son côté un journal des décisions (06) et un registre des risques (05) en Markdown dans Foundation-Cvln.
+- **Conséquence :** risque de deux sources de vérité pour les décisions et les risques du groupe, comme pour les entités (C-06).
+- **Résolution proposée :** EXTEND — faire de Command Center (privé, authentifié) le lieu d’exploitation des décisions, risques et preuves, alimenté par les registres de la mission ; la documentation publique ne garde que la gouvernance non sensible.
+- **Arbitrage requis :** oui.
+
 *(C-15 et C-16, envisagés pendant l’analyse, ont été fusionnés dans C-03 et R-17 ; les numéros ne sont pas réattribués.)*
 
 ## 2. Registre des risques (consolidé)
