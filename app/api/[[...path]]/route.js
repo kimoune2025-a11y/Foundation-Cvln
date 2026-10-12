@@ -192,28 +192,10 @@ async function handleRoute(request, { params }) {
     }
 
     // -------------------------------------------------------------
-    //  Root / status (existing)
+    //  Root
     // -------------------------------------------------------------
     if ((route === '/root' || route === '/') && method === 'GET') {
       return handleCORS(NextResponse.json({ message: 'Hello World' }))
-    }
-
-    if (route === '/status' && method === 'POST') {
-      const body = await request.json()
-      if (!body.client_name) {
-        return handleCORS(NextResponse.json({ error: 'client_name is required' }, { status: 400 }))
-      }
-      const db = await connectToMongo()
-      const statusObj = { id: uuidv4(), client_name: body.client_name, timestamp: new Date() }
-      await db.collection('status_checks').insertOne(statusObj)
-      return handleCORS(NextResponse.json(statusObj))
-    }
-
-    if (route === '/status' && method === 'GET') {
-      const db = await connectToMongo()
-      const statusChecks = await db.collection('status_checks').find({}).limit(1000).toArray()
-      const cleaned = statusChecks.map(({ _id, ...rest }) => rest)
-      return handleCORS(NextResponse.json(cleaned))
     }
 
     return handleCORS(NextResponse.json({ error: `Route ${route} not found` }, { status: 404 }))
