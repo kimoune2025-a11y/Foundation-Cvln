@@ -17,6 +17,7 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | DEC-0002 | 2026-10-11 | Autorisation de la Phase 0 en lecture seule | Laurent CŒURVOLAN | Conversation de session ; commit `ca60cb2` |
 | DEC-0003 | 2026-10-11 | Autorisation générale : « Tu as toutes les autorisations […] le système doit être autonome et pouvoir travailler seul ». Interprétation appliquée : (a) poursuite des Phases 1 à 5 sans arrêt intermédiaire ; (b) Phase 6 limitée aux correctifs **indépendants des arbitrages d’architecture** (sécurité, intégrité, reproductibilité), chacun sur une branche isolée, **sans fusion sur `main`** (R-15) ; (c) les arbitrages d’architecture restent des propositions | Laurent CŒURVOLAN | Conversation de session |
 | DEC-0004 | 2026-10-11 | Réponses implicites à D-01 (lecture de Command-center : accordée), D-03 (pôles historiques traités comme sources : appliqué), D-05 (documents dans ce dépôt public : accepté, sans détail exploitable des vulnérabilités) | Laurent CŒURVOLAN (via DEC-0003) | Ce registre |
+| DEC-0005 | 2026-10-12 | Autoriser l’écriture sur `command-center` : « Non code dessus fait la config ». Règle d’autorisation locale ajoutée (`.claude/settings.local.json`, non suivie) ; dépôt rattaché en écriture à la session | Laurent CŒURVOLAN | Conversation de session |
 
 ## 2. Décisions historiques retrouvées
 
@@ -40,10 +41,10 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | PROP-05 | Laurentia | CORRECT / ADD | Une ou deux entités ; aligner le rôle déclaré sur le mandat | C-03 | PENDING (arbitrage) |
 | PROP-06 | CVLN Holding | ADD / SUPERSEDE | Entité juridique de tête si elle existe ; relations `OWNS` étayées | C-04, pièces juridiques | PENDING (arbitrage + pièces) |
 | PROP-07 | Command Center ↔ registre | RESTRUCTURE | Command Center référence les `entity_id` canoniques (lecture seule de `/api/registry/export`) ; ses entités locales deviennent un cache lié, sans suppression | C-06 | PROPOSED |
-| PROP-08 | Inscription Command Center | CORRECT | Restreindre l’inscription publique au rôle Viewer (exigence HIST-04) | — | **Prêt** (patch préparé ; accès en écriture requis) |
-| PROP-09 | Exposition d’informations d’authentification (R-13) | CORRECT | Rotation des secrets et des mots de passe, dépôt privé, arrêt du suivi des fichiers d’identifiants | — | **Action du propriétaire requise** |
-| PROP-10 | `GET /api/contact` (Foundation, R-04) | CORRECT | Accès réservé par jeton administrateur ; désactivé si aucun jeton n’est configuré | — | Réalisé sur branche isolée (voir 08) |
-| PROP-11 | Contrôle d’intégrité du registre (R-03, C-11) | ADD | Script local sans dépendance + CI GitHub Actions ; il vérifie la validation, le gel de la baseline et les invariants d’audit | — | Réalisé sur branche isolée (voir 08) |
+| PROP-08 | Inscription Command Center | CORRECT | Restreindre l’inscription publique au rôle Viewer (exigence HIST-04) | — | **Réalisé sur branche isolée** (`command-center`, `claude/p6-registration-viewer-only`, `3e8d79c`) — fusion en attente |
+| PROP-09 | Exposition d’informations d’authentification (R-13) | CORRECT | Rotation des secrets et des mots de passe, dépôt privé, arrêt du suivi des fichiers d’identifiants | — | **Partiellement réalisé** : arrêt du suivi (`324b56d`, même branche) ; rotation et passage en privé = action du propriétaire (08, P0) |
+| PROP-10 | `GET /api/contact` (Foundation, R-04) | CORRECT | Accès réservé par jeton administrateur ; désactivé si aucun jeton n’est configuré | — | **Réalisé sur branche isolée** (`claude/p6-contact-admin-auth`, `9710ded`) — fusion en attente |
+| PROP-11 | Contrôle d’intégrité du registre (R-03, C-11) | ADD | Script local sans dépendance + CI GitHub Actions ; il vérifie la validation, le gel de la baseline et les invariants d’audit | — | **Réalisé sur branche isolée** (`claude/p6-registry-integrity-ci`, `caa58ff`) ; CI GitHub verte — fusion en attente |
 | PROP-12 | Source de vérité du code (R-15) | DECIDE | GitHub fait foi ; Emergent devient un outil de production de code qui passe par des branches et des revues | — | PROPOSED |
 | PROP-13 | Organisation GitHub (R-19) | ADD | Organisation GitHub du groupe ; transfert des dépôts ; dépôts internes privés | — | PROPOSED |
 | PROP-14 | Relations inférées | KEEP / REJECT | Validation une à une des 7 relations inférées | C-14 | PENDING (arbitrage) |
