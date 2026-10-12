@@ -1,0 +1,90 @@
+# 02 — Entity Inventory (Phase 1)
+
+- **Mission :** CVLN-GOV-RECON-001
+- **Phase :** 1 — Inventaire exhaustif
+- **Date :** 2026-10-11
+- **Statut :** DRAFT — aucune fusion, aucun renommage, aucune modification du registre
+
+## Règles appliquées
+
+- Les identifiants `ENT-*` sont ceux du registre canonique (SRC-01) et ne sont pas modifiés.
+- Les éléments absents du registre reçoivent un identifiant **candidat** `CAND-*`. Ce n’est pas une entrée au registre.
+- Les composants techniques observés (code, applications) reçoivent un identifiant `TECH-*`. Un composant technique n’est pas une entité juridique ou métier.
+- Les fournisseurs externes reçoivent un identifiant `EXT-*`.
+- Statuts selon le mandat §6 : `VERIFIED_OPERATIONAL`, `PARTIALLY_VERIFIED`, `DOCUMENTED_ONLY`, `IN_PROGRESS`, `BLOCKED`, `UNKNOWN`, `DEPRECATED`.
+- **Implémentation** = existence de code dans le périmètre accessible. **Opérationnel** = fonctionnement démontré par une preuve actuelle. **Juridique** = existence attestée par une pièce.
+- `DOCUMENTED_ONLY*` signifie : décrit uniquement dans des documents, **dans le périmètre accessible** (2 dépôts). Des réalisations peuvent exister ailleurs (voir D-02).
+
+## 1. Entités du registre canonique (29)
+
+Pour les 29 entités : `architectural_status: DECIDED` au registre, mais la validation des rattachements par Laurent CŒURVOLAN n’est pas tracée (C-01). Le statut juridique est `UNKNOWN` pour toutes : aucune pièce n’a été fournie.
+
+| ID | Nom | Type registre | Rôle déclaré | Parent (`PART_OF`) | Autres sources | Implémentation | Opérationnel | Notes / contradictions |
+|---|---|---|---|---|---|---|---|---|
+| ENT-CVLN-FOUNDATION | CVLN Foundation | LEGAL_ENTITY | Gouvernance · vision · racine | — (racine) | SRC-10 (« Fondation COEURVOLAN »), SRC-12 (« CVLN Foundation / Cœurvolan ») | DOCUMENTED_ONLY* (une vitrine existe : TECH-01) | UNKNOWN | Alias non formalisé ; type juridique non prouvé (C-09) |
+| ENT-CVLN-GROUP | CVLN Group | BUSINESS_ENTITY | Écosystème global · portefeuille | Foundation | SRC-04/05 (« CVLN Holding » ?), SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | Relation avec CVLN Holding inconnue (C-04) |
+| ENT-META-CVLN | Meta CVLN | BUSINESS_ENTITY | Gouvernance groupe · portefeuille | Group | SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | — |
+| ENT-INFRASTRUCTURES-CVLN | Infrastructures CVLN | INFRASTRUCTURE | Fondations techniques | Meta CVLN | — | DOCUMENTED_ONLY* | UNKNOWN | Catégorie de regroupement |
+| ENT-FREKCORE | FREKCORE | INFRASTRUCTURE | Identité · provenance · preuve | Infrastructures CVLN | SRC-04/05 (« La voix créative », pôle Média & Content), SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | Définition historique différente (C-02) |
+| ENT-FREK-ID | FREK-ID | SERVICE | Identité | FREKCORE | SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | — |
+| ENT-FREK-CHAIN | FREK-CHAIN | PROTOCOL | Provenance | FREKCORE | — | DOCUMENTED_ONLY* | UNKNOWN | — |
+| ENT-FREK-FORMATS | .FK · FREKANSLA · FREKRAW · Verified | FORMAT | Formats · preuve | FREKCORE | — | DOCUMENTED_ONLY* | UNKNOWN | 4 éléments regroupés sous une seule entité ; à confirmer |
+| ENT-PROOF-LAYER | Proof Layer | INFRASTRUCTURE | Evidence · notarial | Infrastructures CVLN | — | DOCUMENTED_ONLY* | UNKNOWN | « Valeur notariale » : affirmation à portée juridique, non étayée |
+| ENT-CVLN-WALLET | CVLN Wallet | PLATFORM | Économie · JCC · paiements | Infrastructures CVLN | SRC-04/05 (pôle Fintech), doctrine JCC | DOCUMENTED_ONLY* | UNKNOWN | Risque réglementaire des paiements (R-17) |
+| ENT-ENTITES-METIER-CVLN | Entités Métier CVLN | BUSINESS_ENTITY | Activités opérationnelles | Meta CVLN | — | DOCUMENTED_ONLY* | UNKNOWN | Catégorie de regroupement |
+| ENT-KORA | KORA | PLATFORM | Streaming · média | Entités Métier CVLN | SRC-04/05 (pôle Média & Content), SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | — |
+| ENT-LABELOS | LabelOS | PLATFORM | Label · droits | KORA | SRC-05, SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | Command Center connaît un type d’entité « label » (C-06) |
+| ENT-FACTORY-MAKER-STUDIO | Factory Maker Studio | PLATFORM | Création · studio | KORA | SRC-04/05 (pôle Tech & Data), SRC-24 (entité pré-chargée dans Command Center) | DOCUMENTED_ONLY* | UNKNOWN | Rattachement divergent (C-17) |
+| ENT-KILTIKONET | Kiltikonet | PLATFORM | Réseau culturel | Entités Métier CVLN | SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | Regroupement du mandat non reflété (C-13) |
+| ENT-CVLN-ACADEMY | CVLN Academy | PROGRAM | Formation · skills | Entités Métier CVLN | SRC-04/05 (pôle Éducation) | DOCUMENTED_ONLY* | UNKNOWN | Académies réparties sur deux branches (C-18) |
+| ENT-CVLN-INTELLIGENCE-OS | CVLN Intelligence OS | INFRASTRUCTURE | Système commun d’intelligence | Group | SRC-06 (`886ac8c` : « NON branché (comme demandé) ») | DOCUMENTED_ONLY* | UNKNOWN | Intégration annoncée mais inexistante (C-12) |
+| ENT-CVLN-BRAIN | CVLN Brain | SERVICE | Intelligence · LLM | Intelligence OS | SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | — |
+| ENT-CVLN-AGENT-FACTORY | CVLN Agent Factory | PLATFORM | Système nerveux · agents | CVLN Brain | SRC-04 (pôle Tech & Data), SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | Double relation avec Brain (C-14) |
+| ENT-LAURENTIA | Laurentia | AGENT | Agent · interface métier | Agent Factory | SRC-05 (« La terre au cœur du projet », pôle Agriculture & Terroir), SRC-12 (« opérateur IA … personnelle et métier ») | DOCUMENTED_ONLY* | UNKNOWN | Trois définitions différentes (C-03) |
+| ENT-CVLN-COMMAND-CENTER | CVLN Command Center | PLATFORM | Supervision · pilotage | Intelligence OS | SRC-04 (pôle Gouvernance), SRC-R2 (application) | **IN_PROGRESS** (TECH-02) | UNKNOWN | Rattachement divergent de la réalité technique (C-05) |
+| ENT-STRUCTURES-ENTITES | Structures & Entités | BUSINESS_ENTITY | Opérationnelles · programmes | Group | — | DOCUMENTED_ONLY* | UNKNOWN | Catégorie de regroupement |
+| ENT-CULTURE-CONNECT | Culture Connect | PROGRAM | Programme | Structures & Entités | SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | C-13 |
+| ENT-GOOD-MOOD | Good Mood | PROGRAM | Programme | Structures & Entités | SRC-04/05 (pôle Events) | DOCUMENTED_ONLY* | UNKNOWN | — |
+| ENT-GOOD-MOOD-FEST | Good Mood Fest | PROGRAM | Événement | Structures & Entités | SRC-12 | DOCUMENTED_ONLY* | UNKNOWN | — |
+| ENT-GALA-COOK-FOOD | Gala Cook & Food | PROGRAM | Gastronomie | Structures & Entités | SRC-05 (pôle Events & Art de vivre) | DOCUMENTED_ONLY* | UNKNOWN | Lien avec CAND-04 / CAND-05 à examiner |
+| ENT-FACTORY-MAKER-ACADEMY | Factory Maker Academy | PROGRAM | Formation | Structures & Entités | — | DOCUMENTED_ONLY* | UNKNOWN | C-18 |
+| ENT-KORA-ACADEMY | KORA Academy | PROGRAM | Formation | Structures & Entités | — | DOCUMENTED_ONLY* | UNKNOWN | C-18 |
+| ENT-FREK-ACADEMY | FREK Academy | PROGRAM | Formation | Structures & Entités | — | DOCUMENTED_ONLY* | UNKNOWN | C-18 |
+
+## 2. Éléments absents du registre (candidats)
+
+| ID | Nom | Sources | Nature apparente | Statut | Notes |
+|---|---|---|---|---|---|
+| CAND-01 | CVLN Holding | SRC-04, SRC-05 (« La structure mère qui porte la vision et coordonne l’ensemble de l’écosystème ») ; SRC-23 ; SRC-24 (entité pré-chargée dans la base Command Center) | Entité juridique ou de gouvernance ? | UNKNOWN | Absente du registre et du mandat, mais **vivante dans Command Center** (C-04) |
+| CAND-02 | Impact & Normes | SRC-04 | Pôle / programme ? | UNKNOWN | Disparu après `ec89531` ; aucune décision de retrait tracée (≠ DEPRECATED) |
+| CAND-03 | Observatory | SRC-12 | Composant culturel / observation | UNKNOWN | Aucune autre source |
+| CAND-04 | CVLN Hospitality | SRC-12 | Activité | UNKNOWN | Aucune autre source |
+| CAND-05 | CVL Culinary Innovations | SRC-12 | Activité / entité | UNKNOWN | Préfixe « CVL » (et non « CVLN ») à confirmer : variante ou entité distincte |
+| CAND-06 | JCC | SRC-01 (doctrine), SRC-12 | Monnaie interne (doctrine) | DOCUMENTED_ONLY* | Doctrine sans entité ; requalification interdite sans preuve |
+| CAND-07 | COEURVOLAN / Cœurvolan | SRC-10, SRC-12, `app/layout.js` | Nom fondateur, marque, alias de la Fondation ? | UNKNOWN | La vitrine distingue « COEURVOLAN inspire » de « CVLN construit » (C-09) |
+
+Pôles historiques, conservés comme **catégories** et non comme entités : Gouvernance, Fintech, Tech & Data, Média & Content, Éducation, Events / Events & Art de vivre, Agriculture & Terroir, Impact & Normes (SRC-04, SRC-05).
+
+## 3. Composants techniques observés
+
+| ID | Composant | Dépôt | Pile | Fonction observée | Implémentation | Opérationnel | Correspondance déclarée |
+|---|---|---|---|---|---|---|---|
+| TECH-01 | Vitrine « Fondation COEURVOLAN » + API du registre | SRC-R1 | Next.js 15.5.18, React 18.3.1, MongoDB | Site contemplatif ; API registre en lecture ; capture de contacts | IN_PROGRESS | **PARTIALLY_VERIFIED** : `validateRegistry()` réexécuté localement avec succès ; API et site non exécutés | Présentation de ENT-CVLN-FOUNDATION ; héberge SRC-01 |
+| TECH-02 | Application CVLN Command Center v1.0 | SRC-R2 | FastAPI, React 19, MongoDB, JWT | Tableau de bord interne : projets, tâches, finances, contacts CRM, événements, documents, KPI, entités, Board Pack, administration ; FR/EN | IN_PROGRESS | UNKNOWN (tests Emergent déclarés 44/44, non reproduits) | ENT-CVLN-COMMAND-CENTER (H-03 confirmée sur le nom et la fonction) |
+| TECH-03 | Registre d’entités de Command Center | SRC-R2 (`/api/entities`, collection `entities`) | MongoDB | Entités opérationnelles (types `holding`/`studio`/`label`/`agency`/`other`), rattachement des projets | IN_PROGRESS | UNKNOWN | **Second registre, indépendant de SRC-01** (C-06) |
+
+## 4. Fournisseurs et dépendances externes
+
+| ID | Fournisseur | Utilisé par | Rôle observé | Souveraineté |
+|---|---|---|---|---|
+| EXT-01 | Emergent (emergent.sh / emergentagent.com) | TECH-01, TECH-02 | Génération du code, identité Git, images d’environnement, prévisualisations, tâches planifiées (TECH-01), agents de test | **Dépendance forte** : tous les commits d’origine (44) sont faits par l’agent Emergent |
+| EXT-02 | MongoDB (instance inconnue ; `localhost` dans l’historique de Command Center) | TECH-01, TECH-02 | Persistance | Hébergeur inconnu |
+| EXT-03 | Google Fonts | TECH-01 | Polices | Remplaçable |
+| EXT-04 | GitHub | TECH-01, TECH-02 | Hébergement du code | Compte personnel `kimoune2025-a11y`, créé le 2026-08-31 |
+
+## 5. Éléments manquants (à obtenir)
+
+1. Le schéma ASCII original de l’architecture (SRC-X1), seule source pouvant trancher C-01.
+2. Les dépôts ou emplacements des 17 composants nommés au mandat §5 sans code accessible (D-02).
+3. Les pièces juridiques : statuts, immatriculations, marques, contrats (SRC-X6).
+4. La liste réelle des entités de la base Command Center (SRC-X5).
