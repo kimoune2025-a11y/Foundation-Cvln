@@ -133,6 +133,7 @@ Tous les `verified_reality` valent `UNVERIFIED` et tous les `evidence_source` va
 | OBS-14 | TECH-09 Laurent.ia | Valide le FREK-ID (pont amont) | TECH-07 Kiltikonet / TECH-06 FREKCORE | `ECOSYSTEM_CONNECT.md` §1 ; `FREKCORE_API_URL` dans le code | Documenté ; non testé |
 | OBS-15 | TECH-08 Meta CVLN | Annuaire : URL et authentification de 12 entités ; SSO par jeton FREKCORE | Tout l’écosystème | `Metacvln-Sept2026/backend/registry_data.py` | Doctrine déclarée ; concurrence le registre canonique (C-20) |
 | OBS-16 | Toute brique hors TECH-02 | Lecture du registre canonique (`/api/registry/export`) | TECH-01 Foundation | Survol des 15 dépôts | **Aucune** : seul Command Center lit le registre |
+| OBS-17 | TECH-08 Meta CVLN (annuaire) | Référence l’entité propriétaire (`registry_id`) | TECH-01 registre canonique | `Metacvln-Sept2026@4f6d55b` (branche `claude/nifty-hopper-b9n258`) | **Présent** (DEC-0011) ; 11/12 entrées ancrées, Production Vault sans entité canonique |
 
 ## 4. Points structurels détectés
 

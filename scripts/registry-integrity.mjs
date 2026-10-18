@@ -9,7 +9,7 @@
  * Ce script ne modifie rien. Il échoue (code 1) si :
  *   1. validateRegistry() signale une erreur ;
  *   2. le registre diffère du snapshot gelé de la baseline
- *      (lib/registry/baseline/foundation-baseline-v2.json) — toute
+ *      (lib/registry/baseline/foundation-baseline-v3.json) — toute
  *      évolution du registre doit être délibérée et passer par une
  *      nouvelle baseline versionnée ;
  *   3. une entité possède plusieurs parents PART_OF ;
@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const BASELINE_PATH = path.join(ROOT, 'lib/registry/baseline/foundation-baseline-v2.json')
+const BASELINE_PATH = path.join(ROOT, 'lib/registry/baseline/foundation-baseline-v3.json')
 
 const R = await import(path.join(ROOT, 'lib/registry/cvlnRegistry.js'))
 const snapshot = JSON.parse(readFileSync(BASELINE_PATH, 'utf8'))

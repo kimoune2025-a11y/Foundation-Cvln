@@ -65,7 +65,8 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | X-11 | Academy → Agent Factory | Orchestration de missions, jeton de service | Présent (code Academy) ; non testé |
 | X-12 | Meta CVLN → Laurent.ia | `POST /api/briefing`, `X-API-Key` | Documenté ; non testé |
 | X-13 | Laurent.ia → FREKCORE / Kiltikonet | Validation FREK-ID | Présent (variable dans le code) ; non testé |
-| — | Toute brique → registre Foundation | `GET /api/registry/export` | **Absent**, sauf Command Center (X-01) |
+| X-14 | Annuaire Meta CVLN → registre Foundation | Champ `registry_id` (`ENT-*`) sur chaque entrée de l’annuaire (DEC-0011) | **Présent** (branche `Metacvln-Sept2026@claude/nifty-hopper-b9n258`) ; ancrage par identifiant, sans appel réseau |
+| — | Autres briques → registre Foundation | `GET /api/registry/export` | **Absent**, sauf Command Center (X-01) |
 
 Lecture : l’écosystème s’interconnecte déjà **autour de FREK-ID (identité)** et d’Agent Factory (exécution), mais **sans référentiel commun d’entités**.
 
