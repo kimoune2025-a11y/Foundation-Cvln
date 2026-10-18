@@ -1,7 +1,7 @@
 # 09 — Integration Matrix
 
 - **Mission :** CVLN-GOV-RECON-001
-- **Date :** 2026-10-12
+- **Date :** 2026-10-12 (mise à jour 2026-10-18)
 - **Statut :** vivant — décrit les connexions **réellement codées et testées**, pas les connexions souhaitées
 - **Architecture de référence :** registre canonique (baseline v2) ; Command Center sous CVLN Intelligence OS (DEC-0010), outil privé de pilotage (DEC-0006), autonome vis-à-vis d’Emergent (EV-P6-12)
 
@@ -34,9 +34,13 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | API du registre `/api/registry/*`, `/api/entities`, `/api/relations` | Foundation | **Fusionné, testé** (consommé par la CI de Command Center) | Lecture publique, sans écriture |
 | Formulaire de contact `/api/contact` | Foundation | **Fusionné, testé** | `POST` public borné ; `GET` réservé au jeton `CONTACT_ADMIN_TOKEN` |
 | CVLN Command Center (`ENT-CVLN-COMMAND-CENTER`, sous `ENT-CVLN-INTELLIGENCE-OS`) | command-center | **Fusionné, testé** ; **non déployé** à la connaissance de la mission | Pile Docker auto-hébergée prête (`docker compose up -d --build`) |
-| CVLN Intelligence OS, CVLN Brain, Agent Factory, Laurentia | — | `DOCUMENTED_ONLY` | Aucun dépôt ni API : rien à raccorder. Ne pas brancher Intelligence OS sur le registre sans décision (HIST-01) |
-| FREKCORE, FREK ID, FREK Chain, FREK Formats, Proof Layer, CVLN Wallet | — | `DOCUMENTED_ONLY` | Aucun code. Wallet / JCC : analyse juridique préalable (R-17) |
-| KORA, LabelOS, Factory Maker Studio, KiltikoNet, CVLN Academy | — | `DOCUMENTED_ONLY` | Aucun code |
+| CVLN Agent Factory (TECH-05) | SRC-R3 | **Présent** ; mise en ligne Render en échec (EV-P6-19) | API réelle (158 routes) ; **non raccordée au registre** |
+| Laurent.ia (TECH-09) | SRC-R8 | **Présent** ; service Render documenté, non observé | API de briefing protégée par clé |
+| FREKCORE (TECH-06) | SRC-R5 | **Présent** ; contrat OpenAPI versionné | Autorité d’identité FREK-ID déclarée (C-22) |
+| CVLN Academy (TECH-12), Kiltikonet (TECH-07), Meta CVLN (TECH-08), KORA (TECH-10) | SRC-R12, R6, R7, R9 | **Présent** | Voir [02](02-entity-inventory.md) §3 |
+| CVLN Intelligence OS (TECH-11), CVLN Brain | SRC-R16 (spécification) | `DOCUMENTED` | Spécification de 161 fichiers, pas d’application. Ne pas brancher Intelligence OS sur le registre sans décision (HIST-01) |
+| FREK Chain, FREK Formats, CVLN Wallet | — | Non examiné séparément | Mini-wallet JCC présent dans Kiltikonet et Academy ; analyse juridique préalable (R-17) |
+| LabelOS, Factory Maker Studio | — | `DOCUMENTED_ONLY` | Aucun dépôt identifié |
 | Structures & Entités (Culture Connect, Good Mood, …) | — | `DOCUMENTED_ONLY` | Entités, pas de logiciel |
 
 ## 3. Matrice des connexions
@@ -52,6 +56,20 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | X-08 | Synchronisation automatique Command Center ← Foundation | Au démarrage puis toutes les `FOUNDATION_SYNC_INTERVAL` secondes (3600 par défaut, `0` = désactivée), dès que `FOUNDATION_API_URL` est renseignée : registre puis prospects | Processus serveur (`system:scheduler`), aucun compte humain | Comme X-01 et X-02 ; résultat consigné et affiché | `test_scheduler_syncs_without_anyone_clicking` ; base vide remplie seule au démarrage (32 entités) | **Fusionné, testé** |
 | X-06 | Navigateur → Command Center | nginx sert l’interface et relaie `/api` vers le backend (même origine) | JWT ; inscription publique fermée ; documents authentifiés | — | Tests d’API (49) ; parcours Playwright | **Fusionné, testé** ; **non déployé** |
 
+**Connexions entre les autres briques (2026-10-18, survol, EV-P6-20)** — elles existent hors du périmètre testé par la mission :
+
+| # | De → vers | Contrat | Niveau |
+|---|---|---|---|
+| X-09 | Academy → Command Center | `POST /api/academy/{événement}`, compte de service `events:academy` | **Présent** des deux côtés (Command Center : sur `main`) ; non testé de bout en bout |
+| X-10 | Academy → FREKCORE | FREK-ID : `POST /api/v1/auth/token` puis émission du FREK-ID | Présent (code Academy) ; non testé |
+| X-11 | Academy → Agent Factory | Orchestration de missions, jeton de service | Présent (code Academy) ; non testé |
+| X-12 | Meta CVLN → Laurent.ia | `POST /api/briefing`, `X-API-Key` | Documenté ; non testé |
+| X-13 | Laurent.ia → FREKCORE / Kiltikonet | Validation FREK-ID | Présent (variable dans le code) ; non testé |
+| X-14 | Annuaire Meta CVLN → registre Foundation | Champ `registry_id` (`ENT-*`) sur chaque entrée de l’annuaire (DEC-0011) | **Présent** (branche `Metacvln-Sept2026@claude/nifty-hopper-b9n258`) ; ancrage par identifiant, sans appel réseau |
+| — | Autres briques → registre Foundation | `GET /api/registry/export` | **Absent**, sauf Command Center (X-01) |
+
+Lecture : l’écosystème s’interconnecte déjà **autour de FREK-ID (identité)** et d’Agent Factory (exécution), mais **sans référentiel commun d’entités**.
+
 Aucune connexion de Foundation vers Command Center : Command Center tire les données (sens unique), Foundation n’a besoin d’aucun accès au centre de pilotage, qui reste privé.
 
 ## 4. Raccordements absents et blocages
@@ -59,12 +77,13 @@ Aucune connexion de Foundation vers Command Center : Command Center tire les don
 | Raccordement | Blocage | Détenteur | Débloque |
 |---|---|---|---|
 | Command Center ↔ Intelligence OS / Brain / Agent Factory / Laurentia | Aucun code ni contrat d’API pour ces composants | Laurent CŒURVOLAN (choix de construction) | Toute la couche IA |
-| Déploiement de Command Center | Aucune infrastructure du groupe accessible depuis la session ; fusion ≠ déploiement autorisé | Laurent CŒURVOLAN | Niveaux « Déployé » et « Opérationnel » |
+| Déploiement de Command Center | Aucune mise en ligne observée (EV-P6-17 attribué à tort, corrigé par EV-P6-19). Guide Render prêt (`deploy/RENDER.md`, branche `claude/nifty-hopper-b9n258`) ; disque Render éphémère pour les documents | Laurent CŒURVOLAN | Niveaux « Déployé » et « Opérationnel » |
 | Déploiement de Foundation | URL de production inconnue ; `FOUNDATION_API_URL` ne peut pas être renseignée | Laurent CŒURVOLAN | X-01 et X-02 en production |
 | Jeton partagé X-02 | À générer (`openssl rand -hex 32`) et à poser des deux côtés, hors Git | Laurent CŒURVOLAN | Import des prospects |
 | Protection de `main` (2 dépôts) | Paramètre du propriétaire | Laurent CŒURVOLAN | R-01 |
 | Structure juridique (C-04) | Pièces juridiques | Laurent CŒURVOLAN | Statuts juridiques ; ne bloque pas les raccordements techniques |
-| Autres dépôts de l’écosystème | Inexistants ou inaccessibles (R-19, D-02) | Laurent CŒURVOLAN | Phase 1 étendue |
+| Mise en ligne d’Agent Factory | Échec au démarrage sur Render : identifiants Atlas refusés (EV-P6-19) | Laurent CŒURVOLAN (`MONGO_URL` dans Render) | Couche d’exécution IA |
+| Raccordement des autres briques au registre | Aucun client du registre hors Command Center (OBS-16) ; rôles des référentiels à arbitrer (C-20) ; registre à mettre à jour (C-22) | Laurent CŒURVOLAN (arbitrage) | Référentiel commun du groupe |
 
 ## 5. Mise en service (ordre)
 

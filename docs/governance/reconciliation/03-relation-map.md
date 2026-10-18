@@ -126,6 +126,14 @@ Tous les `verified_reality` valent `UNVERIFIED` et tous les `evidence_source` va
 | OBS-07 | TECH-02 ↔ TECH-01 | — | — | Recherche dans les deux dépôts | **Aucune intégration** : Command Center ne lit pas le registre canonique ; Foundation ne lit pas Command Center |
 | OBS-08 | TECH-02 ↔ CVLN Intelligence OS / Brain / Agent Factory | — | — | Recherche dans SRC-R2 | **Aucune intégration** : aucun appel LLM, aucun agent. Le paquet Emergent `emergentintegrations==0.1.0` est déclaré dans `backend/requirements.txt` mais n’est importé nulle part |
 | OBS-09 | Intelligence OS → `/api/registry/export` | PROPOSED (suggestion de l’agent) | TECH-01 | `886ac8c` (« Prêt au branchement … ») ; même commit : « CVLN Intelligence OS NON branché (comme demandé) » | Interface **non implémentée**, conformément à une demande tracée |
+| OBS-10 | TECH-12 Academy | DEPENDS_ON (identité FREK-ID, `POST /api/v1/auth/token`) | TECH-06 FREKCORE | `CVL-ACADEMY/INTEGRATION_CONTRACT.md` ; variables `FREK_CORE_BASE_URL` dans le code | Contrat documenté et référencé dans le code ; **non testé par la mission** |
+| OBS-11 | TECH-12 Academy | DEPENDS_ON (orchestration de missions, jeton de service) | TECH-05 Agent Factory | `INTEGRATION_CONTRACT.md` ; `CVLN_AGENT_FACTORY_URL` dans le code | Idem |
+| OBS-12 | TECH-12 Academy | Envoie des événements (`POST /api/academy/{événement}`, droit `events:academy`) | TECH-02 Command Center | Côté Command Center : `backend/server.py@775cb4f:1243` (sur `main`) ; côté Academy : `COMMAND_CENTER_URL` dans `services/integrations/` | **Code présent des deux côtés** ; non testé de bout en bout |
+| OBS-13 | TECH-08 Meta CVLN | Consomme le briefing (`POST /api/briefing`, `X-API-Key`) | TECH-09 Laurent.ia | `Laurent.ia/docs/ECOSYSTEM_CONNECT.md` §3 | Contrat documenté côté fournisseur ; code consommateur non vérifié |
+| OBS-14 | TECH-09 Laurent.ia | Valide le FREK-ID (pont amont) | TECH-07 Kiltikonet / TECH-06 FREKCORE | `ECOSYSTEM_CONNECT.md` §1 ; `FREKCORE_API_URL` dans le code | Documenté ; non testé |
+| OBS-15 | TECH-08 Meta CVLN | Annuaire : URL et authentification de 12 entités ; SSO par jeton FREKCORE | Tout l’écosystème | `Metacvln-Sept2026/backend/registry_data.py` | Doctrine déclarée ; concurrence le registre canonique (C-20) |
+| OBS-16 | Toute brique hors TECH-02 | Lecture du registre canonique (`/api/registry/export`) | TECH-01 Foundation | Survol des 15 dépôts | **Aucune** : seul Command Center lit le registre |
+| OBS-17 | TECH-08 Meta CVLN (annuaire) | Référence l’entité propriétaire (`registry_id`) | TECH-01 registre canonique | `Metacvln-Sept2026@4f6d55b` (branche `claude/nifty-hopper-b9n258`) | **Présent** (DEC-0011) ; 11/12 entrées ancrées, Production Vault sans entité canonique |
 
 ## 4. Points structurels détectés
 

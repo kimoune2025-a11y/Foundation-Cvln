@@ -16,7 +16,28 @@ Une source n’est **jamais** une preuve de réalité opérationnelle par elle-m
 | SRC-R1 | kimoune2025-a11y/Foundation-Cvln | https://github.com/kimoune2025-a11y/Foundation-Cvln | Public ; lecture + écriture (session) | `main` (non protégée) | `main@886ac8c` + `claude/elegant-pascal-b0qe12` | 8 sur `main` (+ commits de mission) | **Complète** (code, historique, configuration) |
 | SRC-R2 | kimoune2025-a11y/command-center | https://github.com/kimoune2025-a11y/Command-center | Public ; lecture seule au 2026-10-11 (EV-P1-01) ; écriture autorisée le 2026-10-12 (DEC-0005, EV-P6-01), utilisée uniquement sur la branche isolée `claude/p6-registration-viewer-only`, sans fusion sur `main` | `main` | `main@f9a61cc` | 36 (2026-02-05 → 2026-08-31) | **Complète en lecture** (code, historique, rapports de test), y compris le code v1.2 retiré (`31036ce`, SRC-29) ; protection de branche non inspectée |
 
-Aucun autre dépôt n’est visible depuis la session (`list_repos` : 2 dépôts ; `get_me` : `public_repos: 2`). Cela n’exclut pas des dépôts privés non autorisés pour l’application Claude, ni des dépôts situés sur d’autres comptes ou organisations. Voir [00-scope-and-access.md](00-scope-and-access.md) §6.
+**Ajout 2026-10-18 (EV-P6-18, EV-P6-20).** Couverture des dépôts ci-dessous : **survol structurel** (arborescence, README, pile, volume, nombre de routes, CI, documents d’intégration), clone superficiel de 20 commits. Le code n’a pas été exécuté ; le contenu des fichiers d’identifiants n’a pas été lu.
+
+| ID | Dépôt | Visibilité / accès | Branche par défaut | HEAD audité | Branches distantes | Couverture |
+|---|---|---|---|---|---|---|
+| SRC-R3 | frekcore/CVLNAgentfactory | Privé ; lecture (session) | `CVLN-AGENT-FACTORY` | `c6f0e86` (2026-10-17) | 18 | Survol |
+| SRC-R4 | cultureconnectorg/Cvlnagentfactory | Privé | UNKNOWN | UNKNOWN | UNKNOWN | **Non lu** : homonyme de SRC-R3, ne peut pas être rattaché à la même session. **Non canonique** (DEC-0014) |
+| SRC-R5 | cultureconnectorg/frekcoreAout2026 | Privé ; lecture | `main` | `5d1d570` (2026-10-15) | 24 | Survol |
+| SRC-R6 | cultureconnectorg/Kiltikonet-Aout2026 | Privé ; lecture | `main` | `8e0b9dd` (2026-10-15) | ≥ 500 | Survol |
+| SRC-R7 | cultureconnectorg/Metacvln-Sept2026 | Privé ; lecture | `main` | `7673bfc` (2026-09-25) | 14 | Survol |
+| SRC-R8 | cultureconnectorg/Laurent.ia | **Public** ; lecture anonyme | `public` | `b8ad480` (2026-10-16) | 57 | Survol |
+| SRC-R9 | kora2024/Kora-app | Privé ; lecture | `main` | `48a9a4e` (2026-10-07) | 16 | Survol |
+| SRC-R10 | cultureconnectorg/Cvln-ios-v.1 | Privé ; lecture | `main` | `b018c88` (2026-08-31) | 4 | Survol ; même HEAD que SRC-R16 |
+| SRC-R11 | cultureconnectorg/Culutureconnect2026 | Privé ; lecture | `CC2026` | `a818b8f` (2026-04-09) | 2 | Survol |
+| SRC-R12 | cultureconnectorg/CVL-ACADEMY | Privé ; lecture | `main` | `e6512f0` (2026-09-21) | 194 | Survol + `INTEGRATION_CONTRACT.md` |
+| SRC-R13 | cultureconnectorg/Kiltikonet | Privé ; lecture | `main` | `385ff75` (2026-09-26) | 7 | Survol |
+| SRC-R14 | cultureconnectorg/Kora | Privé | — | — | 0 | **Dépôt vide** |
+| SRC-R15 | cultureconnectorg/Kiltikonet-mai2026 | Privé ; lecture | `main` | `df9c805` (2026-09-21) | 2 | Survol |
+| SRC-R16 | ioscvln/CVLN-ios-v1 | **Public** ; lecture anonyme | `main` | `b018c88` (2026-08-31) | 1 | Survol + `cvln-intelligence-os/README.md` |
+| SRC-R17 | metacvln-spec/MetaCVLN | **Public** ; lecture anonyme | `main` | `b36a893` (2026-08-19) | 1 | Survol + `backend/registry_data.py` |
+| SRC-R18 | cultureconnectorg/cultureconnect | Privé | — | — | 0 | **Dépôt vide** |
+
+*Situation au 2026-10-12, conservée pour l’historique :* aucun autre dépôt n’était visible depuis la session (`list_repos` : 2 dépôts ; `get_me` : `public_repos: 2`). Cela n’exclut pas des dépôts privés non autorisés pour l’application Claude, ni des dépôts situés sur d’autres comptes ou organisations. Voir [00-scope-and-access.md](00-scope-and-access.md) §6.
 
 ## 2. Sources documentaires et techniques
 
@@ -70,7 +91,7 @@ Aucun autre dépôt n’est visible depuis la session (`list_repos` : 2 dépôts
 
 | Périmètre | État |
 |---|---|
-| Dépôts accessibles | 2/2 examinés |
+| Dépôts accessibles | 2 examinés en entier ; 15 survolés, 1 non lu (SRC-R4) au 2026-10-18 |
 | Entrées du mandat §5 ayant un dépôt identifié | 2/19 : Foundation-Cvln (vitrine + registre), Command Center ; les 17 autres entrées regroupent 22 composants nommés, sans dépôt accessible |
 | Sources historiques Git | 44 commits d’origine examinés (8 + 36) |
 | Sources juridiques | 0 |

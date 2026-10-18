@@ -30,6 +30,10 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 | C-17 | **Résolue** | Factory Maker Studio reste sous KORA (registre) |
 | C-18 | **Résolue** | CVLN Academy coordonne les trois académies (relations `GOVERNS` inférées, baseline v2) |
 | C-19 | **Résolue** | Command Center porte le journal des décisions et le registre des risques, importés des documents de la mission |
+| C-20 | **Tranchée** (DEC-0011) | Foundation = entités ; Meta CVLN = annuaire des services indexé par `ENT-*` ; Kiltikonet = structure interne |
+| C-21 | **Tranchée** (DEC-0013) | Command Center de Kiltikonet = panneau interne du propriétaire, conservé sans renommage |
+| C-22 | **Tranchée** (DEC-0012) | Baseline v3 autorisée (statuts d’implémentation constatés) |
+| C-23 | **Tranchée** (DEC-0014) | Un dépôt de référence par brique ; les autres sont conservés comme versions antérieures |
 
 ## 1. Contradictions
 
@@ -159,6 +163,36 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 - **Résolution proposée :** EXTEND — faire de Command Center (privé, authentifié) le lieu d’exploitation des décisions, risques et preuves, alimenté par les registres de la mission ; la documentation publique ne garde que la gouvernance non sensible.
 - **Arbitrage requis :** oui.
 
+### C-20 — Plusieurs référentiels se présentent comme source centrale · Haute
+
+- **Constat :** le registre de Foundation est le référentiel canonique du groupe (DEC-0010). Or Meta CVLN publie son propre annuaire de 12 entités comme « source unique » de l’écosystème (OBS-15) ; Kiltikonet déclare `kiltikonet_architecture.py` « source normative unique » de sa structure ; la spécification Intelligence OS contient un dossier `registry/`.
+- **Preuves :** EV-P6-20, SRC-R7, SRC-R6, SRC-R16.
+- **Conséquence :** sans partage des rôles, chaque brique construit sa vérité ; l’interconnexion du groupe se ferait sur des identifiants divergents.
+- **Résolution proposée :** Foundation = entités et relations du groupe (`ENT-*`) ; Meta CVLN = **annuaire de services** (URL, contrat, authentification) indexé par `ENT-*` ; Kiltikonet = structure interne d’un produit. À valider.
+- **Arbitrage requis :** oui.
+
+### C-21 — Deux « Command Center » · Moyenne
+
+- **Constat :** CVLN Command Center (TECH-02, pilotage privé du groupe) et le Command Center interne de Kiltikonet (`/command`, « pilotage central / gouvernance » de Kiltikonet).
+- **Preuves :** SRC-R2, `Kiltikonet-Aout2026/ARCHITECTURE.md` §5.
+- **Résolution proposée :** conserver les deux, renommer ou qualifier celui de Kiltikonet (« Kiltikonet Command ») ; le pilotage du groupe reste TECH-02.
+- **Arbitrage requis :** oui.
+
+### C-22 — Statuts « documenté uniquement » contredits par le code · Haute
+
+- **Constat :** l’arbitrage par défaut D-02 et le registre (baseline v2) classent Agent Factory, FREKCORE, Laurentia, KORA, Kiltikonet, Academy et Meta CVLN comme sans code. Ces briques ont du code réel (EV-P6-20). FREKCORE est en outre déclaré **autorité d’identité** (FREK-ID) par Academy, Meta CVLN et Laurent.ia.
+- **Preuves :** EV-P6-18, EV-P6-20.
+- **Conséquence :** la vue Architecture de Command Center affiche un état d’implémentation faux.
+- **Résolution proposée :** baseline v3 du registre mettant à jour `implementation_status` et `source_repositories` (PROP-03), sur décision ; la baseline v2 reste gelée en attendant.
+- **Arbitrage requis :** oui (modification du registre).
+
+### C-23 — Dépôts en double et dispersés · Moyenne
+
+- **Constat :** Kiltikonet existe en 4 dépôts (SRC-R6, R11, R13, R15, dont 3 avec le même README « CC2026 ») ; Agent Factory en 2 (SRC-R3, R4) ; Meta CVLN en 2 (SRC-R7, R17) ; l’application iOS en 2 au même commit (SRC-R10, R16) ; 2 dépôts vides. 6 comptes GitHub.
+- **Preuves :** EV-P6-18, EV-P6-20.
+- **Résolution proposée :** désigner un dépôt canonique par brique, archiver les autres (sans suppression), regrouper dans une organisation GitHub du groupe (PROP-13).
+- **Arbitrage requis :** oui.
+
 *(C-15 et C-16, envisagés pendant l’analyse, ont été fusionnés dans C-03 et R-17 ; les numéros ne sont pas réattribués.)*
 
 ## 2. Registre des risques (consolidé)
@@ -174,3 +208,5 @@ Les risques R-01 à R-12 sont décrits dans [00-scope-and-access.md](00-scope-an
 | R-17 | Wallet / JCC / paiements : une activité de paiement ou de monnaie interne peut relever d’une réglementation (monnaie électronique, services de paiement, actifs numériques) quelle que soit la doctrine interne | SRC-01 (doctrine JCC) | Haute (avant toute mise en œuvre) | Analyse juridique préalable ; la doctrine reste inchangée |
 | R-18 | Propriété intellectuelle non tracée (marques, noms, logiciels générés par un tiers, conditions d’Emergent sur la propriété du code) | SRC-X6, EXT-01 | Haute | Registre de PI ; revue des conditions Emergent |
 | R-19 | Les deux seuls dépôts connus sont hébergés sur un compte GitHub personnel (`kimoune2025-a11y`, créé le 2026-08-31) et non dans une organisation ; aucune organisation du groupe n’a été identifiée dans le périmètre accessible, sans que leur absence ait été vérifiée ; l’emplacement des autres actifs logiciels reste inconnu (D-02) | EV-P0-03 | Moyenne | Organisation GitHub du groupe |
+| R-20 | Fichiers d’identifiants ou de clé suivis dans Git : `memory/test_credentials.md` (SRC-R5, SRC-R9, privés) ; `backend/.keys/export_ed25519.key` (SRC-R16, **public**, et son miroir SRC-R10). Contenu non inspecté par la mission | EV-P6-20 | **Critique** (dépôt public) | Le propriétaire vérifie ; si la clé est privée : la révoquer et la remplacer, retirer le fichier du suivi (l’historique Git la conserve) |
+| R-21 | Dépendance persistante à Emergent dans Kiltikonet (clé LLM, stockage d’objets ; ~50 fichiers) et ses versions antérieures | EV-P6-20 | Moyenne | Plan de sortie, comme pour Command Center et KORA |
