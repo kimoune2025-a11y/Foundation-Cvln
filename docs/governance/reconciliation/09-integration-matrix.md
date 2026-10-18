@@ -68,10 +68,10 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | X-14 | Annuaire Meta CVLN → registre Foundation | Champ `registry_id` (`ENT-*`) sur chaque entrée de l’annuaire (DEC-0011) | **Présent** (branche `Metacvln-Sept2026@claude/nifty-hopper-b9n258`) ; ancrage par identifiant, sans appel réseau |
 | X-15 | Academy → registre Foundation | `GET {CVLN_REGISTRY_URL}/registry/export` ; contrôle namespace, schéma 1.x, validation, présence d’`ENT-CVLN-ACADEMY` ; `GET /api/integrations/registry` (admin) | **Présent, testé** (8 tests simulés) ; branche `claude/nifty-hopper-b9n258`, non fusionnée (CI du compte bloquée) |
 | X-16 | Agent Factory → registre Foundation | Même contrat ; `GET /api/cvln-registry` et `/api/cvln-registry/check` ; `registry_id` sur ses entités | **Fusionné, testé** (11 tests simulés ; `a64ccac`) |
-| X-17 | Laurent.ia → registre Foundation | `CVLN_REGISTRY_BASE_URL` + `CVLN_REGISTRY_ALLOWED_HOSTS` ; `GET /api/admin/cvln-registry` (founder/admin) | **Présent, testé** (11 tests simulés) ; branche |
-| X-18 | FREKCORE → registre Foundation | `GET /api/v1/ecosystem/group-registry` ; `registry_id` dans `ecosystem/registry.json` | **Présent, testé** (8 tests simulés) ; branche |
-| X-19 | KORA → registre Foundation | `GET /api/cvln-registry` (admin) | **Présent, testé** (8 tests simulés) ; branche |
-| X-20 | Kiltikonet → registre Foundation | `GET /api/kiltikonet-code/group-registry` ; annuaire de secours ancré sur `ENT-*` | **Présent, testé** (9 tests simulés) ; branche |
+| X-17 | Laurent.ia → registre Foundation | `CVLN_REGISTRY_BASE_URL` + `CVLN_REGISTRY_ALLOWED_HOSTS` ; `GET /api/admin/cvln-registry` (founder/admin) | **Fusionné, testé** (CI verte ; `Laurent.ia@25c68d1`, cultureconnectorg/Laurent.ia#45) |
+| X-18 | FREKCORE → registre Foundation | `GET /api/v1/ecosystem/group-registry` ; `registry_id` dans `ecosystem/registry.json` | **Présent, testé** (8 tests simulés) ; branche — **CI bloquée** (compte `cultureconnectorg`), non fusionnée |
+| X-19 | KORA → registre Foundation | `GET /api/cvln-registry` (admin) | **Fusionné, testé** (KORA CI verte ; `Kora-app@39adfe4`, kora2024/Kora-app#14) |
+| X-20 | Kiltikonet → registre Foundation | `GET /api/kiltikonet-code/group-registry` ; annuaire de secours ancré sur `ENT-*` | **Présent, testé** (9 tests simulés) ; branche — **CI bloquée** (cultureconnectorg/Kiltikonet-Aout2026#457), non fusionnée |
 
 Contrat commun (X-15 à X-20) : lecture seule et publique de `/api/registry/export`, sans identifiant ; échec explicite si l’espace de noms n’est pas `cvln`, si le schéma n’est pas 1.x, si la validation échoue ou si l’identifiant attendu manque ; rien n’est appelé au démarrage. Les 7 briques de référence (DEC-0014) parlent le même langage d’identifiants ; la liaison réelle attend le déploiement de Foundation.
 
