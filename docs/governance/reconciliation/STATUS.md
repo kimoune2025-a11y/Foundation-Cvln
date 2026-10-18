@@ -41,6 +41,7 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 | Protection de `main` (2 dépôts) | Laurent CŒURVOLAN | R-01 |
 | Couche IA : Agent Factory et Laurent.ia ont du code et des API (EV-P6-20) ; Intelligence OS = spécification ; raccordement au registre sur décision (HIST-01, C-20, C-22) | Laurent CŒURVOLAN | Raccordement de la couche IA |
 | Fichiers d’identifiants ou de clé suivis, dont un dans un dépôt public (R-20) | Laurent CŒURVOLAN | Sécurité |
+| GitHub Actions ne démarre plus sur `cultureconnectorg/CVL-ACADEMY` (jobs terminés en 2 s sans journal, y compris sur `main` depuis le 2026-10-17) : cause probable au niveau du compte (minutes ou limite de dépenses), non confirmée | Laurent CŒURVOLAN (paramètres de facturation GitHub) | CI d’Academy |
 | Pièces juridiques (structure de tête, détention, PI) — ne bloque pas les raccordements techniques | Laurent CŒURVOLAN | C-04, statuts juridiques |
 
 ## 4. Prochaine action autorisée
