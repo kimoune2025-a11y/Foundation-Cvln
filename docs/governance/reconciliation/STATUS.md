@@ -41,7 +41,7 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 | Protection de `main` (2 dépôts) | Laurent CŒURVOLAN | R-01 |
 | Couche IA : Agent Factory et Laurent.ia ont du code et des API (EV-P6-20) ; Intelligence OS = spécification ; raccordement au registre sur décision (HIST-01, C-20, C-22) | Laurent CŒURVOLAN | Raccordement de la couche IA |
 | Fichiers d’identifiants ou de clé suivis, dont un dans un dépôt public (R-20) | Laurent CŒURVOLAN | Sécurité |
-| **R-20 confirmé** : clé privée de signature Ed25519 publique dans `ioscvln/CVLN-ios-v1` (EV-P6-24) — la considérer compromise, la remplacer hors Git, révoquer les signatures faites avec elle | Laurent CŒURVOLAN | Intégrité des dossiers de preuve |
+| **R-20 confirmé** : clé privée de signature Ed25519 publique dans `ioscvln/CVLN-ios-v1` (EV-P6-24) — correctif prêt (révocation + nouvelle clé hors Git + CI, EV-P6-25) sur le miroir privé ; à appliquer au dépôt public : installer l’application GitHub Claude sur `ioscvln` (ou pousser la branche soi-même), puis fusion sur CI verte ; décider privé / réécriture d’historique | Laurent CŒURVOLAN | Intégrité des dossiers de preuve |
 | GitHub Actions ne démarre plus sur `cultureconnectorg/CVL-ACADEMY` (jobs terminés en 2 s sans journal, y compris sur `main` depuis le 2026-10-17) : quota GitHub Actions du compte, **retour attendu au prochain cycle mensuel** (propriétaire, 2026-10-18) ; Academy, FREKCORE et Kiltikonet attendent leur CI (DEC-0015) | Laurent CŒURVOLAN (paramètres de facturation GitHub) | CI d’Academy |
 | Pièces juridiques (structure de tête, détention, PI) — ne bloque pas les raccordements techniques | Laurent CŒURVOLAN | C-04, statuts juridiques |
 
