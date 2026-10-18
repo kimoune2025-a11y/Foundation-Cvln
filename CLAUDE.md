@@ -19,6 +19,7 @@ Toute session Claude Code qui travaille ici reprend cette mission là où elle s
 - Ne jamais écrire de secret, de mot de passe ni de donnée personnelle dans un fichier suivi, un commit ou un rapport. Ce dépôt est **public**.
 - Ne pas brancher CVLN Intelligence OS sur le registre sans décision (HIST-01). Ne pas requalifier JCC (HIST-03).
 - Ne pas supprimer, fusionner ou renommer silencieusement une entité ou un composant.
+- **Jamais de fusion à l’aveugle (DEC-0015)** : dans tout dépôt du groupe, fusionner seulement si la CI GitHub a tourné sur le commit exact et est verte. Tests locaux insuffisants ; CI absente, bloquée ou rouge = pas de fusion. Un dépôt sans CI doit d’abord en recevoir une.
 
 ## Où écrire
 
