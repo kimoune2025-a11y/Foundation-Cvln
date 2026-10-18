@@ -87,7 +87,9 @@ Pôles historiques, conservés comme **catégories** et non comme entités : Gou
 | EXT-01 | Emergent (emergent.sh / emergentagent.com) | TECH-01, TECH-02 | Génération du code, identité Git, images d’environnement, prévisualisations, tâches planifiées (TECH-01), agents de test | **Dépendance forte** : tous les commits d’origine (44) sont faits par l’agent Emergent |
 | EXT-02 | MongoDB (instance inconnue ; `localhost` dans l’historique de Command Center) | TECH-01, TECH-02 | Persistance | Hébergeur inconnu |
 | EXT-03 | Google Fonts | TECH-01, TECH-02 | Polices (Foundation : Cormorant Garamond, Inter ; Command Center : Rajdhani, DM Sans, JetBrains Mono, Inter) | Remplaçable |
-| EXT-04 | GitHub | TECH-01, TECH-02 | Hébergement du code | Compte personnel `kimoune2025-a11y`, créé le 2026-08-31 |
+| EXT-04 | GitHub | TECH-01, TECH-02 | Hébergement du code | Compte personnel `kimoune2025-a11y`, créé le 2026-08-31 ; 6 comptes au 2026-10-18 (EV-P6-18) |
+| EXT-05 | Render | TECH-02 | Hébergement de l'API Command Center (tentative du 2026-10-17, EV-P6-17) | Disque éphémère : documents téléversés perdus à chaque redéploiement sans disque persistant |
+| EXT-06 | MongoDB Atlas | TECH-02 | Base de données hébergée de Command Center (EV-P6-17) | Précise EXT-02 pour Command Center ; identifiants hors Git |
 
 ## 5. Éléments manquants (à obtenir)
 

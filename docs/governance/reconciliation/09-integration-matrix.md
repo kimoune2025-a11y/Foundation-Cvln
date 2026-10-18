@@ -1,7 +1,7 @@
 # 09 — Integration Matrix
 
 - **Mission :** CVLN-GOV-RECON-001
-- **Date :** 2026-10-12
+- **Date :** 2026-10-12 (mise à jour 2026-10-18)
 - **Statut :** vivant — décrit les connexions **réellement codées et testées**, pas les connexions souhaitées
 - **Architecture de référence :** registre canonique (baseline v2) ; Command Center sous CVLN Intelligence OS (DEC-0010), outil privé de pilotage (DEC-0006), autonome vis-à-vis d’Emergent (EV-P6-12)
 
@@ -59,12 +59,12 @@ Aucune connexion de Foundation vers Command Center : Command Center tire les don
 | Raccordement | Blocage | Détenteur | Débloque |
 |---|---|---|---|
 | Command Center ↔ Intelligence OS / Brain / Agent Factory / Laurentia | Aucun code ni contrat d’API pour ces composants | Laurent CŒURVOLAN (choix de construction) | Toute la couche IA |
-| Déploiement de Command Center | Aucune infrastructure du groupe accessible depuis la session ; fusion ≠ déploiement autorisé | Laurent CŒURVOLAN | Niveaux « Déployé » et « Opérationnel » |
+| Déploiement de Command Center | **Tentative sur Render + MongoDB Atlas le 2026-10-17 : échec au démarrage**, identifiants Atlas refusés (EV-P6-17). À corriger dans Render (`MONGO_URL`), guide `deploy/RENDER.md` (branche `claude/nifty-hopper-b9n258`). Disque Render éphémère pour les documents | Laurent CŒURVOLAN | Niveaux « Déployé » et « Opérationnel » |
 | Déploiement de Foundation | URL de production inconnue ; `FOUNDATION_API_URL` ne peut pas être renseignée | Laurent CŒURVOLAN | X-01 et X-02 en production |
 | Jeton partagé X-02 | À générer (`openssl rand -hex 32`) et à poser des deux côtés, hors Git | Laurent CŒURVOLAN | Import des prospects |
 | Protection de `main` (2 dépôts) | Paramètre du propriétaire | Laurent CŒURVOLAN | R-01 |
 | Structure juridique (C-04) | Pièces juridiques | Laurent CŒURVOLAN | Statuts juridiques ; ne bloque pas les raccordements techniques |
-| Autres dépôts de l’écosystème | Inexistants ou inaccessibles (R-19, D-02) | Laurent CŒURVOLAN | Phase 1 étendue |
+| Autres dépôts de l’écosystème | 16 dépôts supplémentaires visibles au 2026-10-18 (EV-P6-18), **non encore lus** : aucune connexion évaluée | Claude (inventaire en lecture seule) | Phase 1 étendue, couche IA |
 
 ## 5. Mise en service (ordre)
 
