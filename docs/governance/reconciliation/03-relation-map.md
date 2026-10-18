@@ -135,7 +135,11 @@ Tous les `verified_reality` valent `UNVERIFIED` et tous les `evidence_source` va
 | OBS-16 | Toute brique hors TECH-02 | Lecture du registre canonique (`/api/registry/export`) | TECH-01 Foundation | Survol des 15 dépôts | **Aucune** : seul Command Center lit le registre |
 | OBS-17 | TECH-08 Meta CVLN (annuaire) | Référence l’entité propriétaire (`registry_id`) | TECH-01 registre canonique | `Metacvln-Sept2026@4f6d55b` (branche `claude/nifty-hopper-b9n258`) | **Présent** (DEC-0011) ; 11/12 entrées ancrées, Production Vault sans entité canonique |
 | OBS-18 | TECH-12 Academy | Lit le registre (`GET /registry/export`) et s’identifie `ENT-CVLN-ACADEMY` | TECH-01 registre canonique | `CVL-ACADEMY@63eab33` (`services/integrations/cvln_registry.py`) | **Présent, testé (simulé)** ; non déployé |
-| OBS-19 | TECH-05 Agent Factory | Lit le registre et s’identifie `ENT-CVLN-AGENT-FACTORY` ; ses 9 entités opérationnelles portent un `registry_id` (CVLN Holding, TCV, SAYD : aucun) | TECH-01 registre canonique | `CVLNAgentfactory@bfb7362` (`backend/cvln_registry.py`) | **Présent, testé (simulé)** ; non déployé |
+| OBS-19 | TECH-05 Agent Factory | Lit le registre et s’identifie `ENT-CVLN-AGENT-FACTORY` ; ses 9 entités opérationnelles portent un `registry_id` (CVLN Holding, TCV, SAYD : aucun) | TECH-01 registre canonique | `CVLNAgentfactory@bfb7362` (`backend/cvln_registry.py`) | **Fusionné, testé (simulé)** (`CVLNAgentfactory@a64ccac`) ; non déployé |
+| OBS-20 | TECH-09 Laurent.ia | Lit le registre (liste blanche d’hôtes, HTTPS) ; s’identifie `ENT-LAURENTIA` | TECH-01 registre canonique | `Laurent.ia@92fd6fb` (branche `claude/nifty-hopper-b9n258`) | **Présent, testé (simulé)** |
+| OBS-21 | TECH-06 FREKCORE | Lit le registre ; ses 11 composants portent l’`ENT-*` qui les détient | TECH-01 registre canonique | `frekcoreAout2026@b7b5069` (branche) | **Présent, testé (simulé)** |
+| OBS-22 | TECH-10 KORA | Lit le registre ; s’identifie `ENT-KORA` | TECH-01 registre canonique | `Kora-app@5154b1f` (branche) | **Présent, testé (simulé)** |
+| OBS-23 | TECH-07 Kiltikonet | Lit le registre ; s’identifie `ENT-KILTIKONET` (+ Culture Connect, Observatory) ; annuaire local de secours ancré sur `ENT-*` | TECH-01 registre canonique | `Kiltikonet-Aout2026@18e5527` (branche) | **Présent, testé (simulé)** |
 
 ## 4. Points structurels détectés
 
