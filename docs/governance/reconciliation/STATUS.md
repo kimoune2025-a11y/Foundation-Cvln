@@ -1,7 +1,7 @@
 # STATUS — CVLN Ecosystem Reconciliation
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
-- **Dernière mise à jour :** 2026-10-18 (DEC-0011 à DEC-0014 ; 7 briques de référence raccordées au registre ; baseline v3 du registre ; annuaire Meta CVLN ancré sur le registre)
+- **Dernière mise à jour :** 2026-10-18 (DEC-0011 à DEC-0014 ; 7 briques de référence raccordées au registre ; baseline v3 du registre ; annuaire Meta CVLN ancré sur le registre ; plateforme de streaming KORA interne + publique sur branche, EV-P6-26)
 - **Statut global : en cours — Phase 6 (exécution) : Foundation et Command Center raccordés et testés de bout en bout sur `main` ; non déployés ; Agent Factory : mise en ligne Render en échec au démarrage (identifiants Atlas, EV-P6-19)** (voir [09](09-integration-matrix.md))
 
 ## 1. Avancement par phase
@@ -51,4 +51,5 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 2. **[Propriétaire]** Déployer Foundation puis Command Center selon [09](09-integration-matrix.md) §5 ; dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions » ; registre et prospects se synchronisent ensuite seuls (toutes les heures) ; importer une fois la gouvernance de la mission.
 3. **[Claude]** À chaque changement des documents 00, 05 ou 06 : régénérer `backend/data/` de Command Center (`python scripts/build_data.py`), sinon la CI `foundation-integration` échoue (contrôle voulu).
 4. **[Claude]** Les 7 briques de référence sont raccordées au registre (X-14 à X-20, EV-P6-23) : fusionnés sur CI verte : Meta CVLN, Agent Factory, Laurent.ia, KORA ; **en attente** (CI GitHub bloquée sur le compte `cultureconnectorg`, DEC-0015) : Academy, FREKCORE, Kiltikonet. Fusion uniquement sur CI verte observée (DEC-0015). Ensuite : proposer à chaque brique (Academy, Agent Factory, Laurent.ia, Kiltikonet, KORA, FREKCORE) son `registry_id` et la lecture de `/api/registry/export` ; SRC-R4 n’est plus prioritaire (non canonique, DEC-0014) à [01](01-source-register.md) et [02](02-entity-inventory.md), puis à la matrice [09](09-integration-matrix.md).
-5. **[Propriétaire]** Archiver si souhaité les dépôts non canoniques (DEC-0014 ; aucune suppression). **[Arbitrage]** disque persistant Render ou stockage objet ; questions ouvertes de [06](06-decision-log.md) §4 et C-04.
+5. **[Propriétaire]** KORA streaming (EV-P6-26, X-21) : la branche `claude/fervent-babbage-w8bzlb` de `kora2024/Kora-app` (`5ed96d9`) attend une PR pour que la CI tourne ; fusion uniquement sur CI verte (DEC-0015). Avant mise en ligne : disque persistant Render ou stockage objet pour `MEDIA_ROOT`, `PUBLIC_API_URL`, plafond anti-fraude des écoutes (R-22).
+6. **[Propriétaire]** Archiver si souhaité les dépôts non canoniques (DEC-0014 ; aucune suppression). **[Arbitrage]** disque persistant Render ou stockage objet ; questions ouvertes de [06](06-decision-log.md) §4 et C-04.
