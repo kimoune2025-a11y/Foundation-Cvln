@@ -1,7 +1,7 @@
 # STATUS — CVLN Ecosystem Reconciliation
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
-- **Dernière mise à jour :** 2026-10-18 (DEC-0011 à DEC-0013 ; baseline v3 du registre ; annuaire Meta CVLN ancré sur le registre)
+- **Dernière mise à jour :** 2026-10-18 (DEC-0011 à DEC-0014 ; baseline v3 du registre ; annuaire Meta CVLN ancré sur le registre)
 - **Statut global : en cours — Phase 6 (exécution) : Foundation et Command Center raccordés et testés de bout en bout sur `main` ; non déployés ; Agent Factory : mise en ligne Render en échec au démarrage (identifiants Atlas, EV-P6-19)** (voir [09](09-integration-matrix.md))
 
 ## 1. Avancement par phase
@@ -11,7 +11,7 @@
 | 0 — Protection et cadrage | **Terminé avec preuves** (dépôt d’ancrage) | [00](00-scope-and-access.md) | Périmètre de l’écosystème partiel |
 | 1 — Inventaire | **Rouvert et étendu** : 18 dépôts, 15 survolés (EV-P6-20), TECH-05 à TECH-12 | [01](01-source-register.md), [02](02-entity-inventory.md) | 2 dépôts sur l’ensemble ; 22 composants nommés (17 entrées du mandat §5) sans dépôt connu ; 12 entités historiques ajoutées (SRC-29) |
 | 2 — Relations | **Vérifié** contre le schéma original (EV-P4-01) ; baseline v3 (EV-P6-21) | [03](03-relation-map.md) | — |
-| 3 — Contradictions | **Ouvertes : C-04, C-23** (C-20 à C-22 tranchées : DEC-0011 à DEC-0013) ; risques R-20 (critique) et R-21 | [05](05-contradictions.md), [04](04-evidence-ledger.md) | Résolution = arbitrage |
+| 3 — Contradictions | **Ouverte : C-04** (C-20 à C-23 tranchées : DEC-0011 à DEC-0014) ; risques R-20 (critique) et R-21 | [05](05-contradictions.md), [04](04-evidence-ledger.md) | Résolution = arbitrage |
 | 4 — Arbitrage | **Tranché par défaut** (DEC-0007) — 13 arbitrages sur la base du mandat | [06](06-decision-log.md) §5 | Restent C-04 et le statut juridique (pièces nécessaires) |
 | 5 — Architecture cible | **Proposé** (non validé) | [07](07-target-architecture.md), [08](08-execution-roadmap.md) | Dépend de la Phase 4 |
 | 6 — Exécution contrôlée | **En cours** — correctifs et hub de pilotage fusionnés ; liaisons Command Center ↔ Foundation (X-01 à X-08, dont synchronisation automatique et vue Architecture) fusionnées et testées de bout en bout (EV-P6-14, EV-P6-16) | [08](08-execution-roadmap.md), [09](09-integration-matrix.md) | Déploiement non réalisé ; composants IA sans code |
@@ -48,5 +48,5 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 1. **[Propriétaire]** Render → **Agent Factory** → Environment : corriger `MONGO_URL` (utilisateur et mot de passe Atlas) et redéployer. Vérifier R-20 (`backend/.keys/export_ed25519.key` dans `ioscvln/CVLN-ios-v1`, public).
 2. **[Propriétaire]** Déployer Foundation puis Command Center selon [09](09-integration-matrix.md) §5 ; dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions » ; registre et prospects se synchronisent ensuite seuls (toutes les heures) ; importer une fois la gouvernance de la mission.
 3. **[Claude]** À chaque changement des documents 00, 05 ou 06 : régénérer `backend/data/` de Command Center (`python scripts/build_data.py`), sinon la CI `foundation-integration` échoue (contrôle voulu).
-4. **[Claude]** Après fusion : relancer la CI de Command Center ; puis proposer à chaque brique (Academy, Agent Factory, Laurent.ia, Kiltikonet, KORA, FREKCORE) son `registry_id` et la lecture de `/api/registry/export` ; lire SRC-R4 dans une session dédiée à [01](01-source-register.md) et [02](02-entity-inventory.md), puis à la matrice [09](09-integration-matrix.md).
-5. **[Arbitrage]** C-23 : confirmer le dépôt de référence par brique (proposition : Kiltikonet-Aout2026, frekcore/CVLNAgentfactory ou cultureconnectorg/Cvlnagentfactory, Metacvln-Sept2026, Kora-app, CVL-ACADEMY, frekcoreAout2026, Laurent.ia) ; disque persistant Render ou stockage objet ; questions ouvertes de [06](06-decision-log.md) §4 et C-04.
+4. **[Claude]** Après fusion : relancer la CI de Command Center ; puis proposer à chaque brique (Academy, Agent Factory, Laurent.ia, Kiltikonet, KORA, FREKCORE) son `registry_id` et la lecture de `/api/registry/export` ; SRC-R4 n’est plus prioritaire (non canonique, DEC-0014) à [01](01-source-register.md) et [02](02-entity-inventory.md), puis à la matrice [09](09-integration-matrix.md).
+5. **[Propriétaire]** Archiver si souhaité les dépôts non canoniques (DEC-0014 ; aucune suppression). **[Arbitrage]** disque persistant Render ou stockage objet ; questions ouvertes de [06](06-decision-log.md) §4 et C-04.

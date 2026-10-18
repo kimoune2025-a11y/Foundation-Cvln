@@ -33,7 +33,7 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 | C-20 | **Tranchée** (DEC-0011) | Foundation = entités ; Meta CVLN = annuaire des services indexé par `ENT-*` ; Kiltikonet = structure interne |
 | C-21 | **Tranchée** (DEC-0013) | Command Center de Kiltikonet = panneau interne du propriétaire, conservé sans renommage |
 | C-22 | **Tranchée** (DEC-0012) | Baseline v3 autorisée (statuts d’implémentation constatés) |
-| C-23 | En cours | Le propriétaire indique qu’un dépôt de référence existe déjà par brique et doit être mis à jour ; liste à confirmer (STATUS §4) |
+| C-23 | **Tranchée** (DEC-0014) | Un dépôt de référence par brique ; les autres sont conservés comme versions antérieures |
 
 ## 1. Contradictions
 

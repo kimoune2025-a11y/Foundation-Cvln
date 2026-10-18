@@ -21,7 +21,7 @@ Une source n’est **jamais** une preuve de réalité opérationnelle par elle-m
 | ID | Dépôt | Visibilité / accès | Branche par défaut | HEAD audité | Branches distantes | Couverture |
 |---|---|---|---|---|---|---|
 | SRC-R3 | frekcore/CVLNAgentfactory | Privé ; lecture (session) | `CVLN-AGENT-FACTORY` | `c6f0e86` (2026-10-17) | 18 | Survol |
-| SRC-R4 | cultureconnectorg/Cvlnagentfactory | Privé | UNKNOWN | UNKNOWN | UNKNOWN | **Non lu** : homonyme de SRC-R3, ne peut pas être rattaché à la même session |
+| SRC-R4 | cultureconnectorg/Cvlnagentfactory | Privé | UNKNOWN | UNKNOWN | UNKNOWN | **Non lu** : homonyme de SRC-R3, ne peut pas être rattaché à la même session. **Non canonique** (DEC-0014) |
 | SRC-R5 | cultureconnectorg/frekcoreAout2026 | Privé ; lecture | `main` | `5d1d570` (2026-10-15) | 24 | Survol |
 | SRC-R6 | cultureconnectorg/Kiltikonet-Aout2026 | Privé ; lecture | `main` | `8e0b9dd` (2026-10-15) | ≥ 500 | Survol |
 | SRC-R7 | cultureconnectorg/Metacvln-Sept2026 | Privé ; lecture | `main` | `7673bfc` (2026-09-25) | 14 | Survol |
