@@ -82,6 +82,9 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 13. CVLN Academy chapeaute-t-elle les trois autres académies ? (C-18)
 14. Que représentent les entités de la liste v1.2 de Command Center absentes du registre — CVL Events, CVL Agro, CVL Culinary, CIP, Hospitality, Tokenomics, Umbrella Trust (SRC-29, CAND-04, CAND-05, CAND-08 à CAND-12) ?
 15. Command Center doit-il devenir le lieu d’exploitation des décisions, risques et preuves du groupe (C-19, HIST-07) ?
+16. KORA — méthode de répartition des redevances : au prorata (standard du marché) ou centrée sur l’auditeur (l’abonnement de chacun rémunère ce qu’il écoute ; plus résistante à la fraude) ? Le moteur accepte les deux, choix demandé à chaque calcul (EV-P6-27)
+17. KORA — part de la plateforme sur les revenus d’abonnement et de publicité ? Aucune valeur n’est codée (EV-P6-27)
+18. KORA — les répartitions de droits doivent-elles être contresignées par chaque ayant droit avant de produire des relevés (aujourd’hui : fixées par un administrateur) ? (EV-P6-27)
 
 
 ## 5. Arbitrages par défaut (DEC-0007)

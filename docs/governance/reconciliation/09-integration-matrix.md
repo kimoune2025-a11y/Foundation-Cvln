@@ -73,6 +73,7 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | X-19 | KORA → registre Foundation | `GET /api/cvln-registry` (admin) | **Fusionné, testé** (KORA CI verte ; `Kora-app@39adfe4`, kora2024/Kora-app#14) |
 | X-20 | Kiltikonet → registre Foundation | `GET /api/kiltikonet-code/group-registry` ; annuaire de secours ancré sur `ENT-*` | **Présent, testé** (9 tests simulés) ; branche — **CI bloquée** (cultureconnectorg/Kiltikonet-Aout2026#457), non fusionnée |
 | X-21 | KORA Studio (interne) → catalogue public KORA | `/api/studio/*` (admin) → `works` → `/api/streaming/*` (sessions signées, Range, écoutes) ; application Expo branchée | **Présent, testé** (54/54, parcours navigateur ; EV-P6-26) ; kora2024/Kora-app#15, `c6209b0` — **CI verte** (`backend`, run 39141462020), non fusionnée, non déployée |
+| X-22 | Écoutes rémunérables KORA → relevés de redevances (LabelOS) | `plays` (`royalty_eligible`, `listener_tier`) → `/api/studio/royalties/runs` → `royalty_statements` → `/api/creators/royalties` (relevés approuvés) | **Présent, testé** (EV-P6-27) ; kora2024/Kora-app#15 `b703a4f` — non fusionné ; aucun paiement |
 
 Contrat commun (X-15 à X-20) : lecture seule et publique de `/api/registry/export`, sans identifiant ; échec explicite si l’espace de noms n’est pas `cvln`, si le schéma n’est pas 1.x, si la validation échoue ou si l’identifiant attendu manque ; rien n’est appelé au démarrage. Les 7 briques de référence (DEC-0014) parlent le même langage d’identifiants ; la liaison réelle attend le déploiement de Foundation.
 
