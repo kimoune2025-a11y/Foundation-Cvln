@@ -30,6 +30,8 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | DEC-0016 | 2026-10-18 | **KORA — répartition des redevances par le Cultural Value Engine** (spécification gelée `memory/KORA_CVE_Specification_Mathematique_v1.0.md`) : `UVC_i = CVI_i / Σ CVI · MD_c`. Tranche la question 16. Les valeurs de θ restent à établir par le chantier 2 (simulation), conformément au §8.3 de la documentation | Laurent CŒURVOLAN (« Répartition CVE voir documentation ») | Conversation de session |
 | DEC-0017 | 2026-10-18 | **KORA — fusion de kora2024/Kora-app#15** (CI verte sur le commit exact `34aa9c0`, DEC-0015) et **construction d’un stockage nouveau** pour les masters | Laurent CŒURVOLAN (« Fusion et stockage […] nouvelle à construire ») | Conversation de session ; fusion `b3463b5` |
 | DEC-0010 | 2026-10-12 | « Règle toutes les incohérences » : application des arbitrages dans la baseline v2 du registre (`Foundation-Cvln@ba02a44`, branche `claude/registry-v2`), dans Command Center et dans les documents. Correction de l’arbitrage par défaut C-05 : Command Center reste sous Intelligence OS, conformément au schéma original (SRC-31) | Laurent CŒURVOLAN | Conversation de session |
+| DEC-0018 | 2026-10-19 | **KORA — part de la plateforme : 30 % par défaut** (70 % aux ayants droit) sur chaque cycle de redevances ; un cycle peut fixer une autre valeur, enregistrée sur le cycle | Laurent CŒURVOLAN (réponse « Oui, 30 % plateforme » à la question 17) | Conversation de session ; `routes/royalty_routes.py` (`DEFAULT_PLATFORM_SHARE_BPS`) |
+| DEC-0019 | 2026-10-19 | **KORA — rendre réel ce que l’application promet** plutôt que retirer les textes (« si je l’ai mis c’est que je le veux ») ; les annonces de presse « levée de 2 M€ » et « partenariat avec Universal Africa » sont **retirées**, car elles ne sont pas réelles | Laurent CŒURVOLAN | Conversation de session ; `docs/audit/AUDIT-GENERAL-2026-10-18.md` §9, lot B |
 
 ## 2. Décisions historiques retrouvées
 
@@ -85,7 +87,7 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 14. Que représentent les entités de la liste v1.2 de Command Center absentes du registre — CVL Events, CVL Agro, CVL Culinary, CIP, Hospitality, Tokenomics, Umbrella Trust (SRC-29, CAND-04, CAND-05, CAND-08 à CAND-12) ?
 15. Command Center doit-il devenir le lieu d’exploitation des décisions, risques et preuves du groupe (C-19, HIST-07) ?
 16. ~~KORA — méthode de répartition des redevances~~ — **tranchée : CVE (DEC-0016)**
-17. KORA — part de la plateforme sur les revenus d’abonnement et de publicité ? Le propriétaire renvoie à la documentation (2026-10-18) ; **la documentation consultée ne fixe aucune valeur** (Master Prompt §8.4 : champ `net_after_platform_fee` seulement ; spécification CVE : `MD_c` « budget fixe par cycle »). Reste `UNKNOWN` : saisie obligatoire à chaque calcul (EV-P6-28)
+17. ~~KORA — part de la plateforme~~ — **tranchée : 30 % par défaut (DEC-0018)**
 18. KORA — les répartitions de droits doivent-elles être contresignées par chaque ayant droit avant de produire des relevés (aujourd’hui : fixées par un administrateur) ? (EV-P6-27)
 
 
