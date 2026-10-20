@@ -50,3 +50,43 @@ Non inscrits directement dans 05 : toute modification de 05 doit s'accompagner d
 - Kiltikonet : 4 nouveaux tests réussis, ajoutés à `scripts/ci/backend-tests.txt`.
 
 Aucune fusion : DEC-0015 exige une CI verte sur le commit exact.
+
+## Second tour — pannes, fausses routes, frontières, PWA, responsive
+
+Méthode : table réelle des routes obtenue en important chaque application, confrontée aux appels
+des frontends et aux appels serveur à serveur ; pyflakes sur tout le Python ; analyse JSX (Babel)
+des boutons et liens ; manifestes, icônes et service workers ; largeurs fixes hors conteneurs défilants ;
+parité des traductions ; branches distantes.
+
+### Corrigé
+
+| Catégorie | Dépôt | Constat | Correctif |
+|---|---|---|---|
+| Panne | Kiltikonet | Import de `spawn_background` glissé dans la docstring de `quality_agent_factory.py` : chaque mission qualité restait `QUEUED`, réponse 500 | Import rétabli, test |
+| Panne silencieuse / frontière | Kiltikonet → Laurent.ia | Le widget appelle `GET /api/laurentia/me`, absent de Laurent.ia : 404 lu comme « instance non activée » pour tous | Route implémentée dans Laurent.ia (secret du pont existant), 3 tests |
+| Fausse route / cul-de-sac | CVL Academy | `cohort_workspace` importé mais jamais monté : page Cohorte en 404 | Routeur monté, test |
+| Fausse route | CVL Academy | `ExpertWorkspace` appelait `/api/api/...` : 404 pour tout expert | Préfixe corrigé, test |
+| Panne silencieuse | Kiltikonet | `except Exception: pass` autour du journal des événements Stripe | Limité à `DuplicateKeyError` |
+| Doublon | Kiltikonet | `_require_admin` défini deux fois dans `cultural_search.py` | Supprimé |
+| Mauvais CTA | Kiltikonet | Bouton factice focusable dans l'aperçu du thème CMS | Rendu non interactif |
+| Mauvais PWA | Agent Factory | Gestionnaire `fetch` vide dans le service worker | Retiré |
+| Incohérence | Agent Factory | Contrôle ART-011 affirmant une journalisation sans utiliser le compte calculé | Compte affiché |
+| Code mort | KORA | Variable de tri calculée puis ignorée | Retirée |
+| Sécurité (suite) | Kiltikonet | 3 comparaisons de secrets non constantes en temps | `hmac.compare_digest` |
+
+### Vérifié sans anomalie
+
+- Appels frontend → backend : Command Center, Laurent.ia, Agent Factory, KORA, frekcore — toutes les routes existent.
+- Liens internes (React Router) : aucun lien vers une page inexistante (8 frontends).
+- Routes en double ou masquées par une route paramétrée : aucune (8 backends).
+- Traductions : parité FR/EN complète (Command Center, Agent Factory, Kiltikonet) et 4 langues frekcore ; aucune clé `t()` indéfinie.
+- Manifestes PWA : JSON valide, icônes présentes aux tailles déclarées (192 et 512) ; service workers de Laurent.ia, Academy et Kiltikonet sans mise en cache d'API authentifiée.
+- Responsive : balise viewport partout ; aucune largeur fixe ≥ 420 px hors conteneur défilant (les halos décoratifs de frekcore sont coupés par `overflow-x: hidden`). Aucun rendu réel en navigateur n'a été fait.
+
+### Non corrigé — à arbitrer
+
+| Catégorie | Constat |
+|---|---|
+| Incertitude frontière | Laurent.ia → frekcore appelle `GET /api/frek/validate/{id}` et `/api/frek/{id}/profile`, absents du code de frekcore (qui expose `/api/v1/identity/...` avec jeton client OAuth). Si la production suit le dépôt, la connexion par FREK-ID de Laurent.ia échoue pour tous. Production non joignable depuis la session : **UNKNOWN**. Choisir le contrat cible (comme CVL Academy : `/api/v1/auth/token` puis `/api/v1/identity/...`). |
+| Branches | Branches non fusionnées : Kiltikonet 455/504, CVL Academy 165/196, Laurent.ia 52/63 (base `public`), frekcore 16, KORA 9, Agent Factory 6 (base `CVLN-AGENT-FACTORY`), Cvln-ios-v.1 5, Foundation 3, Command Center 2. Rien supprimé ; tri à décider (archiver les branches fusionnées ou abandonnées). |
+| Code mort | ~250 imports inutilisés (frekcore 87, Kiltikonet 45, KORA 36…). Non retirés en masse : certains imports enregistrent des routes par effet de bord. |
