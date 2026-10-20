@@ -1,0 +1,25 @@
+# Blueprint Render de Foundation (registre canonique du groupe).
+# Render → New → Blueprint → ce dépôt. Rien n'est déployé tant que le blueprint n'est pas appliqué.
+# Le registre (/api/registry/*, /api/entities, /api/relations) fonctionne sans base de données.
+# Le formulaire de contact a besoin de MONGO_URL et de CONTACT_ADMIN_TOKEN, à saisir dans Render (jamais dans Git).
+services:
+  - type: web
+    name: cvln-foundation
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npx yarn@1.22.22 install --non-interactive && npx next build
+    startCommand: npx next start -H 0.0.0.0 -p $PORT
+    healthCheckPath: /api/registry/validate
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: DB_NAME
+        value: cvln_foundation
+      - key: MONGO_URL
+        sync: false
+      - key: CONTACT_ADMIN_TOKEN
+        sync: false
