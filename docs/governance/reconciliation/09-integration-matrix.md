@@ -1,7 +1,7 @@
 # 09 — Integration Matrix
 
 - **Mission :** CVLN-GOV-RECON-001
-- **Date :** 2026-10-12 (mise à jour 2026-10-18)
+- **Date :** 2026-10-12 (mise à jour 2026-10-20)
 - **Statut :** vivant — décrit les connexions **réellement codées et testées**, pas les connexions souhaitées
 - **Architecture de référence :** registre canonique (baseline v2) ; Command Center sous CVLN Intelligence OS (DEC-0010), outil privé de pilotage (DEC-0006), autonome vis-à-vis d’Emergent (EV-P6-12)
 
@@ -73,6 +73,8 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | X-19 | KORA → registre Foundation | `GET /api/cvln-registry` (admin) | **Fusionné, testé** (KORA CI verte ; `Kora-app@39adfe4`, kora2024/Kora-app#14) |
 | X-20 | Kiltikonet → registre Foundation | `GET /api/kiltikonet-code/group-registry` ; annuaire de secours ancré sur `ENT-*` | **Présent, testé** (9 tests simulés) ; branche — **CI bloquée** (cultureconnectorg/Kiltikonet-Aout2026#457), non fusionnée |
 
+| X-21 | Laurent.ia → Agent Factory : recommandation d’agents pour les demandes de type « tâche » | `POST {CVLN_AGENT_FACTORY_BASE_URL}/api/missions/orchestrate`, jeton de service `svc_…` (`missions:orchestrate`), non mutant ; délai 6 s, jamais bloquant | **Déployé des deux côtés, en échec** : 502 à chaque appel observé (Agent Factory endormie, offre gratuite Render, EV-P6-26). Réveil en tâche de fond au démarrage de Laurent.ia et après chaque échec « endormi » : cultureconnectorg/Laurent.ia#55 (46 tests), fusion sur CI verte |
+
 Contrat commun (X-15 à X-20) : lecture seule et publique de `/api/registry/export`, sans identifiant ; échec explicite si l’espace de noms n’est pas `cvln`, si le schéma n’est pas 1.x, si la validation échoue ou si l’identifiant attendu manque ; rien n’est appelé au démarrage. Les 7 briques de référence (DEC-0014) parlent le même langage d’identifiants ; la liaison réelle attend le déploiement de Foundation.
 
 Lecture : l’écosystème s’interconnecte déjà **autour de FREK-ID (identité)** et d’Agent Factory (exécution), mais **sans référentiel commun d’entités**.
@@ -84,12 +86,12 @@ Aucune connexion de Foundation vers Command Center : Command Center tire les don
 | Raccordement | Blocage | Détenteur | Débloque |
 |---|---|---|---|
 | Command Center ↔ Intelligence OS / Brain / Agent Factory / Laurentia | Aucun code ni contrat d’API pour ces composants | Laurent CŒURVOLAN (choix de construction) | Toute la couche IA |
-| Déploiement de Command Center | Aucune mise en ligne observée (EV-P6-17 attribué à tort, corrigé par EV-P6-19). Guide Render prêt (`deploy/RENDER.md`, branche `claude/nifty-hopper-b9n258`) ; disque Render éphémère pour les documents | Laurent CŒURVOLAN | Niveaux « Déployé » et « Opérationnel » |
-| Déploiement de Foundation | URL de production inconnue ; `FOUNDATION_API_URL` ne peut pas être renseignée | Laurent CŒURVOLAN | X-01 et X-02 en production |
+| Déploiement de Command Center | **Fait** : `cvln-command-center.onrender.com`, `main` (EV-P6-26). Reste : `FOUNDATION_API_URL` (attend Foundation) ; disque Render éphémère pour les documents | Laurent CŒURVOLAN | Niveau « Opérationnel » |
+| Déploiement de Foundation | Aucun service (EV-P6-26). Blueprint prêt : `render.yaml` (Render → New → Blueprint) ; le registre fonctionne sans base, le contact exige `MONGO_URL` et `CONTACT_ADMIN_TOKEN` | Laurent CŒURVOLAN | X-01, X-02, X-15 à X-20 en production |
 | Jeton partagé X-02 | À générer (`openssl rand -hex 32`) et à poser des deux côtés, hors Git | Laurent CŒURVOLAN | Import des prospects |
 | Protection de `main` (2 dépôts) | Paramètre du propriétaire | Laurent CŒURVOLAN | R-01 |
 | Structure juridique (C-04) | Pièces juridiques | Laurent CŒURVOLAN | Statuts juridiques ; ne bloque pas les raccordements techniques |
-| Mise en ligne d’Agent Factory | Échec au démarrage sur Render : identifiants Atlas refusés (EV-P6-19) | Laurent CŒURVOLAN (`MONGO_URL` dans Render) | Couche d’exécution IA |
+| Agent Factory toujours disponible | Démarre (EV-P6-26) mais s’endort après 15 min (offre gratuite) : X-21 échoue au premier appel. Correctif durable : offre payante ; palliatif : réveil (Laurent.ia#55) | Laurent CŒURVOLAN (offre Render) | X-21 fiable |
 | Raccordement des autres briques au registre | Aucun client du registre hors Command Center (OBS-16) ; rôles des référentiels à arbitrer (C-20) ; registre à mettre à jour (C-22) | Laurent CŒURVOLAN (arbitrage) | Référentiel commun du groupe |
 
 ## 5. Mise en service (ordre)

@@ -1,8 +1,8 @@
 # STATUS — CVLN Ecosystem Reconciliation
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
-- **Dernière mise à jour :** 2026-10-18 (DEC-0011 à DEC-0014 ; 7 briques de référence raccordées au registre ; baseline v3 du registre ; annuaire Meta CVLN ancré sur le registre)
-- **Statut global : en cours — Phase 6 (exécution) : Foundation et Command Center raccordés et testés de bout en bout sur `main` ; non déployés ; Agent Factory : mise en ligne Render en échec au démarrage (identifiants Atlas, EV-P6-19)** (voir [09](09-integration-matrix.md))
+- **Dernière mise à jour :** 2026-10-20 (état des services en ligne, EV-P6-26 ; liaison Laurent.ia → Agent Factory X-21 en échec, correctif Laurent.ia#55 ; blueprint Render de Foundation)
+- **Statut global : en cours — Phase 6 (exécution) : Command Center et Agent Factory déployés sur Render ; Foundation non déployée (blueprint prêt) ; X-21 en échec (Agent Factory endormie)** (voir [09](09-integration-matrix.md))
 
 ## 1. Avancement par phase
 
@@ -36,7 +36,8 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 | Bloquant | Détenteur | Débloque |
 |---|---|---|
 | ~~Rotation des identifiants et du secret JWT ; dépôt privé~~ — dépôt privé vérifié, rotation déclarée faite (EV-P6-11) | Laurent CŒURVOLAN | R-13 (réduit) |
-| Infrastructure de déploiement : Render + MongoDB Atlas utilisés par Agent Factory, `MONGO_URL` refusée par Atlas (EV-P6-19) ; Command Center et Foundation non déployés | Laurent CŒURVOLAN | Niveaux « déployé » et « opérationnel » ([09](09-integration-matrix.md) §4) |
+| Déploiement de Foundation : aucun service ; blueprint `render.yaml` prêt (création refusée à Claude par le contrôle des permissions : mise en production) ; Agent Factory et Command Center déployés (EV-P6-26) | Laurent CŒURVOLAN | X-01, X-02, X-15 à X-20 en production ([09](09-integration-matrix.md) §4) |
+| Agent Factory sur l’offre gratuite : endormie après 15 min, X-21 échoue (EV-P6-26) | Laurent CŒURVOLAN (offre Render) | X-21 fiable |
 | Jeton partagé `CONTACT_ADMIN_TOKEN` / `FOUNDATION_CONTACT_TOKEN`, à poser hors Git | Laurent CŒURVOLAN | Import des prospects en production |
 | Protection de `main` (2 dépôts) | Laurent CŒURVOLAN | R-01 |
 | Couche IA : Agent Factory et Laurent.ia ont du code et des API (EV-P6-20) ; Intelligence OS = spécification ; raccordement au registre sur décision (HIST-01, C-20, C-22) | Laurent CŒURVOLAN | Raccordement de la couche IA |
@@ -47,8 +48,8 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 
 ## 4. Prochaine action autorisée
 
-1. **[Propriétaire]** Render → **Agent Factory** → Environment : corriger `MONGO_URL` (utilisateur et mot de passe Atlas) et redéployer. Vérifier R-20 (`backend/.keys/export_ed25519.key` dans `ioscvln/CVLN-ios-v1`, public).
-2. **[Propriétaire]** Déployer Foundation puis Command Center selon [09](09-integration-matrix.md) §5 ; dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions » ; registre et prospects se synchronisent ensuite seuls (toutes les heures) ; importer une fois la gouvernance de la mission.
+1. **[Propriétaire]** Render → New → **Blueprint** → `kimoune2025-a11y/Foundation-Cvln` (fichier `render.yaml`) : crée `cvln-foundation`. Puis Command Center → Environment : `FOUNDATION_API_URL = https://<url de Foundation>/api`. Dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions ». Prospects : poser `MONGO_URL` et `CONTACT_ADMIN_TOKEN` (Foundation) = `FOUNDATION_CONTACT_TOKEN` (Command Center).
+2. **[Claude]** Fusionner cultureconnectorg/Laurent.ia#55 sur CI verte (DEC-0015), puis vérifier X-21 dans les journaux Render. **[Propriétaire]** Offre payante pour Agent Factory si X-21 doit répondre dès le premier appel.
 3. **[Claude]** À chaque changement des documents 00, 05 ou 06 : régénérer `backend/data/` de Command Center (`python scripts/build_data.py`), sinon la CI `foundation-integration` échoue (contrôle voulu).
 4. **[Claude]** Les 7 briques de référence sont raccordées au registre (X-14 à X-20, EV-P6-23) : fusionnés sur CI verte : Meta CVLN, Agent Factory, Laurent.ia, KORA ; **en attente** (CI GitHub bloquée sur le compte `cultureconnectorg`, DEC-0015) : Academy, FREKCORE, Kiltikonet. Fusion uniquement sur CI verte observée (DEC-0015). Ensuite : proposer à chaque brique (Academy, Agent Factory, Laurent.ia, Kiltikonet, KORA, FREKCORE) son `registry_id` et la lecture de `/api/registry/export` ; SRC-R4 n’est plus prioritaire (non canonique, DEC-0014) à [01](01-source-register.md) et [02](02-entity-inventory.md), puis à la matrice [09](09-integration-matrix.md).
 5. **[Propriétaire]** Archiver si souhaité les dépôts non canoniques (DEC-0014 ; aucune suppression). **[Arbitrage]** disque persistant Render ou stockage objet ; questions ouvertes de [06](06-decision-log.md) §4 et C-04.
