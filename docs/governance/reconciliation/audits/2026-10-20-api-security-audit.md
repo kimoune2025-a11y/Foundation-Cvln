@@ -87,6 +87,24 @@ parité des traductions ; branches distantes.
 
 | Catégorie | Constat |
 |---|---|
+| Frontière (corrigée ensuite) | Laurent.ia → frekcore appelait `/api/frek/validate/{id}` et `/api/frek/{id}/profile`, absents de frekcore. Corrigé dans Laurent.ia (`72afee7`) : `GET /api/v1/identity/{id}/status`, profil via le pont Kiltikonet. La connexion par FREK-ID seul reste désactivée en production (pas de preuve de possession) ; étape suivante : passkey frekcore. |
+| Branches | **Correction** : le premier comptage (~715) était gonflé par le clone superficiel de la session. Chiffre réel : 507 branches non fusionnées au sens Git, dont 10 branches d'audit de cette session. Causes, croisées avec les 834 PR GitHub : 242 PR **fusionnées en squash** dont la branche n'a jamais été supprimée (`delete_branch_on_merge = false` sur les 8 dépôts vérifiés) ; 133 PR fermées sans fusion (tentatives remplacées par une nouvelle branche, surtout des agents) ; 100 branches sans PR (sauvegardes `backup/`, `archive/`, sessions d'agents non abouties) ; 22 PR ouvertes. |
+| Code mort | Mesure stricte : ~70 fonctions Python jamais référencées (~890 lignes sur ~220 000, 0,4 %) ; ~250 imports inutilisés (restes d'éditions successives). Côté frontend, l'essentiel vient du gabarit Emergent : 115 composants `components/ui` (shadcn) copiés d'office et jamais utilisés, ~7 900 lignes dans Command Center, Laurent.ia, Agent Factory et iOS (20 à 37 % de leur frontend), sans effet sur l'application livrée (non importés, donc absents du paquet). |
+| Sécurité (suite) | Kiltikonet | 3 comparaisons de secrets non constantes en temps | `hmac.compare_digest` |
+
+### Vérifié sans anomalie
+
+- Appels frontend → backend : Command Center, Laurent.ia, Agent Factory, KORA, frekcore — toutes les routes existent.
+- Liens internes (React Router) : aucun lien vers une page inexistante (8 frontends).
+- Routes en double ou masquées par une route paramétrée : aucune (8 backends).
+- Traductions : parité FR/EN complète (Command Center, Agent Factory, Kiltikonet) et 4 langues frekcore ; aucune clé `t()` indéfinie.
+- Manifestes PWA : JSON valide, icônes présentes aux tailles déclarées (192 et 512) ; service workers de Laurent.ia, Academy et Kiltikonet sans mise en cache d'API authentifiée.
+- Responsive : balise viewport partout ; aucune largeur fixe ≥ 420 px hors conteneur défilant (les halos décoratifs de frekcore sont coupés par `overflow-x: hidden`). Aucun rendu réel en navigateur n'a été fait.
+
+### Non corrigé — à arbitrer
+
+| Catégorie | Constat |
+|---|---|
 | Incertitude frontière | Laurent.ia → frekcore appelle `GET /api/frek/validate/{id}` et `/api/frek/{id}/profile`, absents du code de frekcore (qui expose `/api/v1/identity/...` avec jeton client OAuth). Si la production suit le dépôt, la connexion par FREK-ID de Laurent.ia échoue pour tous. Production non joignable depuis la session : **UNKNOWN**. Choisir le contrat cible (comme CVL Academy : `/api/v1/auth/token` puis `/api/v1/identity/...`). |
 | Branches | Branches non fusionnées : Kiltikonet 455/504, CVL Academy 165/196, Laurent.ia 52/63 (base `public`), frekcore 16, KORA 9, Agent Factory 6 (base `CVLN-AGENT-FACTORY`), Cvln-ios-v.1 5, Foundation 3, Command Center 2. Rien supprimé ; tri à décider (archiver les branches fusionnées ou abandonnées). |
 | Code mort | ~250 imports inutilisés (frekcore 87, Kiltikonet 45, KORA 36…). Non retirés en masse : certains imports enregistrent des routes par effet de bord. |
