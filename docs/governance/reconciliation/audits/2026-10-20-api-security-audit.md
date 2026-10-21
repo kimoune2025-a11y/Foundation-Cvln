@@ -108,3 +108,92 @@ parité des traductions ; branches distantes.
 | Incertitude frontière | Laurent.ia → frekcore appelle `GET /api/frek/validate/{id}` et `/api/frek/{id}/profile`, absents du code de frekcore (qui expose `/api/v1/identity/...` avec jeton client OAuth). Si la production suit le dépôt, la connexion par FREK-ID de Laurent.ia échoue pour tous. Production non joignable depuis la session : **UNKNOWN**. Choisir le contrat cible (comme CVL Academy : `/api/v1/auth/token` puis `/api/v1/identity/...`). |
 | Branches | Branches non fusionnées : Kiltikonet 455/504, CVL Academy 165/196, Laurent.ia 52/63 (base `public`), frekcore 16, KORA 9, Agent Factory 6 (base `CVLN-AGENT-FACTORY`), Cvln-ios-v.1 5, Foundation 3, Command Center 2. Rien supprimé ; tri à décider (archiver les branches fusionnées ou abandonnées). |
 | Code mort | ~250 imports inutilisés (frekcore 87, Kiltikonet 45, KORA 36…). Non retirés en masse : certains imports enregistrent des routes par effet de bord. |
+
+## Nettoyage (demande du propriétaire, « proprement et minutieusement »)
+
+### Branches
+
+- Inventaire complet (863 branches, nom + SHA + décision) et manifeste de restauration écrits **avant** toute
+  suppression, dans Command Center (`docs/branches/`, dépôt privé). Règles : suppression seulement si le contenu
+  est un ancêtre de la branche par défaut, ou si la PR est fusionnée et la pointe identique au commit fusionné ;
+  jamais la branche par défaut, une branche suivie par Render, une branche avec PR ouverte ou base d’une PR
+  ouverte, ni une branche ayant reçu un commit dans les 48 h.
+- Résultat : 554 à supprimer, 57 à garder, 252 à décider (80 « archiver », 148 « examiner », 24 « reprendre »).
+- **Non exécuté depuis la session** : le proxy GitHub refuse la suppression de références et la modification
+  des réglages ; le garde-fou « Git destructif » de Claude Code refuse aussi. Script fourni
+  (`docs/branches/supprimer-branches-integrees.sh`, simulation par défaut, conditionné aux SHA inventoriés).
+- Réglage à activer par le propriétaire sur chaque dépôt : *Automatically delete head branches*.
+
+### Code mort retiré (branche `claude/stoic-babbage-2eimmr` de chaque dépôt)
+
+- Frontend : 142 fichiers jamais importés (composants `components/ui` du gabarit Emergent, anciennes sections de
+  frekcore, types Omega de Kiltikonet), ~9 600 lignes. Conservés car cités par une décision ou un inventaire :
+  `lib/spatial/webglEngine.js` (Academy, ADR W5) et `CC2026Dashboard.jsx` (Kiltikonet, inventaire des routes).
+- Python : 17 fonctions jamais référencées (anciennes intégrations Baserow/Brevo de CC2026, utilitaires privés
+  remplacés) et ~340 lignes d’imports inutilisés (bibliothèque standard et tierces uniquement ; jamais un module
+  local ni un `__init__.py`).
+- Vérifications : aucun nom indéfini (pyflakes) ; chaque application s’importe avec exactement le même nombre de
+  routes qu’avant (+1 attendu dans Laurent.ia et CVL Academy pour les routes ajoutées par l’audit).
+
+### Lacunes : fonctions écrites mais jamais branchées (conservées, à arbitrer)
+
+Ce ne sont pas des déchets : chacune correspond à une règle ou une protection que le code prévoit sans l’appliquer.
+
+| Dépôt | Fonction | Conséquence |
+|---|---|---|
+| Kiltikonet | `omega.check_plafond_150` | Le plafond DSP2 de 150 € par détenteur n’est vérifié nulle part (lien avec R-17) |
+| Kiltikonet | `finance_core.ensure_finance_core_indexes`, `finance_processor_evidence.ensure_processor_evidence_indexes` | Index uniques du grand livre (dont `idempotency_key`, `stripe_event_id`) jamais créés : doublons possibles |
+| Kiltikonet | `finance_core.post_entry`, `record_stripe_balance_transaction`, `finance_treasury.record_bank_evidence`, `finance_expense_identity.backfill_expense_ids` | Écritures comptables et preuves bancaires/Stripe jamais enregistrées par ces chemins |
+| Kiltikonet | `frek_silent_service.dispatch_to_frekcore` | Les activations FREK ne sont jamais envoyées à frekcore par ce service |
+| Kiltikonet | `sovereign_authority.require_sovereign_capability` | Contrôle de capacité souveraine jamais appliqué |
+| Kiltikonet | `data_policy.policy_for`, `missing_policies`, `product_data_ownership.owner_for` | Politique de données et propriété des collections jamais contrôlées à l’exécution |
+| Kiltikonet | `ses_service.send_admin_alert` | Aucune alerte e-mail admin envoyée |
+| frekcore | `security.policies.rate_limit_dep` | La limitation de débit par client n’est appliquée à aucune route |
+| frekcore | `offline_transport.legacy_sync_status`, `dedupe_envelope_ids` | Synchronisation hors ligne par lots incomplète |
+| CVL Academy | `economy_workbook_runtime.evaluate_offer_unit_economics`, `evaluate_offer_phase`, `set_phase_state` | Garde-fous économiques et de phase des offres jamais appliqués |
+| CVL Academy | `collection_agent.register_promise_to_pay` | Promesse de paiement jamais enregistrable |
+| CVL Academy | `production_gates.evidence_graph_gate` | Contrôle d’intégrité du graphe de preuves absent des portes de production |
+| CVL Academy | `physical_delivery.has_capacity` | Capacité des sessions présentielles jamais vérifiée (surréservation possible) |
+| CVL Academy | `db.close_db` | Connexion Mongo jamais fermée à l’arrêt (sans gravité) |
+| KORA | `reputation_routes.validate_content_text` | Filtre de mots interdits jamais appliqué au contenu publié |
+| Laurent.ia | `tenant_factory.iter_agents_allowed`, `value_estimator.all_ratios` | Filtre d’agents par offre inutilisé ; la docstring de `all_ratios` affirme un usage inexistant |
+
+## CVL Academy : suite de tests remise au vert (demande du propriétaire)
+
+La CI GitHub d’Academy ne démarre plus depuis le 2026-10-17 ; les échecs de `main` sont passés inaperçus.
+Reproduction dans un environnement identique à la CI (Python 3.11, `requirements.txt`) : **126 échecs et
+4 erreurs sur `main`**, aucun introduit par l’audit (liste identique avant/après).
+
+| Contrôle CI | `main` | Branche `claude/stoic-babbage-2eimmr` |
+|---|---|---|
+| pytest backend | 126 échecs, 4 erreurs | **2 915 réussis, 0 échec** |
+| flake8 | 453 signalements | **0** |
+| Détecteur de secrets du dépôt | 2 signalements (fausse clé de test) | **propre** |
+| bandit (moyen/haut) | 3 (clés FREK Trust dans `/tmp`) | **0** |
+| pip-audit | 4 vulnérabilités `cryptography` 46 | **0** (`cryptography` ≥ 50.0.2) |
+| ESLint frontend | 19 erreurs | **0** (18 avertissements) |
+| Build frontend | réussi | réussi |
+
+Causes : dérive des dépendances (exigences en `>=`), règles durcies les 17–19 septembre sans mise à jour des
+tests, et défauts des tests eux-mêmes. Aucune règle métier n’a été assouplie pour faire passer un test.
+
+Défauts **du produit** trouvés et corrigés en chemin :
+
+- **Sécurité** : `GET /canonical/formations/{code}/delivery-architecture` n’exigeait qu’un compte connecté alors
+  que le pare-feu IP (c62626d7) annonçait le droit `academy.admin.read` ; l’outil d’application avait écrit des
+  `\n` littéraux et le contrôle n’a jamais été posé.
+- **Régression** : depuis #158, une formation 100 % présentielle ne pouvait plus mener à la certification.
+- **Pannes** : tableau de bord Fondateur (3 appels API jamais insérés, même corruption `\n`) et tableau de bord Jury
+  (plantage dès qu’un dossier attend une décision).
+- **Panne silencieuse** : échec de lecture de l’historique des paiements affiché comme « en attente ».
+- **Sécurité** : clé privée FREK Trust écrite dans `/tmp` avec des droits par défaut ; `cryptography` vulnérable.
+- **MCP** : outil public sans annotation de lecture seule ; fiche canonique sans `name`.
+
+### Branche de sécurité jamais fusionnée : `security/ip-firewall-20260919`
+
+Environ 25 commits de durcissement du 19 septembre, **sans aucune PR** : catalogue externe minimal, formations
+internes sur autorisation explicite, lecture directe des modules verrouillés refusée, progression strictement
+personnelle, pas de cartes sources en production. Fusion d’essai sur la branche d’audit : 3 conflits mineurs
+résolus, flake8 propre, **2 923 tests réussis, 5 échecs**, dont 3 qui relèvent d’un **arbitrage produit** :
+`main` a ajouté au catalogue public l’indication d’autorité canonique, la branche réduit ce catalogue au strict
+minimum et masque toute formation non commercialisée publiquement. Non intégrée : décision du propriétaire.
