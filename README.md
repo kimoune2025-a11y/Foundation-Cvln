@@ -9,6 +9,8 @@ Racine du groupe CVLN. Ce dépôt porte deux choses :
 
 Identifiant au registre : `ENT-CVLN-FOUNDATION`.
 
+Licence : CVLN Controlled-Use License 1.0, propriétaire ([`LICENSE`](LICENSE)). Les composants tiers restent sous leurs propres licences. Le code est public pour être consultable ; son exploitation reste soumise à l'accord de CVLN Group.
+
 ## En ligne
 
 | | |

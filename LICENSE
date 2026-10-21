@@ -1,0 +1,80 @@
+CVLN CONTROLLED-USE LICENSE (CCUL) — VERSION 1.0
+Copyright © 2026 CVLN Group and/or the applicable identified rights-holder.
+All rights reserved.
+
+IMPORTANT: This is a proprietary, controlled-use license, not an open-source
+license. It is a proposed CVLN license text and should receive review by
+qualified counsel before external distribution or reliance.
+
+1. DEFINITIONS
+“Licensed Material” means only the original source code, documentation,
+designs, and other material in this repository that CVLN Group or the
+identified rights-holder owns or is legally entitled to license.
+“Licensor” means CVLN Group or the applicable rights-holder identified in a
+written license agreement.
+“Recipient” means a person or entity given access to the Licensed Material.
+
+2. OWNERSHIP AND SCOPE
+The Licensed Material remains the property of its respective rights-holder.
+No ownership, trademark, patent, or other intellectual-property right is
+transferred by access to this repository. This License does not claim or
+relicense third-party software, open-source components, fonts, media, data,
+generated material, or other material governed by separate terms. Those
+materials remain subject to their applicable notices and licenses.
+
+3. LIMITED PERMISSION
+Unless a separate written agreement signed by the Licensor says otherwise,
+the Recipient may access and use the Licensed Material solely to review and
+evaluate it internally. This limited permission is non-exclusive,
+non-transferable, revocable to the extent permitted by law, and does not
+authorize production or operational use.
+
+4. RESTRICTIONS
+Except where mandatory law or an applicable third-party license permits
+otherwise, and unless the Licensor gives prior written permission, the
+Recipient must not:
+(a) use the Licensed Material in production or to provide a service to third
+    parties;
+(b) sell, sublicense, publish, distribute, or make the Licensed Material
+    available to third parties;
+(c) reproduce or create derivative works beyond what is strictly necessary
+    for the permitted internal evaluation;
+(d) remove or obscure copyright, attribution, or proprietary notices; or
+(e) use CVLN names, marks, or logos as an endorsement.
+
+5. SEPARATE COMMERCIAL AUTHORIZATION
+Production, deployment, commercial exploitation, redistribution, sublicensing,
+and other uses beyond Section 3 require a separate written agreement from the
+applicable rights-holder. No pricing, exclusivity, service level, or other
+commercial term is granted or implied by this License.
+
+6. THIRD-PARTY MATERIAL
+This License applies only to Licensed Material for which the Licensor has the
+necessary rights. It does not override third-party licenses or notices. Where
+terms conflict, the applicable third-party terms govern the third-party
+material.
+
+7. NO WARRANTY
+To the maximum extent permitted by applicable law, the Licensed Material is
+provided “as is”, without warranties. Nothing in this section excludes or
+limits liability that cannot lawfully be excluded or limited.
+
+8. TERMINATION
+Permission under this License ends if the Recipient materially breaches it,
+subject to any notice, cure period, and other protections required by
+applicable law. On termination, the Recipient must stop the uses no longer
+authorized and, on request, delete copies under its control, except copies
+required to be retained by law.
+
+9. GOVERNING LAW
+The governing law and competent courts must be specified in the relevant
+written agreement. This License alone does not designate a jurisdiction.
+
+10. CONTACT AND VERSION
+For permission beyond internal evaluation, contact the CVLN Group rights-holder
+through the official contact specified in the repository or a separate
+written agreement. Version: CCUL 1.0, dated 2026-10-15.
+
+This text does not itself establish that CVLN Group owns every item in this
+repository. Ownership and contributor provenance must be verified for each
+item before this License is relied upon.
