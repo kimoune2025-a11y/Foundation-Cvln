@@ -65,7 +65,7 @@ parité des traductions ; branches distantes.
 | Panne | Kiltikonet | Import de `spawn_background` glissé dans la docstring de `quality_agent_factory.py` : chaque mission qualité restait `QUEUED`, réponse 500 | Import rétabli, test |
 | Panne silencieuse / frontière | Kiltikonet → Laurent.ia | Le widget appelle `GET /api/laurentia/me`, absent de Laurent.ia : 404 lu comme « instance non activée » pour tous | Route implémentée dans Laurent.ia (secret du pont existant), 3 tests |
 | Fausse route / cul-de-sac | CVL Academy | `cohort_workspace` importé mais jamais monté : page Cohorte en 404 | Routeur monté, test |
-| Fausse route | CVL Academy | `ExpertWorkspace` appelait `/api/api/...` : 404 pour tout expert | Préfixe corrigé, test |
+| ~~Fausse route~~ | CVL Academy | **Erreur de l’audit, annulée** (`7c0943f0`) : `ExpertWorkspace` définit son propre `API_BASE` sans `/api` ; l’URL d’origine était correcte et la « correction » avait cassé l’espace Expert (détecté par Playwright) | Rétabli à l’identique de `main` |
 | Panne silencieuse | Kiltikonet | `except Exception: pass` autour du journal des événements Stripe | Limité à `DuplicateKeyError` |
 | Doublon | Kiltikonet | `_require_admin` défini deux fois dans `cultural_search.py` | Supprimé |
 | Mauvais CTA | Kiltikonet | Bouton factice focusable dans l'aperçu du thème CMS | Rendu non interactif |
@@ -197,3 +197,10 @@ personnelle, pas de cartes sources en production. Fusion d’essai sur la branch
 résolus, flake8 propre, **2 923 tests réussis, 5 échecs**, dont 3 qui relèvent d’un **arbitrage produit** :
 `main` a ajouté au catalogue public l’indication d’autorité canonique, la branche réduit ce catalogue au strict
 minimum et masque toute formation non commercialisée publiquement. Non intégrée : décision du propriétaire.
+
+### Tests de bout en bout (Playwright) d’Academy
+
+Exécutés sur `main` et sur la branche : 26 échecs sur `main`, **mêmes 25 échecs préexistants** sur la branche
+après correction (l’audit en avait introduit 3, corrigés : espace Expert, cockpit Fondateur), 1 test de navigation
+mobile instable. Ces 25 échecs (navigation mobile, frontières d’espaces, Mentor, accessibilité, transitions) ne sont
+pas traités ici.
