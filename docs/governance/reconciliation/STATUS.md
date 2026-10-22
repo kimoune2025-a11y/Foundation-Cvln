@@ -46,6 +46,8 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 | GitHub Actions ne démarre plus sur `cultureconnectorg/CVL-ACADEMY` (jobs terminés en 2 s sans journal, y compris sur `main` depuis le 2026-10-17) : quota GitHub Actions du compte, **retour attendu au prochain cycle mensuel** (propriétaire, 2026-10-18) ; Academy, FREKCORE et Kiltikonet attendent leur CI (DEC-0015) | Laurent CŒURVOLAN (paramètres de facturation GitHub) | CI d’Academy |
 | Pièces juridiques (structure de tête, détention, PI) — ne bloque pas les raccordements techniques | Laurent CŒURVOLAN | C-04, statuts juridiques |
 
+**Audit routes / API / sécurité du 2026-10-20** ([rapport](audits/2026-10-20-api-security-audit.md)) : 12 correctifs sur 8 dépôts, branche `claude/stoic-babbage-2eimmr` de chacun, non fusionnés (DEC-0015) ; risques proposés R-22 à R-26, à reporter dans 05 avec régénération de `backend/data/` de Command Center.
+
 ## 4. Prochaine action autorisée
 
 1. **[Propriétaire]** Render → New → **Blueprint** → `kimoune2025-a11y/Foundation-Cvln` (fichier `render.yaml`) : crée `cvln-foundation`. Puis Command Center → Environment : `FOUNDATION_API_URL = https://<url de Foundation>/api`. Dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions ». Prospects : poser `MONGO_URL` et `CONTACT_ADMIN_TOKEN` (Foundation) = `FOUNDATION_CONTACT_TOKEN` (Command Center).
