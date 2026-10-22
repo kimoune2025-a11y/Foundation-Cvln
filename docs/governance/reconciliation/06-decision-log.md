@@ -65,6 +65,7 @@ Une proposition ne devient décision qu’après validation explicite de Laurent
 | PROP-14 | Relations inférées | KEEP / REJECT | Validation une à une des 7 relations inférées | C-14 | PENDING (arbitrage) |
 | PROP-15 | Résumé Emergent obsolète | CORRECT | Marquer `.emergent/summary.txt` (Command Center) comme historique | C-08 | PROPOSED |
 | PROP-16 | Candidats CAND-02 à CAND-05 | DEFER | Inventorier sans les ajouter au registre jusqu’à preuve ou décision | — | PROPOSED |
+| PROP-17 | Charte d'autonomie du système | ADD | Encadrer l'autonomie à partir de l'existant ([AUTONOMY-CHARTER.md](../AUTONOMY-CHARTER.md)) : six niveaux de la porte d'Agent Factory, actions toujours soumises à Laurent, simulation d'abord, un agent à la fois, supervision dans Command Center. N'active rien | Offre Render toujours éveillée (EV-P6-26) | PROPOSED |
 
 ## 4. Questions d’arbitrage ouvertes (pour Laurent CŒURVOLAN)
 

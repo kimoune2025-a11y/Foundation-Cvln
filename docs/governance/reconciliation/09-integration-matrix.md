@@ -1,7 +1,7 @@
 # 09 — Integration Matrix
 
 - **Mission :** CVLN-GOV-RECON-001
-- **Date :** 2026-10-12 (mise à jour 2026-10-20)
+- **Date :** 2026-10-12 (mise à jour 2026-10-22)
 - **Statut :** vivant — décrit les connexions **réellement codées et testées**, pas les connexions souhaitées
 - **Architecture de référence :** registre canonique (baseline v2) ; Command Center sous CVLN Intelligence OS (DEC-0010), outil privé de pilotage (DEC-0006), autonome vis-à-vis d’Emergent (EV-P6-12)
 
@@ -73,7 +73,11 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | X-19 | KORA → registre Foundation | `GET /api/cvln-registry` (admin) | **Fusionné, testé** (KORA CI verte ; `Kora-app@39adfe4`, kora2024/Kora-app#14) |
 | X-20 | Kiltikonet → registre Foundation | `GET /api/kiltikonet-code/group-registry` ; annuaire de secours ancré sur `ENT-*` | **Présent, testé** (9 tests simulés) ; branche — **CI bloquée** (cultureconnectorg/Kiltikonet-Aout2026#457), non fusionnée |
 
-| X-21 | Laurent.ia → Agent Factory : recommandation d’agents pour les demandes de type « tâche » | `POST {CVLN_AGENT_FACTORY_BASE_URL}/api/missions/orchestrate`, jeton de service `svc_…` (`missions:orchestrate`), non mutant ; délai 6 s, jamais bloquant | **Déployé des deux côtés, en échec** : 502 à chaque appel observé (Agent Factory endormie, offre gratuite Render, EV-P6-26). Réveil en tâche de fond au démarrage de Laurent.ia et après chaque échec « endormi » : cultureconnectorg/Laurent.ia#55 (46 tests), fusion sur CI verte |
+| X-21 | Laurent.ia → Agent Factory : recommandation d’agents pour les demandes de type « tâche » | `POST {CVLN_AGENT_FACTORY_BASE_URL}/api/missions/orchestrate`, jeton de service généré par Laurentia (empreinte `LAURENTIA_SERVICE_TOKEN_SHA256` côté Factory), non mutant ; délai 6 s | **Déployé, identité prête (EV-P6-27), en échec tant que la Factory dort** : le réveil (Laurent.ia#55, fusionné) reçoit lui-même 502 sur l’offre gratuite. Correctif durable : Factory toujours éveillée |
+
+| X-22 | Kiltikonet → FREKCORE : émission du FREK-ID | Badges CC2026 : `POST /api/badges/create` ; autres identités : `POST /api/v1/identity/emit` | **En échec** jusqu’ici (type `PRO` refusé, routes devinées en 404, EV-P6-27) ; correctif cultureconnectorg/Kiltikonet-Aout2026#469 |
+| X-23 | Command Center → services du groupe : supervision | `GET` des adresses de santé publiques (`ECOSYSTEM_HEALTH_TARGETS`) au démarrage puis périodiquement ; panneau du tableau de bord | **Présent** (kimoune2025-a11y/Command-center#10) |
+| X-24 | Agent Factory : cycles autonomes planifiés | `AUTONOMOUS_CYCLE_INTERVAL_SECONDS`, même cycle gouverné (`dry_run` par défaut, portes, escalade à Laurent) | **Présent, testé** (frekcore/CVLNAgentfactory#29) ; désactivé par défaut |
 
 Contrat commun (X-15 à X-20) : lecture seule et publique de `/api/registry/export`, sans identifiant ; échec explicite si l’espace de noms n’est pas `cvln`, si le schéma n’est pas 1.x, si la validation échoue ou si l’identifiant attendu manque ; rien n’est appelé au démarrage. Les 7 briques de référence (DEC-0014) parlent le même langage d’identifiants ; la liaison réelle attend le déploiement de Foundation.
 
