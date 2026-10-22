@@ -1,6 +1,6 @@
 # Charte d'autonomie du système CVLN
 
-- **Statut : PROPOSÉ** (PROP-17, [06](reconciliation/06-decision-log.md) §3). Ce n'est pas une décision tant que Laurent CŒURVOLAN ne l'a pas validée.
+- **Statut : VALIDÉE comme cadre de gouvernance** (DEC-0017, [06](reconciliation/06-decision-log.md), 2026-10-22), sous les conditions du §9. Proposée sous la référence PROP-17.
 - **Date :** 2026-10-22
 - **Méthode :** rien n'est inventé. Chaque règle reprend ce qui existe déjà dans le code ou les documents des dépôts du groupe, avec sa source.
 
@@ -78,3 +78,19 @@ Ces règles existent déjà dans le code ou les PRD :
 - Elle n'active rien : aucun mode, aucun agent, aucune variable.
 - Elle ne change ni les niveaux ni les actions critiques existants.
 - Elle ne raccorde pas CVLN Intelligence OS au registre (HIST-01).
+
+## 9. Conditions de la validation (DEC-0017)
+
+Validation de Laurent CŒURVOLAN, le 2026-10-22, en ses termes :
+
+> « Je valide la Charte d'autonomie du système CVLN comme cadre de gouvernance. Cette validation n'autorise aucune activation automatique en production. Les modes SHADOW et simulation restent en vigueur jusqu'à validation explicite des preuves de fonctionnement, des contrôles de permission, de la traçabilité et du mécanisme d'arrêt. Toute mise en production demeure soumise à mon approbation explicite, agent par agent. »
+
+Conséquences opposables à toute session et à tout agent :
+
+1. **Aucune activation automatique en production.** Ni le planificateur des cycles ni aucun agent ne passe en `live` ou en production du fait de cette charte.
+2. **SHADOW et simulation restent en vigueur** jusqu'à ce que Laurent valide explicitement quatre éléments, chacun sur preuves :
+   - les **preuves de fonctionnement** ;
+   - les **contrôles de permission** ;
+   - la **traçabilité** ;
+   - le **mécanisme d'arrêt**.
+3. **Mise en production agent par agent**, chaque fois sur approbation explicite de Laurent.
