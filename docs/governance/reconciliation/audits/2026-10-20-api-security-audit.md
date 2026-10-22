@@ -25,10 +25,10 @@ Aucun secret réel n'a été trouvé dans les fichiers suivis (hors R-20, déjà
 | Command Center | Moyenne | Le dernier admin pouvait se rétrograder ou se supprimer | Refus (400) |
 | frekcore | Basse | 13 comparaisons de clé admin non constantes en temps ; clé vide acceptée par un tableau de bord si `SECRET_KEY` absent | `hmac.compare_digest` ; secret vide refusé |
 
-## Risques non corrigés (propositions, à reporter dans `05-contradictions.md`)
+## Risques non corrigés (reportés dans `05-contradictions.md` le 2026-10-22, avec R-27)
 
-Non inscrits directement dans 05 : toute modification de 05 doit s'accompagner de la régénération de
-`backend/data/` de Command Center, dont la CI compare l'instantané à Foundation `main`.
+Après fusion de cette branche sur Foundation `main`, régénérer `backend/data/` de Command Center
+(`python scripts/build_data.py`), dont la CI compare l'instantané à Foundation `main`.
 
 | Proposé | Risque | Gravité | Traitement proposé |
 |---|---|---|---|
@@ -228,3 +228,18 @@ Restent à arbitrer, comme lacunes :
 - un troisième mécanisme de retour, `ReturnPositionTracker` (reprise entre sessions, à usage unique), qui ne gêne pas ACA-0023 mais en recouvre une partie ;
 - `captureRouteDepth` et `restoreRouteDepth` de `lib/depthMemory.js`, que seuls les tests utilisent désormais ;
 - les fichiers `*-mobile.webp`, qui ne sont plus servis depuis 593c3cb0.
+
+## Autorité canonique, orientation, certification externe (DEC-0017, 2026-10-22)
+
+Décision du propriétaire : trois notions strictement séparées, et jamais France compétences ou France Travail
+présentés comme une accréditation de CVLN Academy. Constats et corrections (`CVL-ACADEMY`, branche d’audit) :
+
+| Constat | Correction |
+|---|---|
+| `canonical_authority` mêlait l’autorité (`domain`) et la destination (`route`) ; aucune notion de certification externe | Trois champs : `canonical_authority {domain}`, `orientation {domain, route}`, `external_certification` (null sans preuve complète : autorité, référence, preuve, vérifié par, date) |
+| Page d’accueil : marque Qualiopi sans preuve, logos Afdas et France Travail hébergés chez des tiers (R-27) | Logos retirés ; financeurs cités à titre d’information, mention « ni partenariat, ni accréditation, ni certification » |
+| API publique et MCP : notes de calibration ROME/RNCP servies sans compte | Réservées au personnel ; le MCP ne les expose plus |
+| Rien dans le backend ne revendiquait Qualiopi (`services/quality_advanced.py` l’exclut explicitement) ; la page Documentation était déjà conforme | Inchangés |
+
+Tests : backend 2 927 réussis (dont le contrat des trois notions et le refus d’une certification sans preuve),
+flake8 propre ; e2e de la page d’accueil et du catalogue réussis ; build de production réussi.
