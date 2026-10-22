@@ -200,7 +200,31 @@ minimum et masque toute formation non commercialisée publiquement. Non intégr�
 
 ### Tests de bout en bout (Playwright) d’Academy
 
-Exécutés sur `main` et sur la branche : 26 échecs sur `main`, **mêmes 25 échecs préexistants** sur la branche
-après correction (l’audit en avait introduit 3, corrigés : espace Expert, cockpit Fondateur), 1 test de navigation
-mobile instable. Ces 25 échecs (navigation mobile, frontières d’espaces, Mentor, accessibilité, transitions) ne sont
-pas traités ici.
+Sur `main` : 26 échecs. Sur la branche, en conditions de CI (`CI=1`, 2 workers, 2 nouvelles tentatives) :
+**186 réussis, 0 échec**, 2 tests qui ne passent qu'à la seconde tentative. Build de production réussi. Commits
+`dba4d897` et suivant (produit), `657c8320` et suivant (specs).
+
+Six défauts produit réels, révélés par ces tests, sont corrigés :
+
+| Type | Défaut | Correction |
+|---|---|---|
+| Mauvais CTA / panne | Le bouton d’envoi du Mentor était **impossible à cliquer** : la fenêtre modale, placée dans le contexte d’empilement `z-10` de `SpatialWorldFrame`, passait sous le pied de page légal et sous le centre d’accessibilité | Fenêtre rendue dans `<body>` (portail) ; le centre d’accessibilité s’efface pendant l’ouverture |
+| Mauvais responsive | Feuille Mentor mobile coupée de 10,8 px en bas : la profondeur `translateZ(30px)` au repos agrandissait l’overlay plein écran de 2,6 % | Option `depth={false}` de `ContextFrame` pour les overlays plein écran |
+| Panne silencieuse | Barre supérieure `sticky` inopérante : `overflow:hidden` sur le cadre spatial en faisait un conteneur de défilement, si bien que la navigation disparaissait dès que l’on défilait | `overflow: clip` (repli `hidden` si non pris en charge) |
+| **Panne silencieuse (conversion)** | Un visiteur arrivé par « Commencer » **perdait ses réponses dans le tunnel d’acquisition** (retour à l’étape 1). Pendant l’animation de sortie, l’ancien conteneur affichait déjà le tunnel, qui était ensuite monté une seconde fois ; la télémétrie du tunnel partait aussi deux fois | `RouteTransition` fige la location de chaque conteneur (`<Routes location>`) |
+| Accessibilité | Le focus clavier était volé 1,2 s après chaque réponse du tunnel (paramètre d’URL traité comme un changement de page) ; en développement, il l’était aussi dès le premier chargement, au détriment du lien d’évitement | `RouteAccessibility` ne réagit qu’à un vrai changement de page |
+| Doublon / régression sémantique | Deux mécanismes de restauration du défilement en concurrence : `Layout` (par chemin, 11 sept.) écrasait ACA-0023 (par entrée d’historique, 17 sept.). Le retour arrière revenait en haut ; une navigation normale réappliquait une position périmée | Appel retiré de `Layout` ; ACA-0023 seul fait foi |
+
+Les autres échecs venaient de specs en retard sur des décisions produit déjà prises :
+- `/dashboard` remplacé par `/app` ;
+- barre supérieure unique (809b56e2) ;
+- espace `super_admin` ;
+- contexte de compte du formateur ;
+- illustration plein format sur mobile (593c3cb0) ;
+- focus sans zoom (f02abcd3) ;
+- `POST /api/mentor/context` est une lecture, pas une mutation.
+
+Restent à arbitrer, comme lacunes :
+- un troisième mécanisme de retour, `ReturnPositionTracker` (reprise entre sessions, à usage unique), qui ne gêne pas ACA-0023 mais en recouvre une partie ;
+- `captureRouteDepth` et `restoreRouteDepth` de `lib/depthMemory.js`, que seuls les tests utilisent désormais ;
+- les fichiers `*-mobile.webp`, qui ne sont plus servis depuis 593c3cb0.
