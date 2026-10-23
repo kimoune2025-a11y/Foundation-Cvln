@@ -1,0 +1,37 @@
+name: Build and security
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install (no lockfile is tracked, see R-06)
+        run: npx yarn@1.22.22 install --non-interactive
+      - name: Next.js production build
+        run: npx next build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Runtime dependencies only. Blocks on critical advisories; high ones are reported
+      # (tailwindcss 3 and its build-time chain have no fix inside the current major).
+      - name: npm audit (runtime dependencies, blocking on critical)
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-fund --no-audit
+          npm audit --omit=dev --audit-level=critical
