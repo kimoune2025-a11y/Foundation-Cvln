@@ -94,3 +94,12 @@ Conséquences opposables à toute session et à tout agent :
    - la **traçabilité** ;
    - le **mécanisme d'arrêt**.
 3. **Mise en production agent par agent**, chaque fois sur approbation explicite de Laurent.
+
+## 10. Amendement (DEC-0022, 2026-10-25)
+
+Laurent CŒURVOLAN a validé la mise en production de l'ensemble des agents CVLN (`DEC-2026-10-22-PROD-ALL`, appliquée par Agent Factory) : « Tous en production ».
+
+1. Les agents promus par cette mise en production restent en Production. Pour cette promotion d'ensemble, l'approbation « agent par agent » du §9.3 est satisfaite par cette décision.
+2. Les mises en production futures restent soumises à l'approbation explicite de Laurent, agent par agent.
+3. Rien d'autre ne change : cycles autonomes en `dry_run`, portes de permission (§3), actions critiques (§4), escalade vers Laurent. Le passage en `live` exige toujours la validation explicite des quatre éléments du §9.2.
+

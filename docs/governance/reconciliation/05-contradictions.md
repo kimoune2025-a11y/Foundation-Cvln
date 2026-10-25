@@ -34,7 +34,7 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 | C-21 | **Tranchée** (DEC-0013) | Command Center de Kiltikonet = panneau interne du propriétaire, conservé sans renommage |
 | C-22 | **Tranchée** (DEC-0012) | Baseline v3 autorisée (statuts d’implémentation constatés) |
 | C-23 | **Tranchée** (DEC-0014) | Un dépôt de référence par brique ; les autres sont conservés comme versions antérieures |
-| C-24 | **Ouverte** | Mise en production de tous les agents (`DEC-2026-10-22-PROD-ALL`) contre DEC-0017 (agent par agent) : arbitrage de Laurent requis |
+| C-24 | **Tranchée** (DEC-0022) | Tous les agents restent en Production ; DEC-0017 amendée pour cette mise en production d’ensemble ; cycles toujours en `dry_run` |
 
 ## 1. Contradictions
 
@@ -200,7 +200,7 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 - **Atténuation constatée :** les cycles restent en `dry_run` ; portes de permission et escalade inchangées (docstring du module). Non vérifié en base.
 - **Preuves :** EV-P6-28.
 - **Résolution proposée :** Laurent indique laquelle des deux fait foi. Si DEC-0017 : ramener les agents promus sans approbation individuelle à leur statut antérieur, par une migration tracée, sans suppression. Si `DEC-2026-10-22-PROD-ALL` : l'inscrire dans 06 et amender DEC-0017.
-- **Arbitrage requis :** oui.
+- **Arbitrage :** tranchée le 2026-10-25 par DEC-0022 (« Tous en production »).
 
 *(C-15 et C-16, envisagés pendant l’analyse, ont été fusionnés dans C-03 et R-17 ; les numéros ne sont pas réattribués.)*
 
