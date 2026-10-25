@@ -243,3 +243,25 @@ présentés comme une accréditation de CVLN Academy. Constats et corrections (`
 
 Tests : backend 2 927 réussis (dont le contrat des trois notions et le refus d’une certification sans preuve),
 flake8 propre ; e2e de la page d’accueil et du catalogue réussis ; build de production réussi.
+
+## Fusions (2026-10-25)
+
+| Dépôt | PR | Commit vérifié | Vérification | Exceptions |
+|---|---|---|---|---|
+| ioscvln/CVLN-ios-v1 | #2 | `d1984fc3` | CI GitHub verte | — |
+| frekcore/CVLNAgentfactory | #28 | `e81f52a1` | CI GitHub verte | — |
+| kora2024/Kora-app | #33 | `496278c8` | CI GitHub verte | — |
+| kimoune2025-a11y/Foundation-Cvln | #8 | `be85a62a` | CI GitHub verte | — |
+| kimoune2025-a11y/Command-center | #9 | `cc4127fe` | CI GitHub verte (9/9), données régénérées depuis Foundation `main` | — |
+| cultureconnectorg/Cvln-ios-v.1 | #2 | `48befc01` | 2/2 jobs rejoués localement (DEC-0019) | — |
+| cultureconnectorg/frekcoreAout2026 | #27 | `443204ba` | 6/6 jobs bloquants rejoués localement | 3 jobs `continue-on-error` en échec, comme sur `main` ou à cause de l’environnement |
+| cultureconnectorg/CVL-ACADEMY | #174 (fusionnée par le propriétaire) et #176 | `9ec06c3f`, puis `13ef4b40` | 14 jobs rejoués localement | mypy (101 erreurs, contre 104 sur `main`) ; passe e2e spatiale (4 échecs, contre 5 sur `main`) |
+| cultureconnectorg/Laurent.ia | #57 | `9455d0d0` | 5/6 jobs au vert (dont pip-audit après correction de 8 vulnérabilités) | embedded-inference : modèle non téléchargeable ici (proxy 403) |
+| cultureconnectorg/Kiltikonet-Aout2026 | #466 | `a85f650f` | 8/10 groupes au vert (contracts, backend, live, frontend, render) | Prérendu sans API joignable (7 tests) ; WebKit indisponible |
+
+Corrections apportées pendant la vérification :
+- black et isort sur trois fichiers d’Academy ;
+- 8 vulnérabilités de dépendances corrigées dans Laurent.ia ;
+- fonctions Baserow rétablies dans Kiltikonet (exigées par un contrat de `main`, que le nettoyage du code mort avait cassé).
+
+Rejeu local : extraction propre du commit exact, environnements Python recréés depuis les fichiers de dépendances, MongoDB 7 (7.0.14 pour Kiltikonet), Node 20 ou 22 selon le job, `CI=true`.
