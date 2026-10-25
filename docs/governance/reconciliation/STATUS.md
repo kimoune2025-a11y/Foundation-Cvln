@@ -1,7 +1,7 @@
 # STATUS — CVLN Ecosystem Reconciliation
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
-- **Dernière mise à jour :** 2026-10-25 (audit de sécurité après PHP2Shell : failles connues corrigées dans les 9 dépôts, EV-P6-28 ; DEC-0018 ; contradiction C-24 ouverte)
+- **Dernière mise à jour :** 2026-10-25 (audit de sécurité après PHP2Shell : failles connues corrigées dans les 9 dépôts, EV-P6-28 ; DEC-0021 ; contradiction C-24 ouverte)
 - **Statut global : en cours — Phase 6 (exécution) : Command Center et Agent Factory déployés sur Render ; Foundation non déployée (blueprint prêt) ; X-21 en échec (Agent Factory endormie)** (voir [09](09-integration-matrix.md))
 
 ## 1. Avancement par phase
@@ -45,9 +45,11 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 | **R-20 confirmé** : clé privée de signature Ed25519 publique dans `ioscvln/CVLN-ios-v1` (EV-P6-24) — **corrigé** : clé révoquée et remplacée, fusionné sur CI verte (ioscvln/CVLN-ios-v1#1, `5077a04`, EV-P6-25) ; restent : supprimer l’ancien fichier sur le serveur, définir `EXPORT_SIGNING_KEY_PATH`, décider privé / réécriture d’historique ; miroir privé `cultureconnectorg/Cvln-ios-v.1` en attente de CI | Laurent CŒURVOLAN | Intégrité des dossiers de preuve |
 | GitHub Actions ne démarre plus sur `cultureconnectorg/CVL-ACADEMY` (jobs terminés en 2 s sans journal, y compris sur `main` depuis le 2026-10-17) : quota GitHub Actions du compte, **retour attendu au prochain cycle mensuel** (propriétaire, 2026-10-18) ; Academy, FREKCORE et Kiltikonet attendent leur CI (DEC-0015) | Laurent CŒURVOLAN (paramètres de facturation GitHub) | CI d’Academy |
 | **C-24** : `DEC-2026-10-22-PROD-ALL` (tous les agents en Production, déjà appliquée dans Agent Factory) contre DEC-0017 (agent par agent) | Laurent CŒURVOLAN | Conformité de la charte d’autonomie |
-| Quota GitHub Actions de `cultureconnectorg` épuisé : 6 dépôts sans CI (R-23) ; correctifs de sécurité fusionnés par dérogation (DEC-0018) | Laurent CŒURVOLAN | DEC-0015 de nouveau applicable |
+| Quota GitHub Actions de `cultureconnectorg` épuisé : 6 dépôts sans CI (R-29) ; correctifs de sécurité fusionnés sans CI (DEC-0019 à DEC-0021) | Laurent CŒURVOLAN | DEC-0015 de nouveau applicable |
 | CVL Academy : aucun déploiement Render depuis le 2026-09-20 (le correctif de sécurité #175 est fusionné mais pas en ligne) | Laurent CŒURVOLAN | Déploiement d’Academy |
 | Pièces juridiques (structure de tête, détention, PI) — ne bloque pas les raccordements techniques | Laurent CŒURVOLAN | C-04, statuts juridiques |
+
+**Audit routes / API / sécurité du 2026-10-20** ([rapport](audits/2026-10-20-api-security-audit.md)) : 12 correctifs sur 8 dépôts, branche `claude/stoic-babbage-2eimmr` de chacun, non fusionnés (DEC-0015) ; risques proposés R-22 à R-26, à reporter dans 05 avec régénération de `backend/data/` de Command Center. **Exception à DEC-0015 (2026-10-25)** : le propriétaire a demandé de fusionner sans GitHub Actions (« fais sans github actions ») pendant le blocage de facturation du compte `cultureconnectorg` ; chaque dépôt concerné n’est fusionné qu’après exécution locale de tous ses jobs de CI sur le commit exact, journaux consignés dans le rapport d’audit. DEC-0018 : autorité canonique, orientation et certification externe séparées.
 
 ## 4. Prochaine action autorisée
 
