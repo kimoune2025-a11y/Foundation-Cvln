@@ -34,6 +34,7 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 | C-21 | **Tranchée** (DEC-0013) | Command Center de Kiltikonet = panneau interne du propriétaire, conservé sans renommage |
 | C-22 | **Tranchée** (DEC-0012) | Baseline v3 autorisée (statuts d’implémentation constatés) |
 | C-23 | **Tranchée** (DEC-0014) | Un dépôt de référence par brique ; les autres sont conservés comme versions antérieures |
+| C-24 | **Ouverte** | Mise en production de tous les agents (`DEC-2026-10-22-PROD-ALL`) contre DEC-0017 (agent par agent) : arbitrage de Laurent requis |
 
 ## 1. Contradictions
 
@@ -193,6 +194,14 @@ Gravité : **Critique** (bloque la mission ou expose le groupe), **Haute**, **Mo
 - **Résolution proposée :** désigner un dépôt canonique par brique, archiver les autres (sans suppression), regrouper dans une organisation GitHub du groupe (PROP-13).
 - **Arbitrage requis :** oui.
 
+### C-24 — Mise en production de tous les agents contre validation agent par agent · Critique
+
+- **Constat :** Agent Factory exécute au démarrage `production_rollout.py`, décision `DEC-2026-10-22-PROD-ALL` (commits `0582f4b`, 2026-10-22 20:57 UTC, et `553adbb`), qui promeut en Production l'ensemble des agents CVLN (socle, main-d'œuvre FREK, inventaire maître, registres Meta CVLN et Laurent.ia) et déroge explicitement à « jamais de promotion en masse ». Les journaux Render du 2026-10-23 01:47 UTC indiquent « Mise en production DEC-2026-10-22-PROD-ALL déjà appliquée ». DEC-0017, validée le même jour, dispose : « Toute mise en production demeure soumise à mon approbation explicite, agent par agent. » `DEC-2026-10-22-PROD-ALL` ne figure pas dans ce journal (06).
+- **Atténuation constatée :** les cycles restent en `dry_run` ; portes de permission et escalade inchangées (docstring du module). Non vérifié en base.
+- **Preuves :** EV-P6-28.
+- **Résolution proposée :** Laurent indique laquelle des deux fait foi. Si DEC-0017 : ramener les agents promus sans approbation individuelle à leur statut antérieur, par une migration tracée, sans suppression. Si `DEC-2026-10-22-PROD-ALL` : l'inscrire dans 06 et amender DEC-0017.
+- **Arbitrage requis :** oui.
+
 *(C-15 et C-16, envisagés pendant l’analyse, ont été fusionnés dans C-03 et R-17 ; les numéros ne sont pas réattribués.)*
 
 ## 2. Registre des risques (consolidé)
@@ -216,3 +225,5 @@ Les risques R-01 à R-12 sont décrits dans [00-scope-and-access.md](00-scope-an
 | R-25 | KORA : `POST /api/ads/reward` accorde 60 min sans publicité sans preuve de visionnage ; `POST /api/ads/check-gating` révèle le statut premium d’un identifiant | [audit 2026-10-20](audits/2026-10-20-api-security-audit.md) | Basse | Vérification côté régie (SSV) ; statut lu depuis le jeton |
 | R-26 | Verrouillage par adresse e-mail (Command Center, Agent Factory, Academy) : un tiers peut bloquer un compte 15 min | [audit 2026-10-20](audits/2026-10-20-api-security-audit.md) | Basse | Accepté en l’état ; à revoir avec une limite par IP fiable |
 | R-27 | CVL Academy présentait sur sa page d’accueil la marque **Qualiopi** (« processus certifié — République Française ») sans aucune preuve de certification enregistrée, avec des logos Afdas et France Travail, image hébergée sur le site d’une autre entreprise ; l’API publique et le MCP servaient en outre les références RNCP de calibration, lisibles comme une certification de la formation. Risque d’allégation trompeuse et d’usage non autorisé de marques | [audit 2026-10-20](audits/2026-10-20-api-security-audit.md) (DEC-0018) | **Haute** | Corrigé sur `CVL-ACADEMY` `claude/stoic-babbage-2eimmr` ; réafficher une certification seulement avec une preuve complète (`external_certification`) |
+| R-28 | Dépendances avec failles connues dans les backends du groupe (`pip-audit`, 2026-10-23) : FREKCORE 244, Laurent.ia 244, Agent Factory 103, Command Center 22, Meta CVLN 21, Kiltikonet 14, Academy 7, Cvln-ios 7 ; Foundation : Next.js 15.5.18 (critique). Aucun PHP dans le groupe (PHP2Shell, CVE-2026-109618/109619, sans effet) | EV-P6-28 | Haute | Correctifs fusionnés dans les 9 dépôts ; `pip-audit` / `npm audit` désormais en CI ; reste tailwindcss 3 (Foundation, outils de build) |
+| R-29 | CI GitHub Actions du compte `cultureconnectorg` sans machine (quota) depuis le 2026-10-22 : DEC-0015 inapplicable sur 6 dépôts ; fusions faites sur vérifications locales par dérogation du fondateur (2026-10-25) | EV-P6-28 | Haute | Rétablir le quota ; relancer les CI sur `main` des dépôts concernés |
