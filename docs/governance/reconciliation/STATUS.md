@@ -1,7 +1,7 @@
 # STATUS — CVLN Ecosystem Reconciliation
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
-- **Dernière mise à jour :** 2026-10-20 (état des services en ligne, EV-P6-26 ; liaison Laurent.ia → Agent Factory X-21 en échec, correctif Laurent.ia#55 ; blueprint Render de Foundation)
+- **Dernière mise à jour :** 2026-10-22 (liaisons réelles, EV-P6-27 ; charte d’autonomie proposée, PROP-17 ; planificateur des cycles autonomes, supervision du groupe, émission FREK-ID de Kiltikonet)
 - **Statut global : en cours — Phase 6 (exécution) : Command Center et Agent Factory déployés sur Render ; Foundation non déployée (blueprint prêt) ; X-21 en échec (Agent Factory endormie)** (voir [09](09-integration-matrix.md))
 
 ## 1. Avancement par phase
@@ -46,12 +46,13 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 | GitHub Actions ne démarre plus sur `cultureconnectorg/CVL-ACADEMY` (jobs terminés en 2 s sans journal, y compris sur `main` depuis le 2026-10-17) : quota GitHub Actions du compte, **retour attendu au prochain cycle mensuel** (propriétaire, 2026-10-18) ; Academy, FREKCORE et Kiltikonet attendent leur CI (DEC-0015) | Laurent CŒURVOLAN (paramètres de facturation GitHub) | CI d’Academy |
 | Pièces juridiques (structure de tête, détention, PI) — ne bloque pas les raccordements techniques | Laurent CŒURVOLAN | C-04, statuts juridiques |
 
-**Audit routes / API / sécurité du 2026-10-20** ([rapport](audits/2026-10-20-api-security-audit.md)) : 12 correctifs sur 8 dépôts, branche `claude/stoic-babbage-2eimmr` de chacun, non fusionnés (DEC-0015) ; risques proposés R-22 à R-26, à reporter dans 05 avec régénération de `backend/data/` de Command Center.
+**Audit routes / API / sécurité du 2026-10-20** ([rapport](audits/2026-10-20-api-security-audit.md)) : 12 correctifs sur 8 dépôts, branche `claude/stoic-babbage-2eimmr` de chacun, non fusionnés (DEC-0015) ; risques proposés R-22 à R-26, à reporter dans 05 avec régénération de `backend/data/` de Command Center. **Exception à DEC-0015 (2026-10-25)** : le propriétaire a demandé de fusionner sans GitHub Actions (« fais sans github actions ») pendant le blocage de facturation du compte `cultureconnectorg` ; chaque dépôt concerné n’est fusionné qu’après exécution locale de tous ses jobs de CI sur le commit exact, journaux consignés dans le rapport d’audit. DEC-0018 : autorité canonique, orientation et certification externe séparées.
 
 ## 4. Prochaine action autorisée
 
 1. **[Propriétaire]** Render → New → **Blueprint** → `kimoune2025-a11y/Foundation-Cvln` (fichier `render.yaml`) : crée `cvln-foundation`. Puis Command Center → Environment : `FOUNDATION_API_URL = https://<url de Foundation>/api`. Dans Command Center : Admin → Connexions Foundation → « Contrôler les connexions ». Prospects : poser `MONGO_URL` et `CONTACT_ADMIN_TOKEN` (Foundation) = `FOUNDATION_CONTACT_TOKEN` (Command Center).
-2. **[Claude]** Fusionner cultureconnectorg/Laurent.ia#55 sur CI verte (DEC-0015), puis vérifier X-21 dans les journaux Render. **[Propriétaire]** Offre payante pour Agent Factory si X-21 doit répondre dès le premier appel.
+2. **[Propriétaire]** Passer Foundation et Agent Factory sur une offre Render toujours éveillée : sans elle, aucune liaison entre services ni aucun cycle autonome ne tient (EV-P6-27). Charte d’autonomie validée comme cadre (DEC-0017) : SHADOW et simulation maintenus jusqu’à validation des preuves de fonctionnement, des contrôles de permission, de la traçabilité et du mécanisme d’arrêt ; production agent par agent sur son approbation.
+3. **[Claude]** Fusionner sur CI verte : frekcore/CVLNAgentfactory#29 (cycles planifiés), kimoune2025-a11y/Command-center#10 (supervision, après la PR Foundation de PROP-17), cultureconnectorg/Kiltikonet-Aout2026#469 (FREK-ID, CI du compte bloquée) ; puis vérifier X-21 à X-24 dans les journaux.
 3. **[Claude]** À chaque changement des documents 00, 05 ou 06 : régénérer `backend/data/` de Command Center (`python scripts/build_data.py`), sinon la CI `foundation-integration` échoue (contrôle voulu).
 4. **[Claude]** Les 7 briques de référence sont raccordées au registre (X-14 à X-20, EV-P6-23) : fusionnés sur CI verte : Meta CVLN, Agent Factory, Laurent.ia, KORA ; **en attente** (CI GitHub bloquée sur le compte `cultureconnectorg`, DEC-0015) : Academy, FREKCORE, Kiltikonet. Fusion uniquement sur CI verte observée (DEC-0015). Ensuite : proposer à chaque brique (Academy, Agent Factory, Laurent.ia, Kiltikonet, KORA, FREKCORE) son `registry_id` et la lecture de `/api/registry/export` ; SRC-R4 n’est plus prioritaire (non canonique, DEC-0014) à [01](01-source-register.md) et [02](02-entity-inventory.md), puis à la matrice [09](09-integration-matrix.md).
 5. **[Propriétaire]** Archiver si souhaité les dépôts non canoniques (DEC-0014 ; aucune suppression). **[Arbitrage]** disque persistant Render ou stockage objet ; questions ouvertes de [06](06-decision-log.md) §4 et C-04.

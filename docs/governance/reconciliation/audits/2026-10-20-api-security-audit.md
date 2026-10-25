@@ -229,7 +229,7 @@ Restent à arbitrer, comme lacunes :
 - `captureRouteDepth` et `restoreRouteDepth` de `lib/depthMemory.js`, que seuls les tests utilisent désormais ;
 - les fichiers `*-mobile.webp`, qui ne sont plus servis depuis 593c3cb0.
 
-## Autorité canonique, orientation, certification externe (DEC-0017, 2026-10-22)
+## Autorité canonique, orientation, certification externe (DEC-0018, 2026-10-22)
 
 Décision du propriétaire : trois notions strictement séparées, et jamais France compétences ou France Travail
 présentés comme une accréditation de CVLN Academy. Constats et corrections (`CVL-ACADEMY`, branche d’audit) :
