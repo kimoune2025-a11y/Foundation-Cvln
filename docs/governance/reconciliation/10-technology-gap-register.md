@@ -130,7 +130,7 @@ Légende :
 
 | Catégorie | Technologie | CVLNAgentfactory | Command-center | Cvln-ios-v.1 | Foundation-Cvln | Kiltikonet-Aout2026 | Laurent.ia | cvl-academy | frekcoreAout2026 | kora-app | metacvln-sept2026 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Protocoles | MCP (Model Context Protocol) | · | · | · | i | T | · | T | i | i | · |
+| Protocoles | MCP (Model Context Protocol) | · | · | · | · | T | · | T | i | i | · |
 | Protocoles | A2A (Agent2Agent) | · | · | · | · | · | · | · | · | · | · |
 | Protocoles | ANP (Agent Network Protocol) | · | · | · | · | · | · | · | · | · | · |
 | Protocoles | AG-UI | · | · | · | · | · | · | · | · | · | · |
@@ -168,7 +168,7 @@ Légende :
 | IA | Delegation d'agents | · | · | · | · | · | · | · | · | · | · |
 | IA | Evaluation d'agents (evals) | · | · | · | · | I | · | I | · | · | · |
 | IA | Observabilite des agents (traces LLM) | · | · | · | · | i | · | · | · | · | · |
-| IA | Simulation / dry-run | T | · | · | i | T | T | T | I | I | · |
+| IA | Simulation / dry-run | T | · | · | · | T | T | T | I | I | · |
 | IA | Sandboxing d'execution | i | i | · | i | · | i | i | · | i | i |
 | IA | Memoire d'agent persistante | · | · | · | · | I | · | · | I | · | · |
 | IA | Human-in-the-loop (validation humaine) | I | · | I | · | · | T | T | · | I | I |
@@ -181,8 +181,8 @@ Légende :
 | IA | Federated learning | · | · | · | · | · | · | · | · | · | · |
 | IA | Edge AI (navigateur/appareil) | · | · | · | · | · | · | · | · | · | · |
 | IA | Neuro-symbolique / regles | · | · | · | · | · | · | · | · | · | · |
-| Infrastructure | Docker / conteneurs | · | I | · | i | I | i | i | I | · | · |
-| Infrastructure | Docker Compose | · | I | · | i | · | I | · | I | · | · |
+| Infrastructure | Docker / conteneurs | · | I | · | · | I | i | i | I | · | · |
+| Infrastructure | Docker Compose | · | I | · | · | · | I | · | I | · | · |
 | Infrastructure | Kubernetes / K3s / Helm | · | · | · | · | i | · | · | i | · | · |
 | Infrastructure | WebAssembly / WASI | · | · | · | · | · | · | · | · | · | · |
 | Infrastructure | libp2p / IPFS | · | · | · | · | · | · | · | · | · | · |
@@ -196,7 +196,7 @@ Légende :
 | Infrastructure | Infrastructure declarative (render.yaml / vercel.json) | · | · | · | I | I | · | · | · | I | · |
 | Infrastructure | Edge workers (Cloudflare / Vercel Edge) | · | · | · | · | · | · | · | · | · | · |
 | Infrastructure | Stockage objet (S3 et compatibles) | i | i | i | · | i | I | · | T | I | i |
-| Infrastructure | Planificateur / taches de fond | T | I | · | i | T | I | I | I | I | I |
+| Infrastructure | Planificateur / taches de fond | T | I | · | · | T | I | I | I | I | I |
 | Donnees | MongoDB | I | I | I | I | T | T | T | T | T | I |
 | Donnees | PostgreSQL / SQL | · | · | · | · | · | · | · | i | i | · |
 | Donnees | Graphe de connaissances / graphe de proprietes | · | · | I | · | T | · | T | T | · | · |
@@ -214,7 +214,7 @@ Légende :
 | Donnees | Lakehouse / Iceberg / Parquet | · | · | · | · | · | · | · | · | · | · |
 | Donnees | Migrations de schema versionnees | · | · | I | · | · | · | · | T | · | · |
 | Donnees | Sauvegarde / restauration | i | · | · | · | T | · | · | T | i | · |
-| Cryptographie | Signatures numeriques (Ed25519 / ECDSA) | · | i | T | i | T | · | I | T | · | I |
+| Cryptographie | Signatures numeriques (Ed25519 / ECDSA) | · | i | T | · | T | · | I | T | · | I |
 | Cryptographie | Arbres de Merkle | · | · | · | · | · | · | · | T | T | · |
 | Cryptographie | Horodatage / ancrage (OpenTimestamps, RFC 3161) | · | · | I | · | i | · | i | T | i | · |
 | Cryptographie | Journal de transparence (append-only chaine) | I | · | I | · | T | · | T | T | · | · |
@@ -233,7 +233,7 @@ Légende :
 | Securite | SBOM | · | · | · | · | · | · | · | i | · | · |
 | Securite | Signature d'artefacts / provenance (Sigstore, SLSA) | · | · | · | · | · | · | · | i | · | · |
 | Securite | Mises a jour automatiques (Dependabot / Renovate) | I | I | · | · | I | · | · | · | · | · |
-| Securite | Limitation de debit | I | I | i | i | T | T | T | T | T | · |
+| Securite | Limitation de debit | I | I | i | · | T | T | T | T | T | · |
 | Securite | En-tetes de securite / CSP | · | I | · | I | T | · | I | · | i | · |
 | Securite | WAF / protection DDoS | — | — | — | — | — | — | — | — | — | — |
 | Securite | Tests d'intrusion / Red Team | · | · | · | · | · | · | T | i | · | · |
@@ -254,21 +254,21 @@ Légende :
 | Ingenierie | Rust | · | · | · | · | · | · | i | i | · | · |
 | Ingenierie | Go | · | · | · | · | · | i | i | i | i | · |
 | Ingenierie | Tests unitaires (pytest / vitest / jest) | T | T | T | T | T | T | T | T | T | T |
-| Ingenierie | Tests de bout en bout (Playwright / Cypress) | · | · | T | i | T | · | T | · | · | · |
-| Ingenierie | Tests de contrat | I | · | I | i | T | I | T | T | T | I |
+| Ingenierie | Tests de bout en bout (Playwright / Cypress) | · | · | T | · | T | · | T | · | · | · |
+| Ingenierie | Tests de contrat | I | · | I | · | T | I | T | T | T | I |
 | Ingenierie | Tests par proprietes | · | · | · | · | · | · | · | · | · | · |
 | Ingenierie | Tests de mutation | · | · | · | · | · | · | · | · | · | · |
-| Ingenierie | Lint / format / typage | I | I | i | i | T | I | I | T | I | I |
-| Ingenierie | Versionnement d'API (/v1) | · | · | I | i | T | T | T | T | T | · |
+| Ingenierie | Lint / format / typage | I | I | i | · | T | I | I | T | I | I |
+| Ingenierie | Versionnement d'API (/v1) | · | · | I | · | T | T | T | T | T | · |
 | Economie | Paiements (Stripe / SumUp / autres) | i | · | i | · | T | I | T | I | T | · |
-| Economie | Abonnements / facturation a l'usage | · | · | · | i | T | I | I | I | T | · |
-| Economie | Portefeuille / cashless | · | i | I | i | T | I | T | T | I | T |
+| Economie | Abonnements / facturation a l'usage | · | · | · | · | T | I | I | I | T | · |
+| Economie | Portefeuille / cashless | · | i | I | · | T | I | T | T | I | T |
 | Economie | Partage de revenus / redevances | · | · | I | · | T | · | I | i | T | I |
 | Economie | Signature electronique | · | · | · | · | T | · | T | · | · | · |
 | Economie | Facturation electronique (e-invoicing / Factur-X) | · | · | · | · | · | · | T | · | · | · |
 | Economie | Smart contracts / tokenisation | · | · | · | · | i | · | i | · | · | · |
 | Economie | Gestion des droits / licences d'oeuvres | · | · | · | · | · | · | · | · | T | · |
-| Web | PWA (service worker / manifest) | I | · | i | i | I | I | I | T | I | · |
+| Web | PWA (service worker / manifest) | I | · | i | · | I | I | I | T | I | · |
 | Web | Applications mobiles natives (Capacitor / React Native) | · | i | · | · | I | i | i | i | I | · |
 | Web | Internationalisation (i18n) | · | i | · | · | I | · | · | I | · | · |
 | Web | Accessibilite (tests automatises) | · | · | · | · | i | · | · | · | · | · |
@@ -276,7 +276,7 @@ Légende :
 | Web | SEO / donnees structurees (JSON-LD) | i | · | · | · | T | i | i | · | · | · |
 | Web | WebGPU / WebXR / 3D | · | · | · | · | I | · | i | · | i | · |
 | Web | Micro-frontends / Web Components | · | · | · | · | i | i | i | i | i | · |
-| Conformite | RGPD (consentement, export, effacement) | I | i | I | i | T | T | T | T | T | · |
+| Conformite | RGPD (consentement, export, effacement) | I | i | I | · | T | T | T | T | T | · |
 | Conformite | Licences et SPDX | · | · | · | · | · | · | · | T | · | · |
 | Conformite | Registre de decisions / gouvernance tracee | T | T | I | I | T | I | T | · | T | I |
 | Conformite | AI Act / ISO 42001 / ISO 27001 / SOC 2 | — | — | — | — | — | — | — | — | — | — |

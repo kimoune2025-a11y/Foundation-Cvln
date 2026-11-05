@@ -209,10 +209,12 @@ def walk(repo):
     for root, dirs, files in os.walk(repo):
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS and not d.startswith(".") or d == ".github"]
         for name in files:
-            if name == "tech-gap-scan.py":
+            if name == "tech-gap-scan.py" or name.startswith("10-technology-gap-"):
                 continue
             path = os.path.join(root, name)
             rel = os.path.relpath(path, repo)
+            if rel.startswith(os.path.join("docs", "governance")):
+                continue  # Foundation's mission documents describe the other repositories
             try:
                 if os.path.getsize(path) > MAX_BYTES:
                     continue
