@@ -1,7 +1,7 @@
 # STATUS — CVLN Ecosystem Reconciliation
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
-- **Dernière mise à jour :** 2026-10-26 (FREKCORE : secret CVL Brain et comptes du personnel configurés, application du personnel publiée sur `frekcore-staff.onrender.com` ; Academy redéployée ; DEC-0022)
+- **Dernière mise à jour :** 2026-11-05 (registre des lacunes technologiques, [10](10-technology-gap-register.md), EV-P6-29 ; R-30 émission FREK-ID en 503, R-31 sauvegardes FREKCORE inactives)
 - **Statut global : en cours — Phase 6 (exécution) : Command Center et Agent Factory déployés sur Render ; Foundation non déployée (blueprint prêt) ; X-21 en échec (Agent Factory endormie)** (voir [09](09-integration-matrix.md))
 
 ## 1. Avancement par phase
@@ -46,6 +46,8 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 | GitHub Actions ne démarre plus sur `cultureconnectorg/CVL-ACADEMY` (jobs terminés en 2 s sans journal, y compris sur `main` depuis le 2026-10-17) : quota GitHub Actions du compte, **retour attendu au prochain cycle mensuel** (propriétaire, 2026-10-18) ; Academy, FREKCORE et Kiltikonet attendent leur CI (DEC-0015) | Laurent CŒURVOLAN (paramètres de facturation GitHub) | CI d’Academy |
 | Quota GitHub Actions de `cultureconnectorg` épuisé : 6 dépôts sans CI (R-29) ; correctifs de sécurité fusionnés sans CI (DEC-0019 à DEC-0021) | Laurent CŒURVOLAN | DEC-0015 de nouveau applicable |
 | CORS de FREKCORE : ajouter `https://frekcore-staff.onrender.com` à `CORS_ORIGINS` (service Render `frekcoreAout2026`, valeur actuelle non lisible par Claude) pour que l’application du personnel (`/scan`, en ligne depuis le 2026-10-26) puisse appeler l’API | Laurent CŒURVOLAN | Application du personnel CC2026 |
+| **R-30** : émission de FREK-ID en 503 en production (`FREK_EMAIL_SALT` absent) | Laurent CŒURVOLAN (valeur définitive), Claude (vérification en base) | Inscription, Kiltikonet, Academy |
+| **R-31** : sauvegardes FREKCORE inactives (clé et stockage S3 absents) ; Atlas non vérifié | Laurent CŒURVOLAN (stockage, clé) | Reprise après sinistre |
 | Pièces juridiques (structure de tête, détention, PI) — ne bloque pas les raccordements techniques | Laurent CŒURVOLAN | C-04, statuts juridiques |
 
 **Audit routes / API / sécurité du 2026-10-20** ([rapport](audits/2026-10-20-api-security-audit.md)) : 12 correctifs sur 8 dépôts, branche `claude/stoic-babbage-2eimmr` de chacun, non fusionnés (DEC-0015) ; risques proposés R-22 à R-26, à reporter dans 05 avec régénération de `backend/data/` de Command Center. **Exception à DEC-0015 (2026-10-25)** : le propriétaire a demandé de fusionner sans GitHub Actions (« fais sans github actions ») pendant le blocage de facturation du compte `cultureconnectorg` ; chaque dépôt concerné n’est fusionné qu’après exécution locale de tous ses jobs de CI sur le commit exact, journaux consignés dans le rapport d’audit. DEC-0018 : autorité canonique, orientation et certification externe séparées.
