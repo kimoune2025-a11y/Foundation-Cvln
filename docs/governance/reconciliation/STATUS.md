@@ -58,3 +58,14 @@ Branches restantes, toutes contenues dans `main` (aucun travail non intégré) :
 3. **[Claude]** À chaque changement des documents 00, 05 ou 06 : régénérer `backend/data/` de Command Center (`python scripts/build_data.py`), sinon la CI `foundation-integration` échoue (contrôle voulu).
 4. **[Claude]** Les 7 briques de référence sont raccordées au registre (X-14 à X-20, EV-P6-23) : fusionnés sur CI verte : Meta CVLN, Agent Factory, Laurent.ia, KORA ; **en attente** (CI GitHub bloquée sur le compte `cultureconnectorg`, DEC-0015) : Academy, FREKCORE, Kiltikonet. Fusion uniquement sur CI verte observée (DEC-0015). Ensuite : proposer à chaque brique (Academy, Agent Factory, Laurent.ia, Kiltikonet, KORA, FREKCORE) son `registry_id` et la lecture de `/api/registry/export` ; SRC-R4 n’est plus prioritaire (non canonique, DEC-0014) à [01](01-source-register.md) et [02](02-entity-inventory.md), puis à la matrice [09](09-integration-matrix.md).
 5. **[Propriétaire]** Archiver si souhaité les dépôts non canoniques (DEC-0014 ; aucune suppression). **[Arbitrage]** disque persistant Render ou stockage objet ; questions ouvertes de [06](06-decision-log.md) §4 et C-04.
+
+## 5. Mission NO LOSS (2026-11-22)
+
+Inventaire de continuité 22/09–22/11/2026, en lecture seule. Le dossier complet est **privé**, dans `kimoune2025-a11y/Command-center`, sous `docs/continuity/2026-09-22_2026-11-22/` (branche `claude/wonderful-goodall-fntdyt`, commit `965bbe3`, non fusionnée). Il n'est pas copié ici parce que ce dépôt est public.
+
+Faits vérifiés : 21 dépôts identifiés (17 inventoriés, 2 vides, 2 non accessibles) et 1 270 PR, dont la tête existe toujours sur GitHub.
+
+Points ouverts à arbitrer :
+- depuis le 2026-11-22 à 09:41 UTC, les workflows GitHub Actions de `cultureconnectorg` sont en `startup_failure`, et des fusions sur `main` ont eu lieu sans CI (contraire à DEC-0015) ;
+- aucune sauvegarde de base n'est prouvée ;
+- ce journal des décisions n'a pas été mis à jour depuis DEC-0022, alors que des décisions FROZEN de Kiltikonet ont été prises du 05/11 au 16/11.
