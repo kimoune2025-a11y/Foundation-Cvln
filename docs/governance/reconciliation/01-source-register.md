@@ -36,7 +36,7 @@ Une source n’est **jamais** une preuve de réalité opérationnelle par elle-m
 | SRC-R16 | ioscvln/CVLN-ios-v1 | **Public** ; lecture anonyme | `main` | `b018c88` (2026-08-31) | 1 | Survol + `cvln-intelligence-os/README.md` |
 | SRC-R17 | metacvln-spec/MetaCVLN | **Public** ; lecture anonyme | `main` | `b36a893` (2026-08-19) | 1 | Survol + `backend/registry_data.py` |
 | SRC-R18 | cultureconnectorg/cultureconnect | Privé | — | — | 0 | **Dépôt vide** |
-| SRC-R19 | djsayd/CVLN-Wallet | Compte tiers `djsayd` ; rendu **public** le 2026-11-23 pour permettre la lecture (le fondateur doit le repasser en privé) ; lecture seule, écriture refusée (application Claude GitHub absente du compte) | `main` | `c33b128` (2026-09-12) | 14 | Examen : structure, routes, PRD, gel du Financial Core, branches, historique (EV-P6-29) |
+| SRC-R19 | djsayd/CVLN-Wallet | Compte tiers `djsayd` ; rendu **public** le 2026-11-23 pour permettre la lecture (le fondateur doit le repasser en privé) ; lecture seule, écriture refusée (application Claude GitHub absente du compte) | `main` | `c33b128` (2026-09-12) | 14 | Examen : structure, routes, PRD, gel du Financial Core, branches, historique (EV-P6-29). Copie complète (14 branches, 49 commits, mêmes empreintes) poussée le 2026-11-23 vers `cultureconnectorg/cultureconnectorg-CVLN-Wallet` (public à sa création ; une branche parasite `HEAD`, créée par erreur, reste à supprimer) |
 
 *Situation au 2026-10-12, conservée pour l’historique :* aucun autre dépôt n’était visible depuis la session (`list_repos` : 2 dépôts ; `get_me` : `public_repos: 2`). Cela n’exclut pas des dépôts privés non autorisés pour l’application Claude, ni des dépôts situés sur d’autres comptes ou organisations. Voir [00-scope-and-access.md](00-scope-and-access.md) §6.
 
