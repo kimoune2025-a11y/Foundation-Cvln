@@ -1,7 +1,7 @@
 # STATUS — CVLN Ecosystem Reconciliation
 
 - **Mission :** CVLN-GOV-RECON-001 (mandat v0.1.0, DRAFT)
-- **Dernière mise à jour :** 2026-10-26 (FREKCORE : secret CVL Brain et comptes du personnel configurés, application du personnel publiée sur `frekcore-staff.onrender.com` ; Academy redéployée ; DEC-0022)
+- **Dernière mise à jour :** 2026-11-23 (CVLN Wallet examiné : SRC-R19, TECH-13, EV-P6-29, R-30) ; précédente 2026-10-26 (FREKCORE : secret CVL Brain et comptes du personnel configurés, application du personnel publiée sur `frekcore-staff.onrender.com` ; Academy redéployée ; DEC-0022)
 - **Statut global : en cours — Phase 6 (exécution) : Command Center et Agent Factory déployés sur Render ; Foundation non déployée (blueprint prêt) ; X-21 en échec (Agent Factory endormie)** (voir [09](09-integration-matrix.md))
 
 ## 1. Avancement par phase

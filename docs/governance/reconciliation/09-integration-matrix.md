@@ -39,7 +39,8 @@ Branches restantes après intégration : voir §6. Aucun fichier de verrouillage
 | FREKCORE (TECH-06) | SRC-R5 | **Présent** ; contrat OpenAPI versionné | Autorité d’identité FREK-ID déclarée (C-22) |
 | CVLN Academy (TECH-12), Kiltikonet (TECH-07), Meta CVLN (TECH-08), KORA (TECH-10) | SRC-R12, R6, R7, R9 | **Présent** | Voir [02](02-entity-inventory.md) §3 |
 | CVLN Intelligence OS (TECH-11), CVLN Brain | SRC-R16 (spécification) | `DOCUMENTED` | Spécification de 161 fichiers, pas d’application. Ne pas brancher Intelligence OS sur le registre sans décision (HIST-01) |
-| FREK Chain, FREK Formats, CVLN Wallet | — | Non examiné séparément | Mini-wallet JCC présent dans Kiltikonet et Academy ; analyse juridique préalable (R-17) |
+| CVLN Wallet (TECH-13) | SRC-R19 | **Présent** (`djsayd/CVLN-Wallet@c33b128`) ; non fusionné vers d'autres briques, non testé de bout en bout, aucun déploiement observé | API d'entités par clé (`X-API-Key`) et lookup `/api/v1/frek/{id}` côté Wallet. Clients **présents** : Academy (`backend/services/integrations/cvln_wallet.py` : `/api/v1/entity/me`, `balance`, `transactions`, `charge` ; `CVLN_WALLET_URL`, `CVLN_WALLET_API_KEY`), KORA (contrat d'abonnement sans appel réseau, non branché aux paiements), FREKCORE (`cvln-wallet` déclaré client FREK-ID dans un test). Audit Kiltikonet en branche (EV-P6-29). Analyse juridique préalable (R-17, R-30) |
+| FREK Chain, FREK Formats | — | Non examiné séparément | Mini-wallet JCC présent dans Kiltikonet et Academy |
 | LabelOS, Factory Maker Studio | — | `DOCUMENTED_ONLY` | Aucun dépôt identifié |
 | Structures & Entités (Culture Connect, Good Mood, …) | — | `DOCUMENTED_ONLY` | Entités, pas de logiciel |
 
